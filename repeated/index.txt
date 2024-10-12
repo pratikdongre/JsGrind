@@ -1,0 +1,16 @@
+https://javascript.info/hello-world ;- in javascript google docs
+https://javascript.info/structure :- abouts comments 
+https://javascript.info/strict-mode :- repeated/one.js and /1_index.js
+https://javascript.info/variables :- repeated/one.js and /1_index.js
+https://javascript.info/types :- repeated/one.js and /1_index.js
+https://javascript.info/types :- repeated/one.js and /1_index.js
+
+
+https://javascript.info/alert-prompt-confirm :- repeated/two.js and 2_linked.js
+
+https://javascript.info/type-conversions :- repeated/three.js and 3_conversion.js
+https://javascript.info/operators :- repeated/four.js and 4_operator.js
+
+https://javascript.info/comparision :- repeated/five.js and 5_comparision.js
+
+
