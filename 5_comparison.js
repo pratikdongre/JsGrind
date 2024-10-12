@@ -67,7 +67,7 @@ console.log(undefined === null);// type is different
 
 
 // jargon :- comparison operator convert null to 0 
-// in equally opeartor only null == undefined 
+// in equally operator only null == undefined 
 // strict check ki picture toh alag hi hai 
 
 
