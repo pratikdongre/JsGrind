@@ -13,6 +13,8 @@ https://javascript.info/operators :- repeated/four.js and 4_operator.js
 
 https://javascript.info/comparision :- repeated/five.js and 5_comparision.js
 
+https://javascript.info/ifelse :- repeated/six.js and 6_ifelse.js
+
 
 
 https://javascript.info/logical-operators :- repeated/seven.js and 7_logicalOperator.js
