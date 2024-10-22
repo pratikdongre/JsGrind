@@ -57,9 +57,17 @@ let nickname  = "supercoder"
 
 console.log(firstname || lastname || nickname || "anonymous");
 
+// short circuite evaluation 
+
+// the moment you got the first truthy value it wont waste time and go further to check 
+
+true || console.log("wont print");
+
+false || console.log("will print");
 
 
 
+// and && operator 
 
 
 

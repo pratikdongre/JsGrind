@@ -34,6 +34,9 @@ else {
     alert("age must have value 0");
 }
 
+
+
+
 ///// sevaral conditions else if 
 
 if(birthYear > 2001){
@@ -78,6 +81,7 @@ let access = (age>18) ? true : false;
 
 // in above example you can avoid ? as comparisoin iteself return true/false
 
+access = age > 18; // like this
 
 // multiple ? 
 
@@ -187,3 +191,4 @@ let login = "employee";
 console.log(message);
  
 // are this changes added
+
