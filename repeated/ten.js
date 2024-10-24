@@ -119,6 +119,47 @@ switch(arg)
 
 //rewrite
 
+let browser = prompt("Enter browser name","Edge");
+
+if(browser == "Edge"){
+    console.log("you got the dge");
+}
+else if (browser == "Chrome" ||
+    browser == "Firefox" ||
+    browser == "Safari" || 
+    browser == "Opera"  ){
+        console.log("okay we support those browsers too");
+        
+    }
+else {
+    console.log("we hope that this page looks good");
+    
+}    
+
+
+
+
+
+// another one 
+
+let z = +prompt("z?","");
+
+switch(z){
+    case 0:
+        console.log("0");
+        break;
+    case 1 :
+        console.log("1");
+        break;
+    case 2:
+    case 3:
+        console.log("2,3");
+        break;
+            
+            
+        
+}
+
 
 
 

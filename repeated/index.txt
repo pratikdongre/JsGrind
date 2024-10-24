@@ -19,3 +19,4 @@ https://javascript.info/logical-operators :- repeated/seven.js and 7_logicalOper
 
 https://javascript.info/nullish-coalescing-operator:- repeated/eight.js and 8_Nullish...
 
+https://javascript.info/switch :- repeated/ten.js and 10_Switch.js
