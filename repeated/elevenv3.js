@@ -114,3 +114,18 @@ function printsPrime(n)
 }
 
 printsPrime(10);
+
+
+// so functin can be created even if we dont intend to use them again
+//cz they structure the code and make it readable 
+
+
+/*
+
+function name(parameters, delimited, by, comma) {
+
+}
+Values passed to a function as parameters are called argument and  are copied to its local variables.
+A function may access outer variables. But it works only from inside out. The code outside of the function doesn’t see its local variables.
+A function can return a value. If it doesn’t, then its result is undefined.
+*/
