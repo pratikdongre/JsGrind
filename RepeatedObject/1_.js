@@ -74,5 +74,59 @@ console.log(user["likes Cats"]);
 delete user["likes Cars"]
 
 
-//square notation :- to directly acess
+//square notation :- to directly access key/property name like literal string
+                      // user["name"] or user["likes Brids"]
+                      // 2} variable 
+                      // let key  = "name";
+                      // user[key];
 
+/*
+more broadly 
+square brackets also provides use way to obatin the result of any expression 
+- as opped to literal string 
+like from a variable or any expression such as "prop" + "erty"
+
+user["prop" + "erty"] == user["property"]
+
+in summary besides literl string 
+square notation allows to use property name as result of any expression like variable 
+which has many use cases
+all poiting to dynamism/flexiblity
+because the varialbe can be calculate at run time 
+*/
+
+let key = "name";
+
+console.log(`accesing the object property name using variable ${key} :- ${user[key]};  `);
+
+
+key = prompt(`what do you want to know about user `,"name");
+
+alert(user[key]);
+alert("this works " + user.name);
+alert("we cant access propertie using variable and . combination " + user.key);
+
+
+// computed properties 
+
+let fruit = prompt(`which fruit do you want eat`);
+
+let bag = {
+    [fruit] : 5, // whatever fruit variable value we get would come here 
+    // see we are using [] to use variable as property name
+}
+
+bag.liked = "verymuch"; 
+
+
+alert(bag.fruit); // wont work right cause we are using . + variable combiatnio 
+alert(bag[fruit]);
+alert(bag.apple);
+alert(bag["apple"]);
+
+
+/*
+let food = prompt("which food is your favorite","piz");
+let bag ;
+bag[food] = 5;
+*/
