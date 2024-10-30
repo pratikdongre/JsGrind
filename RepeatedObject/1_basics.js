@@ -11,7 +11,7 @@ objects can be created with figures Brackets with an optional list of properties
 a property is key-value pair
 where key is string aka "property-name" and value can be of any type and can be anything 
 
-imageing object as a cabinte with signed files 
+imaging object as a cabinte with signed files 
 every piece of data is stored in its file by the key
 its easy to find/add/remove file by its name 
 
@@ -130,3 +130,19 @@ let food = prompt("which food is your favorite","piz");
 let bag ;
 bag[food] = 5;
 */
+
+
+// complex
+
+let laptop = "i";
+
+let buy = {
+    [laptop + "phone"] : 1,
+}
+
+alert(buy[laptop + "phone"]);
+alert("this one " + buy.laptopphone); // does not wokr gets undefined
+
+
+// so when property name are simple and known . dot notation is way to go 
+// if need something more complex then [] square notation is used
