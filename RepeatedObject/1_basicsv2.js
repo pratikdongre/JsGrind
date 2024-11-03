@@ -72,6 +72,8 @@ console.log(admins_1["position"]);
 
 // property name limitation 
 /* 
+the dot requires the key to be valid identifier 
+this implies contains no spaces ,doesnot start with digit and does not include special character execpt _ and $
 
 like variable cant not use reserved words like for, let, const, return
 object property key/name there is no such restriction 
