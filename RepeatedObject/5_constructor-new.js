@@ -1,5 +1,5 @@
 // constructor,operator "new"
-
+"use strict";
 /*
 the regualr {...} syntaxt allows us to create one object 
 oftem times we need to create multitple similar object 
@@ -54,7 +54,9 @@ function User(name) {
 
 let correctUser = new User("pat");
 
-for(key in correctUser)
+// for(key in correctUser) wihtout let works in non user strict
+for(let key in correctUser)
+
 {
     console.log(correctUser[key]);
 }
@@ -237,6 +239,164 @@ such call implied creation of emtpy this object and return "this"
 
 we can use constructor function to make multiples similar object 
 */
+
+
+
+function names(name){
+    if(!new.target){
+        return new names(name);
+    }
+    this.name = name;
+}
+
+let raj = names("raj");
+
+console.log(raj.name)
+
+
+
+
+// tasks 
+
+function A(){
+
+}
+
+function B(){
+    
+}
+
+
+let a = new A();
+let b = new B();
+
+
+console.log(a==b); // false 
+console.log(new A() == new B()); // false
+
+
+let obj = {};
+
+function AA(){
+    
+    return obj;
+}
+
+function BB(){
+    
+    return obj;
+}
+
+let aa = new AA();
+let bb = new BB();
+
+console.log(aa == bb);
+console.log(new AA() == new BB());
+ 
+
+
+/*
+function AA(name){
+    this.name =name;
+    // return obj;
+}
+
+function BB(name){
+    this.name = name;
+    // return obj;
+}
+
+let aa = new AA("pratik");
+let bb = new BB("pratik");
+
+console.log(aa == bb);
+console.log(new AA() == new BB());
+ false
+ false 
+*/
+
+// extras
+let padaiKyaki = {
+    name : "cse",
+}
+
+function Btech(){
+    return padaiKyaki;
+
+}
+
+function MTech(){
+    return padaiKyaki;
+
+    
+}
+
+let x = new Btech();
+let y = new MTech();
+
+console.log(x == y)
+console.log(x);
+console.log(y);
+
+
+
+// create new calculator 
+
+function Calculator(){
+
+   this.read = function()
+   {
+         this.a = 4;
+         this.b = 6;
+    };
+
+    this.sum = function()
+    {
+        return this.a + this.b;
+    };
+
+    this.mul = ()=>{
+        return this.a * this.b;
+    };
+
+}
+
+let calculator = new Calculator();
+
+calculator.read();
+
+console.log(`mul = ${calculator.mul()}`);
+// learned that with construction function
+// cant use shorthand method of function
+
+
+
+// task 3 
+
+function Accumulator(startingValue)
+{
+    this.value = startingValue;
+
+    this.read = function(){
+        let newNumber = +prompt("enter new number","2");
+        this.value += newNumber;
+    }
+
+    // return this ; object 
+    // implict shhtuff
+
+
+}
+
+let accumulator = new Accumulator(1); // 1 
+accumulator.read(); // added let say 2
+accumulator.read(); // added let say 2
+
+
+
+
+alert(accumulator.value);
+// gets 5
 
 
 
