@@ -378,7 +378,8 @@ function Accumulator(startingValue)
     this.value = startingValue;
 
     this.read = function(){
-        let newNumber = +prompt("enter new number","2");
+        // let newNumber = +prompt("enter new number","2");
+        let newNumber = 2;
         this.value += newNumber;
     }
 
@@ -395,10 +396,30 @@ accumulator.read(); // added let say 2
 
 
 
-alert(accumulator.value);
+console.log(accumulator.value);
 // gets 5
 
 
 
+//understanding
 
+function Feelings(){
+    this.for = "Dhairya",
+    this.Shayri = function(){
+        alert(`Inspired by ${this.for} 
+Langda ke chalri thi woh toh keh sakta hoon
+Haali mei kisi fell from heaven ko dekho hoon
+2 mahine hue aur woh chale bhi gyi
+Nah mil paya nah bata saka ke uspe kitna fida hoon
+`)
+    } 
+}
+
+
+let Told = new Feelings();
+
+console.log(typeof Told); // object -ion melod 
+// lots of error if you Told without new operator 
+
+Told.Shayri();
 
