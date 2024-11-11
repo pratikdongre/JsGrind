@@ -266,7 +266,86 @@ In JavaScript, as we can see, that’s true for global symbols.
 
 /*
 
+We have seen that for global symbols Symbol.for(key) returns a symbol by name 
+To do the opposite
+return a name by global symbol 
+we can use Symbol.keyFor() 
+
+
+
 */
+// get symbol by name
+let sym = Symbol.for("name");
+let sym2 = Symbol.for("id");
+
+// get name by symbol
+console.log(Symbol.keyFor(sym));
+console.log(Symbol.keyFor(sym2));
+
+/*
+The Symbol.keyFor intenerally uses global symbol registry to look up the key for the symbol 
+so it does not work for non global symbol 
+if the symbols is not global 
+it wont be able to find it and returns undefined 
+
+that said all symbols have the description property 
+
+
+*/
+
+let globalSymbol = Symbol.for("name");
+let localSymbol = Symbol("name");
+
+console.log(Symbol.keyFor(globalSymbol));
+console.log(Symbol.keyFor(localSymbol)); // undefined
+
+console.log(localSymbol.description); 
+
+
+
+/*
+there are many System Symbols that javascript uses internally and we can use them to fine -tune various aspects of our object 
+
+they are listed in the specification in the well-known symbols table 
+
+Symbol.hasInstance
+Symbol.isConcatSpreadable
+Symbol.iterator
+Symbol.toPrimitive
+and so on
+
+
+for instance Symbol.toPrimitive allow us to describe object to primitive conversion
+
+
+*/
+
+/*
+Symbol is a primitive unique identifier 
+Symbols are created with Symbol() call with an optional description
+
+Symbols are always different values even if they have same name 
+if we want same name symbols to be equal then we should use the global registry
+
+Symbol.for(key) returns creates if needed a global symbol with a key as the name 
+
+multiple call of Symbol.for(key) with the same key return exactly the same symbol
+
+symbols have two main use cases :
+1. hidden properties 
+if we want to add a property into an object that belongs to another script we can create a symbol and use it as property key 
+symbolic property does not appear in for ...in also it wont be accessed directly 
+
+2. there are many symbols used by javascript which are accessible as symbol.* 
+we can use them to alter some built-in behaviour
+
+technically symbols are not 100% hidden 
+like we get symbols while cloning using Object.assign
+or object.getOwnPropertySymbols(obj) that allow us to get all symbols 
+or Reflect.ownKeys(obj) that returns all keys of an object including symbolic ones 
+
+*/
+
 
 
 
