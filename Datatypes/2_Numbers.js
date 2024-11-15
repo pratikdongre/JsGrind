@@ -152,3 +152,121 @@ console.log(1e500); // infinity
 // what may be little less obvious , but happens quite often , is the loss of precision.
 
 console.log(0.1 + 0.2 ==0.3);
+
+console.log(0.1+0.2); //0.30000000000000004
+
+/*
+0.1 and 0.3 that looks fine in decimal number system are actually unending fraction in binary form
+
+*/
+
+console.log(0.3.toString(2));
+
+console.log(1/3);
+console.log(1/10);
+
+/*
+0.1 == 1/10 is guaranteeed to work well in decimal system as the base is 10 
+but not 1/3 in decimal system 
+
+same way 
+in binary divsion by power of 2 is guaraneteed to wwoek but 1/10 or 1/3 beomes enedless bianry fraction
+*/
+
+console.log(typeof ((1/4).toString(2))); // string
+console.log(typeof (1/4..toString(2))); // number
+
+
+
+console.log((1/2).toString(2)); // string // not infinite 
+
+console.log(1/2..toString(10)); // number 
+
+console.log((1/10).toString(2)); // string
+
+
+//There’s just no way to store exactly 0.1 or exactly 0.2 using the binary system,
+//  just like there is no way to store one-third as a decimal fraction.
+
+
+/*
+the solution solved by numeri format IEEE-754 for this is by rounding to the nearest possible number
+these rounding rules normally did not allow us to see 'tiny precision rules' but it exists
+
+*/
+
+console.log(0.1.toFixed(20)); //0.10000000000000000555
+
+/*
+1/10 is 0.1 in decimal 
+but in binary its is never ending number 
+
+
+like we know 0.1 is endless binary fraction in binary but it still has tobe stored right in binary 
+and how much can it store
+Rounding to Fit IEEE 754: Since JavaScript uses 64-bit floating-point numbers (IEEE 754),
+ it has to truncate the endless binary fraction to fit into
+
+ so number 0.1 becomes inaccutrate 
+ and when we didd 0.1.toFixed(20) it reveals the full precision till 20 which reveal the rounding error introducedby binary representeation
+
+*/
+
+// how do we overcome this so 0.1 +0.2 becomes 0.3
+// rounding // using toFixed(2)
+let sum = 0.1 + 0.2;
+console.log(sum.toFixed(1)); // toFixed returns a string it sutialbe also like in eshopping we show "$0.30"
+console.log(+sum.toFixed(1)); // number // we can anyway coerce to a number using unary plus
+
+
+// or you can use another approach that is multiply/divide
+
+console.log((0.1 *10 + 0.2*10)/10);
+
+//suppose we want to round of the number till decimal 2 then its 100 to divide and multply with as it has 2 zeross
+console.log(Math.round((1.2345) *100)/100);
+console.log(Math.round((0.1+0.2) *100)/100);
+console.log(((0.1+0.2) *100)/100);
+console.log(Math.round((0.1+0.2) *100)/100);
+
+console.log("delimeter");
+
+
+console.log((0.28 *100 + 0.14 *100)/100);
+// so the multipley divide approach reduces the error but does not remotve it totally
+
+
+
+
+/*Sometimes we could try to evade fractions at all. Like if we’re dealing with a shop,
+ then we can store prices in cents instead of dollars. But what if we apply a discount of 30%? 
+In practice, totally evading fractions is rarely possible. Just round them to cut “tails” when needed.
+
+Fractions are Unavoidable
+
+*/
+
+
+console.log(9999999999999999);//10000000000000000
+/*
+
+This suffers from the same issue: a loss of precision. 
+There are 64 bits for the number, 52 of them can be used to store digits, but that’s not enough. 
+So the least significant digits disappear.
+
+JavaScript doesn’t trigger an error in such events. 
+It does its best to fit the number into the desired format, but unfortunately, this format is not big enough.
+*/
+
+
+
+/*
+another funny 2 zeroes
+
+-0 and +0 
+thats because a sign is represent by a single bit 
+so it can be set or not set for any number inlcuding zero
+In most cases, the distinction is unnoticeable, because operators are suited to treat them as the same.
+
+
+*/
