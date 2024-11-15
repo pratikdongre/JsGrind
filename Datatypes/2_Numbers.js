@@ -93,4 +93,62 @@ console.log((456456465).toString(36));
 
 // rounding 
 
+/*
 
+one of the most used operation when working with number is round 
+there are many built in function for rounding 
+*/
+
+// Math.floor
+// rounds down 3.1 becomes 3 , and -1.1 becomes -2
+
+// Math.ceil 
+// rounds down 3.1 to 4 and -1.1 to 1
+
+// Math.round
+// rounds to the nearest integer 3.1 becomes 3 
+// 3.6 becomes 4 
+// in the middle cases 3.5 becoms 4 
+// -3.5 becomes -3 on the bigger side if you know 
+
+// Math.trunc -- not supported by inernet exploler
+// removes anything after the decimal point without rounding 3.1 becomes 3 , -1.1 becomes -1
+
+
+// but what if we want to round the number to the n-th digit after the decimal
+// let say 1.2345 to 1.23
+
+// there are two ways to do so 
+
+// 1. multiply and divide ----multiply the number and then round it and then divide 
+num = 1.2345;
+console.log(Math.round(1.2345 * 100)/100);
+
+// 2. toFixed(n) rounds the number to n digits after the point 
+console.log(num.toFixed(2)); // type is string
+// if the decimal part is shorter then appended with zeroes
+
+console.log((1.22).toFixed(4));
+
+// we can convert the string num to number using unary plus or Number() call
+
+console.log(+num.toFixed(2)); 
+
+
+// imprecise calculations
+/*
+internally a number is represented in 64 bit format 
+so there are exactly 64 bits to store a number. 
+52 of them are used to store digit 
+11 of them for decimal point
+1 for the sign 
+
+but if the number is very long then it will exceed the 64 bit storage and beome a special numeric value infinity
+
+*/
+
+console.log(1e500); // infinity
+
+// what may be little less obvious , but happens quite often , is the loss of precision.
+
+console.log(0.1 + 0.2 ==0.3);
