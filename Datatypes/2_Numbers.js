@@ -270,3 +270,118 @@ In most cases, the distinction is unnoticeable, because operators are suited to 
 
 
 */
+
+
+/* Tests :- isFinite(value) , isNan(value) 
+Remembers these two special numeric values 
+Infinity and (-Infinity) is a special numeric value that is greater(less) than anything
+Nan represent an erro not a number
+
+they belong to type number,but are not normal numbers so there are special function to check for them.
+isNan(value) converts its arguments to a number and then test it for being Nan: 
+
+*/
+
+console.log(isNaN(NaN));
+
+console.log(isNaN("str"));
+
+//why do we need this function cant we just use the comparison === "NaN" 
+// the value is unique it does not equal to anything including itself 
+
+console.log(NaN === NaN); // false
+
+/*
+isFinite(value) convert its argument to a number and returns true if its regular number,not 
+Nan/Infinity/-Infinity
+
+*/
+
+console.log("infinties");
+console.log(isFinite(NaN));
+console.log(isFinite(15));
+console.log(isFinite(Infinity));
+console.log(isFinite("15")); // ture cause got convert 
+
+console.log(isFinite("str"));
+
+// sometimes isFinite canbe used to validate whether a string value is a regualar number 
+// not Nan,infinity,-Infinity
+
+//  num = +prompt("enter a number");
+
+//  alert(isFinite(num));
+
+console.log(isFinite(null)); // true
+
+console.log(null == undefined); // true reminder 
+
+//Please note that an empty or a space-only string is treated as 0 in all numeric functions including isFinite.
+
+/*
+Number.isNan and Number.isFinite methods are more strict version of isNan and isFinite functions.
+
+They do not auto convert their argument into a number but check if it belongs to the number type instead.
+
+Number.isNan(value) returns true if the argument belongs to the number type and it is Nan
+in any other case it return false,
+
+*/
+console.log("Number.isNaN")
+
+console.log(Number.isNaN(NaN)); // true
+console.log(Number.isNaN("str"/2));
+console.log("str"/2); // nan
+
+
+// note the difference 
+console.log(Number.isNaN("str")); // false because it checks 
+console.log(isNaN("str"));
+
+
+// .. Number.isFinite() return true if the value is number type and is not nan,infinite,-infinite
+// in any other case it return false
+console.log("Number.isFinite");
+console.log(Number.isFinite(123));
+console.log(Number.isFinite(Infinity));
+console.log(Number.isFinite(2/0));
+
+// note the difference 
+
+console.log(isFinite("123"));
+console.log(Number.isFinite("123"));
+
+/*
+In a way, Number.isNaN and Number.isFinite are simpler and more straightforward than isNaN and isFinite functions.
+ In practice though, isNaN and isFinite are mostly used, as they’re shorter to write.
+*/
+
+/*
+comparison with object.is
+
+there is a special built in method object.is that compares values like === , but is more reliable for two edge cases.
+1. it works with NaN : Object.is(NaN,Nan) === true, thats good thing
+2. values 0 and -0 are different , Object.is(0,-0) === false
+technically thats correct becuase internally the number has a sign bit that may be different even if all other bits are zeroes 
+
+in all other cases , object.is(a,b) is same as a===b 
+
+we mention Object.is here, because its often used in javascript specifcation 
+when an internal algo need to compare two values for being exactly same it uses object.is(internally called SameValue)
+*/
+
+
+console.log("more");
+
+console.log(NaN == NaN);  //false as Nan does not qeual to anything includign itself
+console.log(NaN === NaN);  // false
+
+console.log(0 ==-0); // true
+console.log(0 ===-0); // true
+
+// but with object.is its different picture 
+
+console.log(Object.is(NaN,NaN)); //true
+
+
+
