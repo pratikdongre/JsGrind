@@ -66,7 +66,11 @@ binary and octal numeral systems are rearely used but also supporeted with 0b an
 let a = 0b11111111;
 let b = 0o377;
 
-console.log(a == b);
+console.log( "why not is this workding ", a == b);
+// console.log( "why not is this workding " +  a == b); ye to sahi nhi hai
+// console.log( "why not is this workding " +  (a == b)); 
+
+console.log("above");
 // there are only 3 numeral system with such supports
 // for other numeral systems we should use the function parseInt
 
@@ -106,7 +110,7 @@ there are many built in function for rounding
 // rounds down 3.1 to 4 and -1.1 to 1
 
 // Math.round
-// rounds to the nearest integer 3.1 becomes 3 
+// rounds to the nearest "Integer" 3.1 becomes 3 
 // 3.6 becomes 4 
 // in the middle cases 3.5 becoms 4 
 // -3.5 becomes -3 on the bigger side if you know 
@@ -384,4 +388,413 @@ console.log(0 ===-0); // true
 console.log(Object.is(NaN,NaN)); //true
 
 
+
+// ParseInt and ParseFloat
+console.log("ParseInt and ParseFloat");
+
+//Numeric conversion using a pluse + or Number() is strict.
+// if a value is not exactly a number, it fails.
+console.log(+"100px");
+
+console.log(+"   1000 ");// sole excpetion if a number is in string with space it gets converted successfully
+
+// but in real life we often have values like 100px or 12pt or 6inches of wood in css
+// from this 100px we would liek to extract numeric part 
+// That is what parseInt, and parseFloat are for 
+
+
+/*
+//They read a number from a string until they cant.
+in case of any error the gather number is returned 
+the function ParseInt returns an integer 
+whilist function ParseFloat will return a float pointing number
+
+*/
+
+console.log(parseInt('100px'));
+console.log(parseFloat('12.5em'));
+
+console.log(parseInt('12.3'));
+console.log(parseFloat('12.3.4'));
+
+// there are situtation when parseInt,parseFloat will return NaN.
+// it happens when no digits could be read
+
+console.log(parseInt('a123')); // Nan // the first symbol stop the precess
+
+// therse is second argument of parseInt(str,radix)
+// it specifies the base of the numeral system 
+// so parseInt can also parse string of hex number, binary number and so on.
+
+
+console.log(parseInt('0xff',16)); //255
+console.log(parseInt('ff',16));//255 without 0x also works
+
+console.log(parseInt('2n9c',36));
+
+
+// other math functions 
+
+/*
+javascript has built in math object which contains a small library of mathematical functions and constants 
+
+Math.random() - returns a randome number  from 0 to 1 (not including 1)
+Math.max(a,b,c....) and Math.min(a,b,c....) - returns the greatest and smallest from the arbitrary numbers of arguments 
+Math.pow(2,10) Math.pow(n,power) return n raised to the given power
+
+there are more function in Math object including trignometry
+
+*/
+console.log("Math functions");
+console.log(Math.random());
+ a =1;
+ b = 5;
+console.log(Math.max(a,b,6));
+console.log(Math.min(a,b,6));
+
+let n = 10;
+console.log(Math.pow(2,n));
+
+
+/*
+summary 
+
+to use bigint ther are two ways 
+either use n at the end 
+or BigInt()
+
+
+1. to write numbers with many zeroes 
+// append "e" with the zeroes count 
+like 123e6 is the same as 123 with 6 zeroes
+
+2. a negative number after e cause number to be divided by 1 with given zeroes 
+eg 123e-6 means 0.000123
+
+for different numeral systems 
+
+can write numbers directly in hex (0x),Octal (0o) and binary (0b) systems.
+parseInt(str,base) parses the string str into an integer in numeral system with the given base 2 <=base <=36
+
+num.toString(base) -- converts the number to a string in the numeral system with the given base.
+
+For regualar tests :- 
+isNaN(value) convert its argument to a type number and then test it for being NaN
+Number.isNaN(value) chceks whether its argument belong to number type and if so tests if its NaN
+
+isFinite(value) convert its argument to number type an then check for it being finite and not begin Nan,infinity,-infinity
+Number.isFinite(value) check whether the the argument belong to Number type and if so test for being finite
+
+
+
+for converting values like 12px or 6inches
+use parseInt,parseFloat for the soft conversion
+which reads a number from a string and then returns the value they could read before the error
+
+For fractions
+Round using Math.floor,Math.ceil,Math.round or num.toFixed(precision).
+make sure to remember theres a loss of precision when working with fractions
+
+*/
+
+// tasks
+console.log('tasks');
+
+// sum numbers from visitor
+// a = +prompt("Enter first number",'2');
+// b = Number(prompt("Enter second number",'4'));
+
+ sum = a + b ;
+// alert("the sum is " + sum);
+// alert("the sum is " , sum); wont work cause alert accepts only argument 
+
+
+//task2
+/*
+according to docs Math.round and Math.fixed round the number to the nearest number
+0...4 lead down 
+5...9 lead up
+for instance 1.35 gives 1.4
+6.35 gives 6.3
+why 
+one thing we are sure in both cases there is internal endless binary fraction 
+the precision loss can cause both increase or decrease in a number
+
+in our case at 6.35 the number become less that is why it rounded down 
+
+*/
+
+
+// console.log((1/5).toString(10)); 0.2
+// console.log(1/5); 0.2
+// console.log(0.1+0.2); 0.300000000000004
+
+console.log(1.35.toFixed(20)); // on greater side 
+console.log(6.35.toFixed(20)); // 6.34..... lower side 
+
+console.log(1.35.toFixed(1)); // 1.4
+console.log(6.35.toFixed(1)); // 6.3 as internally it is stored 6.34... so 4 goes lead down so 3 statys as it it as its floor
+
+// how to get 6.4
+
+let ans =Math.round(6.35 *10) /10;
+console.log(ans); //6.4
+
+
+// tasks 3
+
+// create a function readNumber which prompts for a number until enter a valid numerical value
+
+function readNumber(){
+    let value = +prompt("enter a valid number");
+
+    if(typeof Number(value) == "number") //type would always be number but its the value that we want to check 
+    {
+        return +value;
+    }
+    else if(value== null || value == "")
+    {
+        return null;
+    }
+    else {
+        readNumber();
+    }
+
+}
+
+// alert(readNumber());
+
+
+const v2ReadNumber = function(){
+    let value = prompt("enter a number");
+
+    if(isFinite(value))
+    {
+        return +value;
+
+    } else if (value === null || value ==='')
+    {
+        return null;
+    } else {
+       return v2ReadNumber();
+    }
+
+}
+
+// alert(v2ReadNumber());
+
+// console.log(typeof typeof +(5)); string "number"
+
+
+
+function readNumber() {
+    let num;
+  
+    do {
+      num = prompt("Enter a number please?", 0);
+    } while ( !isFinite(num) );
+  
+    if (num === null || num === '') return null;
+  
+    return +num;
+  }
+  
+  // alert(`Read: ${readNumber()}`);
+
+  /*
+  why are we not getting null and getting 0 
+  even when we have if condititon 
+  because 
+  isFinite(value) convert the value to their number type and then check whether is finite or not 
+  so null or '' are 0 in theri number form
+  
+  to Overcome this use Number.isFinite(value)
+
+  */
+
+
+  const refinedv2ReadNumber = function(){
+    let value = prompt("enter a number");
+
+    if(Number.isFinite(value) || parseInt(value))
+    {
+        return +value;
+
+    } else if (value === null || value ==='')
+    {
+        return null;
+    } else {
+       return v2ReadNumber();
+    }
+
+}
+
+// alert(v2ReadNumber()); 
+
+
+function RefinedreadNumber() {
+    let num;
+  
+    do {
+      num = prompt("Enter a number please?", 0);
+
+      if (num === null || num === '') return null;
+        
+      
+    } while ( !isFinite(num) );
+    //while ( !isFinite(num) || num != null || num != '' ); might not work as one of the condition would always be true 
+
+  
+  
+    return +num;
+  }
+  
+//   alert(`Read: ${readNumber()}`);
+
+
+/*
+refinedv2ReadNumber in this we use Number.isFinite(value) that does not convert the type so this solves null and '' problem 
+and parseInt() to get number 
+
+RefinedreadNumber in this we put the if condition isnide the do while 
+
+*/
+
+
+  //task 3
+
+//   let i = 0;
+//   while(i!=10)
+//   {
+//     i+=2;
+//   }
+  // the loop never ends why 
+
+  let i =0;
+  while(i<11)
+  {    i +=0.2;
+  
+      if(i> 9.8 && i <10.2)
+      {
+          console.log(i);
+      }
+  }
+  
+  /*
+Such things happen because of the precision losses when adding fractions like 0.2.
+
+Conclusion: evade equality checks when working with decimal fractions.
+  */
+
+// tasks 4
+
+// a random number from min to max;
+
+const random =  (min,max)=> {
+  let value = Math.random();
+  value = Math.round(value *100)/10;
+
+  if(value > min && value < max)
+  {
+    return value ;
+  }
+  else {
+    return random(min,max);
+  }
+  
+}
+
+console.log(random(1,5));
+
+console.log("another way of 4 ");
+
+
+const random1 = (min,max)=>{
+  // return (min + Math.random() * (max - min)).toFixed(2); 
+  // if not want to include max 
+ 
+  // if want to incldue max also 
+  // return Math.round((Math.random() * (max-min)+min));
+  
+  
+  
+  // this is but 
+  /*
+  let sya min max is 1, 3 two would come twice often than others 
+The probability to get edge values min and max is two times less than any other.
+
+If you run the example above many times, you would easily see that 2 appears the most often.
+
+That happens because Math.round() gets random numbers from the interval 1..3 and rounds them as follows:
+
+values from 1    ... to 1.4999999999  become 1
+values from 1.5  ... to 2.4999999999  become 2 // see the range of 2 form 1.5 to 2.499 
+values from 2.5  ... to 2.9999999999  become 3
+
+// we can generate values from 0.5 to 3.5
+1st correct solution 
+min = 1 max = 3 
+return (Math.random() * (max-min +1) + min -0.5)
+
+let say Math.random gives 0 
+0*(3-1+1) + 1 -0.5
+0.5 min value if we round this we get 1 the min value 
+
+Math.random() gives 0.9999
+0.999*(3-1+1) + 1 -0.5
+0.999*(3) 
+3.49999997 max alue so if we do round we get 3 as the max  value 
+
+
+another solution 
+using floor
+min 1 
+max 3 
+
+min + Math.random() * (max-min + 1)  
+
+at Math.random() 0 we get 1 which is min value
+0*(3-1+1) + 1 = 1 
+
+for max 
+1 + 0.9999 * (3) = 3.999999  floor 3 
+
+1 + (0.555) * 3 = 2.666 floor 2 
+1+(0.2)*3 gives 1 
+
+// how do i map for which value i would get wihch 
+so the values we would get [1,4)
+
+for 1 
+the value should before doing floor  
+1<= value <2
+1<= 1 + Math.random()*3 < 2
+0 <= Math.random()*3 < 1
+0 <= Math.random() < 1/3 
+
+from 0 to 1/3 we will get 1 
+
+for 2 
+2<= value < 3
+2 <= 1 + Math.random() * 3 < 3
+1/3 <= Math.random < 2/3
+from 1/3 to 2/3 will get 2 
+
+for 3 
+3 <= value <4
+2/3 <= math.random() < 1
+from 2/3 to 1 will get 3 
+
+
+All intervals have the same length, making the final distribution uniform.
+
+
+  */
+
+
+
+
+}
+
+console.log(random1(1,5));
 
