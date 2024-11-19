@@ -227,3 +227,96 @@ by using so called newline \n which denotes a line break;
 let guesslist = "PratikLoves : \n * Her \n * Her nose \n * Her smile \n * Her eyes \n All others tissues,muscles and cells of her."
 
 console.log(guesslist);
+
+let str1 = "Hello\nWorld";
+
+let str2 = `Hello
+World`;
+
+console.log(str1 == str2);
+
+// there are other less common special character
+/*
+\n 
+\r\n
+\' \" \` quotes
+\\ backslash
+\t tab 
+\b \f \w faltu not used 
+
+all special character start with \ backslash also known as escape character 
+
+so called escaped quotes \' \" \` are used to insert a quote into the same quoted string 
+
+*/
+
+console.log('hi,I\'m pratik');
+// we have prepend the inner quote with \'  otherwise it would have been end of stirng 
+// other solution could be use "" or `` when we know inside we need single quote
+
+console.log("hi,I'm pratik");
+
+
+
+// 4 . String length 
+// The length proprty has the string length
+
+console.log(`My\n`.length); // M y \n 3 is the len
+
+// length is a numeric proeprty not a function so do str.length not str.length()
+
+
+// 5. Accessing Characters 
+/*
+to get a character at position pos ,use square bracket [pos] or call the method str.at(pos)
+the first character starts from the zero position
+*/
+
+let str = "hello";
+
+console.log(str[1]);
+console.log(str.at(2));
+
+// to get the last fucking character 
+
+console.log(str[str.length-1]);
+// or 
+console.log(str.at(-2));
+// the at.(pos) allow us to use negative values which start from end 
+
+// if use negative value with [] then its undefined 
+console.log(str[-2]);
+
+// we can iterate over character using for ...of 
+
+for(let char of "hello")
+{
+    console.log(char);
+}
+
+// 6 . String are immutable
+// strings cant be changed in js 
+// it is impossible to change a character 
+
+str = 'Hi';
+
+str[0] = "h";
+
+console.log(str); // Hi 
+
+// solution 
+str = 'h' + str[1];
+console.log(str); // hi
+
+
+// 7. Changing the case 
+// methods such as toLowerCase() and toUpperCase() chnage the case :
+
+
+console.log("captial".toUpperCase());
+console.log("SmallLetter".toLowerCase());
+
+// or we just want the single or first character to be uppercase 
+
+name = "pratik";
+console.log(name[0].toUpperCase());
