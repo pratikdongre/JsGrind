@@ -320,3 +320,173 @@ console.log("SmallLetter".toLowerCase());
 
 name = "pratik";
 console.log(name[0].toUpperCase());
+console.log(name);
+
+// 8. Searching for a subString
+// there are multiple ways to look for a substring within a string
+
+// str.indexOf(substr,pos)
+/*
+it looks for the substr in str,starting from the given position pos, 
+and returns the position where the match was found 
+or -1 if nothing can be found
+*/
+
+let word = "Widget with id";
+console.log(word.indexOf("id"));
+
+
+console.log(word.indexOf("widget")); // -1
+
+console.log(word.indexOf("id",1));
+
+// if we are intersted in all occurences of "id"
+// we can run indexOf in a loop.
+// Every new call is made with the position after the previous match
+
+str = "As sly as a fox, as strong as an ox";
+
+let target = 'as';
+
+let pos = 0;
+
+while(true){
+    let foundPos = str.indexOf(target,pos);
+    if(foundPos == -1) break;
+
+    console.log(`Found at ${foundPos}`);
+    pos = foundPos + 1;
+}
+
+// shorter version 
+
+let po = -1;
+while((po = str.indexOf(target,po+1))!=-1)
+{
+    console.log(`Again found at ${po}`);
+}
+
+// there is another method str.lastIndexOf(substr,pos) which find the last occurence 
+
+
+let newStr = "im as hot as hell but not cool as hell";
+pos = 0;
+console.log(newStr.lastIndexOf("hell")); 
+ 
+while(true)
+{  
+    let foundPos = newStr.indexOf("hell",pos); 
+    if(foundPos == -1) break;
+
+    console.log("i found as at ",foundPos);
+    pos = foundPos +1;
+    
+    // thought process 
+    // first find the pos of index at which hell is 
+    // then if got -1 that means the index where the hell is dont exsit break
+    // if exist then print 
+    // then increase the pos fromt he found pos +1 
+}
+pos = -1;
+while((pos =newStr.indexOf("hell",pos+1))!=-1)
+{
+    console.log(`i found hell at ${pos}`);
+}
+
+// lastindexOf() gives the last occrurence but taht does not mean the index would change 
+pos = newStr.length;
+while(true){
+    pos = newStr.lastIndexOf("hell",pos-1);
+
+    if (pos == -1) break;
+
+    console.log(pos);
+
+ 
+}
+// shorter 
+pos = newStr.length;
+while((pos = newStr.lastIndexOf("hell",pos -1)) != -1)
+{
+    console.log(pos);
+}
+
+
+// slight inconvienience with the indexOf in the if test 
+str = "Widget with id";
+
+if(str.indexOf("Widget")) // if the substr at zero then it become false
+{
+    console.log("found"); 
+}
+//so we should always check with -1 
+if(str.indexOf("Widget")!=-1)
+{
+    console.log("found");
+}
+
+
+// includes , startsWith, endsWith
+// the more modern method str.includes(substr,pos) return true /false based on wehterh the substr exist
+// substr -is the substring to serachr for 
+// pos :- its the position to start searching from 
+
+//It’s the right choice if we need to test for the match, but don’t need its position:
+
+
+console.log("Widget with id".includes("with"));
+console.log("Hello".includes("bye"));
+
+// the second argument of include is the position to start searching from
+
+console.log("Widget".includes("id"));
+console.log("Widget".includes("id",2));// on position 2 onwards there is not id found so false
+
+// startswith and endswith
+
+console.log("pratik is hot".startsWith("pratik"));
+console.log("pratik is hot".endsWith("hot"));
+
+
+// 9 Getting a substring 
+// there are 3 methods to get a substring : substring,substr and slice.
+
+// str.slice(start[,end]);
+// returns a part of string that start from start to (but not including)end
+// [,] shots that its optional
+
+str = "Stringify";
+console.log(str.slice(0,5));
+console.log(str.slice(5)); // slice goest till end from 5th to end
+
+console.log(str.slice(0,1));
+
+// negative values for start/end are also possible.
+// they mean the position is counted from string end. // when counting from back count from 1
+console.log(str.slice(-7,-3)); 
+
+
+// str.substring(start [,end]);
+// return the part of the string between start and end
+// its same as slice but it allows start to be bigger than end 
+// in such case where start is bigger than end its swap start and end values
+
+console.log(str.substring(2,6));
+console.log(str.substring(6,2)); // same as above 
+
+console.log(str.slice(2,6));
+console.log(str.slice(6,2)); // ""
+
+// negative arguments are not support in substring unlike slice 
+// they are treated as 0
+
+// str.substr(start [,length])
+// in contrast with previosu methods this allows us to mention the lenght of sub instead of providiing end value
+str= "Stringify";
+console.log(str.substr(2,4)); // from 2nd index it count print till 4 as lenght is 4
+
+// the first argument maybe negative to start from end 
+console.log(str.substr(-4,3));
+
+// It means that only browser-hosted Javascript engines should support it, and it’s not recommended to use it. 
+// In practice, it’s supported everywhere.
