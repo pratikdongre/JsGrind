@@ -462,7 +462,7 @@ console.log(str.slice(5)); // slice goest till end from 5th to end
 console.log(str.slice(0,1));
 
 // negative values for start/end are also possible.
-// they mean the position is counted from string end. // when counting from back count from 1
+// they mean the position is counted from string end. // when counting from back ; count from 1
 console.log(str.slice(-7,-3)); 
 
 
@@ -488,5 +488,145 @@ console.log(str.substr(2,4)); // from 2nd index it count print till 4 as lenght 
 // the first argument maybe negative to start from end 
 console.log(str.substr(-4,3));
 
-// It means that only browser-hosted Javascript engines should support it, and it’s not recommended to use it. 
+// substr only browser-hosted Javascript engines support it, and it’s not recommended to use it. 
 // In practice, it’s supported everywhere.
+
+/*
+method 
+slice (start,end)       | from start to end (not including end)     | allow negatives 
+substring(start,end)    | from start to end (not including end )    | negative means 0
+substr(start,length)    | from start to the length                  | allow negative at start 
+
+
+substr has a drawback only supported browser -only features so non -browser env may fail to support 
+while slice and substring 
+slice seems to be more flexible as can work with negatives
+
+*/
+
+// 10 Comparing Strings
+
+// strings are compared by char by char in alphabetical order 
+//  although there are some oddities 
+
+// 1. lowercase is always greater than uppercase
+console.log('a' > "S");
+
+// 2 .letter with diacritical marks are out of order 
+
+console.log("Österreich" > "Zeland"); // Z should come first but diacritical marks are out of order 
+
+/*
+to understand what happens we should be aware that strings are stored in utf-16 format 
+where each char has a numeric code 
+there are special methods to get the char for the code and back
+
+str.codePointAt(pos)
+String.fromCodePoint(pos)
+
+//camel case ? camelCaseThisIs 
+// pascel case ? PascalCaseThisIs
+// snake case ? snake_case_this_is
+*/
+
+// str.codePointAt(pos)
+// returna a decimal number representing the code for the character at postion pos : 
+
+// different case letter have different code 
+console.log("Zratik".codePointAt(0));
+console.log("z".codePointAt(0));
+console.log("z".codePointAt(0).toString(16)); // if we need hexadecimal value
+
+// String.fromCodePoint(pos)
+// return the character by its numeric code 
+
+console.log(String.fromCodePoint(90));
+console.log(String.fromCodePoint(0x7a)); // can pass hexadecimal vlaue also or any other 
+
+
+// let see the characters with codes 65...220
+
+ str = '';
+
+for(let i =65;i<=220;i++)
+{
+    str += String.fromCodePoint(i);
+}
+
+
+console.log(str);
+
+// as can see lowercase comes after the capitals so they are bigger 
+
+
+//correct comparison
+/*
+The “right” algorithm to do string comparisons is more complex than it may seem, because alphabets are different for different languages.
+
+So, the browser needs to know the language to compare.
+
+Luckily, modern browsers support the internationalization standard ECMA-402.
+It provides a special method to compare strings in different languages, following their rules.
+
+the call str.localCompare(str2) returns an integer indicating whether str is less ,equal or >  than str2
+return negative num if str is less than str2
+return 0 if str is same as str2 
+return postive if str is > than str2
+*/
+
+console.log("Österreich".localeCompare("zealand"));
+
+/*This method actually has two additional arguments specified in the documentation, 
+which allows it to specify the language (by default taken from the environment, letter order depends on the language) and 
+setup additional rules like case sensitivity or should "a" and "á" be treated as the same etc.
+*/
+
+
+/*
+summary 
+three types of quotes '' "" ``
+backticks allow a string to span multipel and line and embed expression usign ${}
+
+we can use special characeter such as \n
+
+to get a char use [] or at()
+
+to get a substring use slice or substring 
+slice better as it allows negatives values 
+
+to get lowerCase() or upperCase();
+
+to look for a substring use indexOf, includes/startsWith/endsWith
+
+to comapare strings according to the language use localCompare()
+otherwise they are compared by character codes 
+
+
+
+there are other severals methods 
+str.trim() ....removes ('trims') spaces from the beginning and end of the string
+str.repeat(n) ... repeats the string n times 
+
+strings also have methods for doing search/replace with regualr expression
+
+also as of now its important to know that strings are based on unicode encoding 
+hence there are problem  with comaparison
+*/
+
+//tasks
+
+//1 
+
+/*
+We can’t “replace” the first character, because strings in JavaScript are immutable.
+
+But we can make a new string based on the existing one, with the uppercased first character:
+*/
+function ucFirst(str){
+
+    let newStr =  str[0].toUpperCase()  + str.slice(1);
+    
+    return newStr;
+}
+
+console.log(ucFirst("john"));
