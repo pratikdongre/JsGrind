@@ -630,3 +630,50 @@ function ucFirst(str){
 }
 
 console.log(ucFirst("john"));
+
+
+//task 2 
+
+checkSpam = function(str){
+let lowerstr = str.toLowerCase();
+let upperstr = str.toUpperCase();
+
+if(lowerstr.includes("viagra") || lowerstr.includes("xxx") || upperstr.includes("XXX"))
+    return true;
+else return false;
+}
+
+console.log(checkSpam("buy ViAgRA now"));
+console.log(checkSpam("free xxxxx"));
+console.log(checkSpam("innocent rabbit"));
+
+//task 3 
+
+let truncate = (str,maxlength) =>{
+let lengthOfString = str.length;
+
+if (lengthOfString > maxlength){
+    let newStr = str.slice(0,maxlength-1)+ "...";
+    return newStr;
+    
+}
+else 
+return str;
+};
+
+truncate = (str,maxlength) =>
+{
+return (str.length > maxlength ? str.slice(0,maxlength-1) + "..." : str);
+}
+
+console.log(truncate("hi everyone",10));
+console.log(truncate("What I'd like to tell on this topic is:",20));
+
+// task 5 
+
+function extractCurrencyValue(str){
+    let number = str.slice(1);
+    return +number;
+}
+
+console.log(extractCurrencyValue("$120"));
