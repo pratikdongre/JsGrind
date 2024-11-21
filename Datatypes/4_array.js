@@ -143,3 +143,59 @@ fruits = ['apple'];
 fruits.push("anar","kela"); // in the end right and if were to console it would get new lenght of the array
 fruits.unshift("angur",'aam');
 console.log(fruits);
+
+
+// Internals 
+// an array is a speical kind of object 
+// the square brackets used to access a property arr[0] actually come from the object syntax
+// thats essentially the same as obj[key] , where arr is the object , while number are used as keys.
+
+// they extend objects providing special methods to work with ordered collection of data and also the length property.
+// but at the core its still an object 
+
+// remember, there are only eight basic data types in js 
+// array is an object and thus behaves like an object 
+
+// for instance it is copied by reference 
+
+fruits =["banana"];
+
+arr = fruits; // two variables refers the same array
+
+console.log(fruits === arr);
+
+arr.push("pineapple");
+
+console.log(fruits);
+
+// but what make arrays really special is their internal representation.
+// the engine tries to store its element in the contigious memory are, one after the other.
+// there are other optimization as well to make arrays work really fast.
+
+// but they all break if we quit working with an array as with 
+// an "ordered collection" and start working with it as if it were a regular object 
+
+// for instance we can do this 
+
+fruits = [];
+fruits[9999] = 6; // assign a property with the index far greater than its length 
+fruits.age = 20; // create a property with arbitrary name 
+
+// that possible ,because arrays are object at their base. we can add any properties to them.
+// but engine will see that we are working with array as an regular object 
+// array specific optmization are not suited for such cases and will be turned off , their beneifts disapper.
+
+// the ways to misuse array
+// add non numeric property like arr.text = 5;
+// make holes liek add[0] and then add[10000](and nothing in between)
+// fill the array in the reverse order, like arr[1000],arr[999] and so on
+
+/*
+Please think of arrays as special structures to work with the ordered data.
+ They provide special methods for that. Arrays are carefully tuned inside JavaScript engines to work with contiguous ordered data, please use them this way. And if you need arbitrary keys,
+ chances are high that you actually require a regular object {}.
+*/
+
+
+// performance methods push/pop runs fast while shift/unshift are slow
+// why is it faster to work with end of an array than with its beginning 
