@@ -367,3 +367,86 @@ console.log("1,2" + 1)
 
 // 11 Dont compare arrays with == 
 // array unlike other languagae should not be compared wiht ==
+// this operator has no special treatment for arrays, it works with as with any object 
+/*
+lets recall 
+two objects are equal ==  only if they are reference to same object 
+if one of the argument of == is an object . and the other one is primtiive 
+then the object gets converted to primtive 
+with an exception and null == undefined that equal each other and nothing else 
+
+this strict comparision === is even simpler as it doesnot convert types 
+
+so if we compare two arrays with == there are not same
+unless there are two variable that referes to the same array
+
+for example 
+console.log( []=[] )
+console.log([0] = [0])
+would resutl in false 
+
+techincally ther arrays are different objects 
+so they are not equal 
+the == operator does not do item by item comaprison 
+
+comparision with primitives may give some seeminlgy strange value as well 
+
+*/
+
+console.log(0 == []);
+console.log('0' == [])
+
+// here in both cases we comapre primtive with array 
+// array gets converted to pritmive form and becoms empty string '' in this case 
+// and then further type conversion happens 
+// in first case '' empty string gets converted to number 0
+// in second case the empty string stays and then it became '0'=='' 
+
+// so how to compare arrays 
+// dont compare them using == 
+// simply compare them by elemen by element / item by item in a loop or using iteration method 
+
+// summary 
+// array is special kind of object , suited for storing and managing ordered data items 
+
+
+// the declaration 
+arr = ["item1" ,"item2"];
+console.log(arr);
+
+arr = new Array("item1","item2");
+console.log(arr);
+
+// the call to new Array(number) // with single argument 
+// creates with an array with the given length , but wihtout elements 
+
+// the length proprety is the array length or be preicse 
+// its last numeric index plus one .
+// it is auto adjusted by array methods 
+// if we shorten length manually the array gets truncated 
+
+// getting the elements 
+// we can get elements using arr[0]
+// also we can do arr.at(i) which allwos negative value too 
+// if negative then work from backward unless for i >=0 works smae as [] index
+
+// we can use an array as a deque with follwing operation 
+// push (..items) - add items to end  // faster 
+// pop () removes element from end and return it // faster 
+// unshift(..items) add items to the beginning // slow 
+// shift() removes the element from the  and return it // slow
+
+
+// to loop over the element of the array 
+// for (let i =0;i<=arr.length;i++) - everygreen method 
+// for (let item of items)- modern syntax for items only
+// for (let key in items) - never use cause array at the base is object and this would iteratoere over all prroperties 
+
+
+// to comapre array dont use == operator or < > 
+// as they dont have speical treatment for array 
+// they handle them as any object and its not what we are looking for 
+
+// instead of you can use for ... of loop to compare array item by item 
+
+// tasks 
