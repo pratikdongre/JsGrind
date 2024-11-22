@@ -145,7 +145,7 @@ fruits.unshift("angur",'aam');
 console.log(fruits);
 
 
-// Internals 
+// 4 Internals 
 // an array is a speical kind of object 
 // the square brackets used to access a property arr[0] actually come from the object syntax
 // thats essentially the same as obj[key] , where arr is the object , while number are used as keys.
@@ -196,6 +196,174 @@ Please think of arrays as special structures to work with the ordered data.
  chances are high that you actually require a regular object {}.
 */
 
-
+// 5 PERFORMANCE 
 // performance methods push/pop runs fast while shift/unshift are slow
 // why is it faster to work with end of an array than with its beginning 
+
+/*
+unshift->   0 1 2 3   <-pop
+shift->     0 1 2 3   <-push
+
+*/
+
+fruits = ["banana", "anar", "apple"];
+
+console.log(fruits.shift()); // takes one elemen from the start
+console.log(fruits);
+
+// it is not enough to take and remove the element from index 0 . 
+// othere elements also have to be renumbered as well.
+
+// the shift operation must do three things 
+// 1. remove the element with index 0 
+// 2. move all elements to the left , renumber them from the index 1 to 0, from 2 to 1 and so on 
+// 3. update the lenght property 
+
+// the more elements in the array , the more time to move them,more in-memory operations
+// simimlar things happens wiht unshift we first need to move the exisint element to the right ,increasing their indexes
+
+// and whats with the push and pop
+// the do not need to move anything . to extract an element from the end , the pop method cleans the index and shortend the length 
+
+console.log(fruits);
+console.log(fruits.pop()); // take one element from the end 
+console.log(fruits);
+
+// the  pop methods does not need to move anything ,because other elements keep theri indexes 
+// that why its blazingly fast 
+// the similar things wiht push method
+
+// 6 LOOPS
+// one of the oldest ways to cycle array items is the for loop over indexes 
+
+arr = ["Apple","Orange","Pear"];
+
+for(let i=0; i< arr.length;i++)
+{
+    console.log(arr[i]);
+}
+
+// for.. of does not give direct access to the number of current element , just only the value and in most cases that eneough
+// and its shorter 
+
+for (let ar of arr)
+{
+    console.log("using for ..of" , ar);
+}
+
+
+// technically because array are objects it is stil possible to use for ..in
+
+for(let key in arr)
+{
+    console.log(`using for..in ${arr[key]}`);
+}
+
+// the for..in works but there are problems with it 
+/*
+1. the loop for..in iterates over all properties , not only numeric ones 
+there are so called 'array- like ' objects in brwoser and in other env  that look lik arrays 
+that is they have lenght and index properties , but they may also have other non-numeric properties and methods, 
+which we usually dont need. 
+the for .. in loop will list them though 
+so if we want to work with array like objects 
+then these properties can become a problem 
+
+2. the for..in loop is optimizied for generic objects ,not arrays and thus is 10-100 times slower.
+of course its still very fast 
+the speedup may only matter in bottlenecks but still we should be aware of the difference 
+
+so generally we should not use for ..in for arrays 
+*/
+
+// 7 A word about "length"
+// the lenght propert automatically updates when we modify the array. 
+// to be precise , it is actually not the count of values in the array , but the greatest numeric index plus one 
+
+// for instance a single element with large index value would reuslt in big length 
+
+fruits = [];
+fruits[100] = "aam";
+console.log(fruits.length); // 101 
+
+// note that we dont use arrays like this 
+
+// another things about the lenght property is that its writable 
+// if we incrase it manually nothing happens 
+// but if we decrease it the array is truncated and the process is irreversible 
+
+let nums = [1,2,3,4,5 ];
+console.log(nums.length);
+nums.length +=1;
+console.log(nums.length); // increased 
+
+nums.length = 2;
+console.log(nums.length); // 2 
+console.log(nums);
+nums.length = 5;
+console.log(nums); // 1 ,2 , <3 empty items> 
+// as said truncated and irreversible 
+
+// so the simplest way to clear array is array.lenght =0;
+
+
+// 8 new Array()
+// this is one more syntax to create an array
+
+arr = new Array("apple","anar","kela");
+// althoug this is rarely used beacuse [] is shorter 
+
+
+//also there's tricky featuure with it 
+
+// if new Array is called with a single argument which is a number , then it creates an array wihtout items but with given lenght 
+
+arr = new Array(2) // will it create array[2] ? 
+console.log(arr.at(0)); // undefined no elements 
+console.log(arr.length);
+
+//To avoid such surprises, we usually use square brackets, unless we really know what we’re doing.
+
+// 9 MultiDimensional arrays
+
+// arrays can have items that are also arrays 
+// we can use it to store multi dimesional array. for example to store matrices:
+
+let matrix = [
+[1,2,3],
+[4,5,6],
+[7,8,9],
+];
+
+console.log(matrix[0][2]);
+
+
+// 10 toString 
+// arrays have their own implentation of toString method that reutns a comma separated list of elements.
+
+// for instance 
+
+arr = [1,2,3];
+console.log(arr);
+console.log(String(arr) === '1,2,3');
+
+// also lets try this 
+
+console.log([] + 1 );
+console.log([1] + 1 );
+console.log([1,2] + 1 );
+
+
+// arrays do not have symbol.toPrimitive , neither a viable valueOf , they implement only toString conversion 
+// so here [] becomes an empty string , [1] becomes "1"
+// [1,2] becomes "1,2"
+
+// when an binary plus operator add something to a string , it convert to string as well 
+// look at this 
+
+console.log( "" + 1);
+console.log("1" + 1);
+console.log("1,2" + 1)
+
+// 11 Dont compare arrays with == 
+// array unlike other languagae should not be compared wiht ==
