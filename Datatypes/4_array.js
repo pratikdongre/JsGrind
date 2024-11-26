@@ -449,4 +449,158 @@ console.log(arr);
 
 // instead of you can use for ... of loop to compare array item by item 
 
-// tasks 
+// tasks 1 
+
+fruits = ["Apples","Pear","Orange"];
+
+let shoppingCart = fruits;
+shoppingCart.push('Banana');
+
+console.log(fruits.length); // updated 
+// because array are at their base object which are copied by reference 
+
+
+// tasks 2 
+
+let styles = ["Jazz","Blues"];
+styles.push("Rock-n-roll");
+
+for(let i =0 ; i< styles.length;i++)
+{
+    if(i%2 !=0)
+    {
+        // styles.at(i) = "Classics"; wont work because at() is getter only method 
+        // at() is only safe element access which allow negative values 
+        // not meant for writing or modifying file 
+        styles[i] = "Classics";
+    }
+}
+
+console.log(styles.shift());
+
+styles.unshift("Rap","Reggae");
+
+console.log(styles);
+
+
+//task 3 
+
+arr = ["a","b"];
+arr.push(function(){
+    console.log(this)
+});
+
+arr[2]();
+
+
+//The call arr[2]() is syntactically the good old obj[method](), 
+// in the role of obj we have arr, and in the role of method we have 2.
+
+// task 4 
+
+let sumInput = ()=>{
+ 
+    let inputs = [];
+
+    let output = 0;
+
+   
+    while(true)
+    {
+        let input = prompt("enter a value",0);
+
+        if(input === null || input === "" || isNaN(input))
+        {
+            break;
+            
+        }
+        inputs.push(+input);
+
+
+    }
+
+        for(let i =0;i<inputs.length;i++)
+        {
+            output += inputs[i];
+        }
+
+
+    return output;
+
+}
+// console.log(sumInput());
+
+// console.log(typeof(1));
+
+// tasks 5
+
+let inputs = [1,-2,3,4,-9,6];
+
+function getMaxSubSum(inputs){
+    let maxSum = 0;
+
+    for(let i =0;i<inputs.length;i++)
+    {
+        let sumFixedStart = 0;
+        for(let j=i;j<inputs.length;j++)
+        {
+            sumFixedStart += inputs[j];
+        
+        maxSum = Math.max(sumFixedStart,maxSum);
+        }
+
+    }
+    return maxSum;
+}
+
+console.log(getMaxSubSum(inputs));
+
+ inputs = [1,-2,3,4,-9,6];
+
+function getMaxSubSum(inputs){
+
+    let answer = 0;
+    for(let i =0;i<inputs.length;i++)
+    {   
+       let  subAnswer = 0;
+
+        for(let j = i;j<inputs.length;j++)
+        {
+            subAnswer+=inputs[j];
+            answer = Math.max(answer,subAnswer);
+
+        }
+        
+    }
+    return answer;
+
+
+};
+
+// console.log(getMaxSubSum(inputs));
+
+
+// function getMaxSubSUm Fast
+
+function fasterSub(inputs){
+    let answer = 0;
+    let subAnswer = 0;
+    
+    for(let key of inputs)
+    {
+        subAnswer += key;
+        answer = Math.max(answer,subAnswer);
+
+
+        if(subAnswer < 0) subAnswer = 0;
+
+
+
+    }
+
+
+
+    return answer;
+}
+
+console.log(fasterSub(inputs));
