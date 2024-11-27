@@ -177,3 +177,12 @@ arr.forEach(function(item,index,array){
 // indexOf/lastIndexOf and includes
 
 // the method arr.indexOf and arr.includes works the same as theri strings counterpart but operate on items instead of characters 
+// arr.indexOf(item, from) - looks for item starting from and returns the index where it was found , otherwise -1
+// arr.includes(item,from) - looks for item starting from index from, return true if found
+
+// usually these methods are used with only argument : the item to serach 
+// because by default the search is from the beginning 
+
+arr = [1,0,false];
+
+console.log(arr.indexOf(false));
