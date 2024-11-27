@@ -20,7 +20,7 @@ let arr2 = [];
 
 let her = ['her','her hair','her eyes','her nose','her lips','her breast','her stomach','her hand','her downpart','whatnot'];
 
-// array element are numbered ,starting with zero
+// array element are numbered , starting with zero
 
 // we can get an element by its number in square brackets 
 console.log(her[0]);
@@ -150,7 +150,7 @@ console.log(fruits);
 // the square brackets used to access a property arr[0] actually come from the object syntax
 // thats essentially the same as obj[key] , where arr is the object , while number are used as keys.
 
-// they extend objects providing special methods to work with ordered collection of data and also the length property.
+// they extend objects by providing special methods to work with ordered collection of data and also the length property.
 // but at the core its still an object 
 
 // remember, there are only eight basic data types in js 
@@ -339,7 +339,7 @@ console.log(matrix[0][2]);
 
 
 // 10 toString 
-// arrays have their own implentation of toString method that reutns a comma separated list of elements.
+// arrays have their own implentation of toString method that returns a comma separated list of elements.
 
 // for instance 
 
