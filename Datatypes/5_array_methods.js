@@ -503,3 +503,72 @@ arr =["pratik", "monu", "sonu", "raj",] ;
 str = arr.join(';');
 
 console.log(str);
+
+
+// reduce/reduceRight
+
+// when we need to iterate over an array we can use forEach, for , for..of
+// when we need to iterate and return the data for each element - we can use map
+
+// the method arr.reduce and arr.reduceRight also belong to that breed
+//  but they are used to calculate a single value based on array
+
+// let value = arr.reduce(function(accumulator,item,index,array){
+
+// },[initial]);
+
+// the function is applied to all array element and carries on its result on the next call .
+// arguments 
+// accumulator  - is the result of the previous function call , equals initials the first time 
+// (if intial is provied)
+// item is the current item 
+// index is its postion
+// array the array itself 
+
+// as the function is applied , the result of previous function is passed to the next function as first argument 
+// so the first argument is essentially the accumulator that stores the combined result of all previous exeuction
+
+
+arr = [1,2,3,4];
+
+result  = arr.reduce((sum,current) => sum + current,0);
+
+console.log(result);
+// the function in reduce above uses only two argument that engouht 
+// on the first run sum is initial as 0 , and the current is first element of array 
+// so the sum is 1 
+// on the second run sum is now 1 , current value is 2 
+// so sum becomes 3 and so on
+
+// if we dont provide the second arugment that is intial value 
+// then the first item in the array is the intial value and start the iteraiton from 2nd eleemnt 
+
+
+result = arr.reduce((sum,current)=> current + sum);
+console.log(result);
+
+
+// but such use requires an extreme care . if the array is empty , then reduce call without initial value given an error
+
+arr = [];
+
+// arr.reduce ((sum,current) => sum + current); // woudl given error 
+// as even in last ressort that is in array the first element is not there means intial value is also not there
+
+// so its advise to use initial value always 
+
+// the method arr.reduceRight does the same but goes from right to left 
+
+//  5 Array.isArray
+
+// Array do not form a separate langugage type.they are based on objects 
+
+// so typeof does not help to distinguish a plain object and array object 
+
+console.log(typeof {});
+console.log(typeof []);
+
+// but arrays are used so often that there's a special method for that 
+// 
+
+
