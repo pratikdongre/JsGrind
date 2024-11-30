@@ -569,6 +569,410 @@ console.log(typeof {});
 console.log(typeof []);
 
 // but arrays are used so often that there's a special method for that 
-// 
+// Array.isArray(value) it returns true if the value is an array and false otherwise
+
+console.log(Array.isArray({}));
+console.log(Array.isArray([]));
 
 
+// 6 most methods support "thisarg"
+
+// almost all array methods that call function like find,filter,map with a notable exception of sort,
+// accept an optinal additional parameter thisArg.
+
+// that parameter is not explained in the sections above , because its rarely used .
+// but for completeness lets cover it 
+
+// here's the full syntax of these methods 
+
+// arr.find(func,thisArg);
+// arr.filter(fun,thisArg);
+// arr.map(fun,thisArg);
+
+// thisArg is optional last argument 
+
+// the value of thisArg parameter becomes this for func 
+
+let game = {
+ minAge : 18,
+ maxAge : 30,
+ canParticipate(player) {
+    return player.age >= this.minAge && player.age <= this.maxAge;  
+ }
+};
+
+
+let players = [
+    {age : 22, name : "pratik"},
+    {age : 10, name : "rhiday"},
+    {age : 36, name  : "aagila"},
+    {age : 26, name : "dajiba"},
+];
+
+let eligiblePlayes = players.filter(game.canParticipate,game);
+
+console.log(eligiblePlayes.length);
+console.log(eligiblePlayes[0]);
+
+//If in the example above we used players.filter(game.canParticipate),
+//  then game.canParticipate would be called as a standalone function,
+//  with this=undefined, thus leading to an instant error.
+
+
+// a call players.filter(game.canParticpate,game) can be replace with 
+// a call to players.filter(player => game.canParticipate(player))
+
+
+// summary 
+// to add/remove elements
+/*
+push(...items) - add items to the end 
+pop() - extracts an item from end 
+shift() - extract element from the beginning 
+unshift(..items) - add itesm to the beginning 
+
+splice(pos,deleteCount,...items) - at index pos delete deleteCount elements and insert items 
+slice(start,end) - createst a new array , copies elements from index start till end(not including end)
+
+concat(...items) returns a new array copies all elements of the current one and add items to it .
+if any of items is an array, thens its elements are taken 
+
+To serach among elements 
+indexOf/lastIndexOf(item,pos) look for item starting from position pos, return the index or -1 if not found 
+includes(value) return true if the array has value element in it otherwise false 
+find/filter(func) filter elements through the function , return first/all values that make it return true
+findIndex is like find , but returns the index instead of value
+
+To iterate over elements 
+forEach(fun) call func for every element,does not return anything
+
+To transform the array
+map(func) - creates a new array from results of calling func for every element 
+sort(func) sort the array in-place then return it 
+reverse() revers the arrya in place and there returns it 
+split/join convert string to array and back using delimter
+
+reduce/reduceRight(func,intial) calculate a single value over the array by  calling func for eac element 
+and passing an intermediate result between the calls 
+
+Array.isArray(value) cehcks if the value is an array if so returns true otherwise false.
+
+please note that metohds sort,reverse and splice modify the array itself 
+
+// these methods are the most used one they cover 99% of user cases 
+
+arr.some(fn)/arr.every(fn) check the array 
+the function fn is called on each element of the array similar to map . 
+if any/all result are true ,return true otherwise false
+
+these methods behave sor of like || and && operator 
+
+if fn returns a truthy value , 
+arr.some() immediately return true  and stop iteration over the rest of items 
+
+
+if fn return a falsy value 
+arr.every() immediately return false and stops iteration over the rest of items as well 
+
+we can use every to compare arrays 
+
+
+*/
+
+function arraysEqual(arr1, arr2) {
+    return arr1.length === arr2.length && arr1.every((value,index) => value === arr2[index]);
+
+}
+
+
+console.log(arraysEqual([1,2],[1,2])); 
+
+// arr.fill(value,start,end) - filles the array with repeateing value from start to end 
+
+// arr.copywithin(target,start,end) - copies its element from position start till postion end into itself at postion target (overwrites existing)
+
+// arr.flat(depth) / arr.flatMap(fn) create a new flat array from multidimensional array
+
+// tasks 
+
+// tasks 1 Translate border-left-width to borderLeftWidth
+
+function camelize(str){
+    let arr = str.split('-');
+
+    arr = arr.map((item,index,array) => {
+        if (index > 0)
+        {
+            item = item.charAt(0).toUpperCase() + item.slice(1);
+        }
+
+        return item;
+    });
+
+    str = arr.join('');
+
+    return str;
+
+}
+
+console.log(camelize("background-color"));
+
+
+// tasks 2
+
+// give new array with values >= a or <= b 
+function filterRange(arr,a,b){
+    let newArray = arr.filter(function(item,index,array)
+    {
+        return b >= item && item >= a; 
+    });
+
+    return newArray;
+
+}
+
+arr = [5,3,8,1];
+let filtered = filterRange(arr,1,4);
+
+console.log(filtered);
+
+
+// task 3 
+
+function filterRangeInPlace (arr,a,b){
+
+    for(let i =0;i<arr.length;i++)
+    {
+        let val = arr[i];
+
+        if(val < a || val >b)
+        {
+            arr.splice(i,1);
+            i--;
+        }
+
+    }
+}
+
+arr = [5,3,6,8,1];
+
+filterRangeInPlace(arr,1,4);
+
+console.log(arr);
+
+
+// tasks 4 
+
+// sort
+
+arr = [5,2,1,-10,8];
+
+arr.sort(decreasingOrder);
+
+
+function decreasingOrder(a,b){
+    if (a < b ) return 1;
+    if (a == b ) return 0;
+    if (a > b ) return -1;
+
+}
+
+arr.sort((a,b)=> b-a)
+// if b-a gives negative then can not anything  if gives 0 then stay same if  b- a gives positive that sign for swap 
+
+console.log(arr);
+
+
+// tasks 6 copy and sort array
+
+arr = ["HTML", "Javascript", "CSS"];
+
+function copySorted(arr){
+
+    let sorted = arr.sort();
+
+    return sorted;
+
+}
+
+let sorted = copySorted(arr);
+console.log(sorted);
+
+
+// tasks 7 
+
+
+function Calculator () { 
+
+this.methods = {
+    "+" : (a,b) =>  a + b, // this is object property key and value 
+    "-" : (a,b) => a - b ,
+}
+
+
+
+
+
+this.calculate = function (str){
+    
+        let parts = str.split("");
+        
+        if  (parts.length > 3 ) { return "Error: Invalid format" }   ; 
+
+        let a = +parts[0];
+        let op = parts[1];
+        let b = +parts[2];
+
+        if(isNaN(a) || (isNaN(a))) return "Error : Invalid Number";
+
+        if(this.methods[op]){
+            return this.methods[op](a,b);
+        }
+
+        // if(op == "+")
+        // {
+        //     return a + b ;
+        // }
+
+        // if (op == "-")
+        // {
+        //     return a -b ;
+        // }
+
+        return "Error for unsupported operation";
+
+
+        
+        
+        }
+
+        this.addMethod = function(name,func)
+        {
+            this.methods[name]  = func;
+        }
+        
+
+    };
+
+    let calc = new Calculator();
+console.log(calc.calculate("3+7"));
+
+console.log(calc.calculate("3*7"));
+calc.addMethod("*",(a,b) => a*b);
+console.log(calc.calculate("3*7"));
+
+
+
+// console.log(("3+7").split("")); // [ '3', '+', '7' ] but lenght 3 
+
+
+
+// console.log(calculate("1+2"));
+
+
+
+/*
+let ojb = {};
+obj.key = "value"; 
+
+same as this[name] = func
+
+let ojb = {};
+let keyName = "dynamic key";
+obj[keyName] = "dynamic value"
+
+*/
+
+
+// task 8 
+ let john = {name : "john", age : 22};
+ let Pete = {name : "Pete", age : 12};
+ let Mary = {name : "mary", age : 22};
+
+
+users = [john, Pete, Mary ];
+
+names = [] ; 
+
+function arrayOfName(users){
+
+    // console.log(users[0].name);
+
+    for(let key of users){
+        names.push(key.name);
+    }
+
+}
+
+arrayOfName(users);
+
+
+names = users.map(item =>item.name );
+console.log(names);
+
+
+//tasks 9 
+// map to objects
+
+ john = {name : "john", surname : "smith", id : 1};
+ Pete = {name : "Pete", surname : "hunt", id : 2};
+ Mary = {name : "mary", surname : "key", id : 3};
+
+users = [john, Pete,Mary];
+
+
+let usersMapped = users.map(user =>({
+    fullName : user.name + user.surname,
+    id : user.id,
+}));
+
+console.log(usersMapped);
+
+// please note that there are two types of arrow function without obyd value => expre
+// iwth body value => {...}
+// so js would {} as the start of function not the start of the object so thw work arround is to wrap inside simple bracket ()
+
+
+// tasks 10 
+
+let pratik = {name : "pratik" , age : 22};
+let monu = {name : "monu" , age : 12};
+let riday = {name : "riday" , age : 1};
+
+
+
+arr = [pratik,monu,riday];
+
+
+
+    // arr.sort(sortAge);
+
+    // function sortAge(a,b){
+    //     if (a.age > b.age ) return 1; // swap 
+    //     if(a.age == b.age) return 0 ; // no needed
+    //     if (a.age < b.age ) return -1        // no swap
+    // }
+
+    arr.sort((a,b) => a.age - b.age);
+
+    console.log(arr);
+
+
+    // tasks 11 
+
+arr = [1,2,3];
+
+// fisher-yates 
+// or 0.5 
+
+
+function shuffle(arr){
+    arr.sort(() => Math.random() -0.5 );// either negaative or psotive 
+    // sort function reorder elements randomly
+
+}
+
+shuffle(arr);
+
+
+console.log(arr);
