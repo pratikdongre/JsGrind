@@ -935,9 +935,9 @@ console.log(usersMapped);
 
 // tasks 10 
 
-let pratik = {name : "pratik" , age : 22};
-let monu = {name : "monu" , age : 12};
-let riday = {name : "riday" , age : 1};
+let pratik = {name : "pratik" , age : 25};
+let monu = {name : "monu" , age : 30};
+let riday = {name : "riday" , age : 29};
 
 
 
@@ -976,3 +976,129 @@ shuffle(arr);
 
 
 console.log(arr);
+
+
+
+// another one 
+
+arr = [1,2,3];
+
+function shuffle2(arr){
+    arr.sort(() => Math.random()- 0.5);
+}
+
+shuffle2(arr);
+// console.log(arr);
+
+// lets count all permutations 
+let count = {
+    "123" : 0,
+    "213" : 0,
+    "312" : 0,
+    "132" : 0,
+    "231" : 0,
+    "321" : 0,
+};
+
+
+// lets run a loop for 1000000 times and pollute the permutations
+
+// for(let i = 0 ;i< 1000000 ; i++)
+// {
+//     arr = [1,2,3];
+//     shuffle2(arr);
+//     count[arr.join('')]++;
+
+// }
+
+// for(let key in count){
+//     console.log(` key ${key} : Total Count ${count[key]} `);
+// }
+// this gives biased 
+
+// now let see fisher yates shuffle
+
+
+
+
+arr = [1,2,3];
+
+function fisherYates(arr)
+{
+    for(let i = arr.length -1 ; i>=0 ; i -- )
+    {
+        let j = Math.floor(Math.random() * (i+1));
+
+        [arr[i],arr[j] ] = [arr[j],arr[i]];
+    }
+}
+
+fisherYates(arr);
+console.log(arr);
+
+
+
+arr = [pratik,monu,riday];
+
+function getAverageAge(arr)
+{
+    let answer = 0;
+    for (let key of arr){
+        answer += key.age; 
+    }
+    return answer / arr.length;
+}
+
+console.log(getAverageAge(arr));
+
+
+let strings = ["Hare", "Krishna", "Hare", "Krishna",
+  "Krishna", "Krishna", "Hare", "Hare", ":-O"];
+
+  function unique(arr)
+  {
+        let uniques = [];
+        for(let key of strings){
+                if(!uniques.includes(key))
+                    uniques.push(key);                    
+          }
+
+          return uniques;
+  }
+
+  console.log(unique(strings));
+
+
+
+  // tasks 
+// create key object from array 
+
+ users = [
+    {id : 'pratik', name : "pratik dongre", age : 22},
+    {id : 'monu', name : "monu dongre", age : 25},
+    {id : "riday", name : "riday ridit", age : 1},
+];
+
+let userById = groupById(users);
+
+// function groupById(users) {
+//     let answer  = {};
+
+//     // for(let key of users){
+//     //   answer   key.id ;
+    
+//     // }
+
+
+
+//     return answer;
+// }
+
+function groupById(users)
+{
+    return users.reduce((obj,value) => {
+        obj[value.id] = value;
+        return obj;
+    }, {});
+}
+console.log(userById);
