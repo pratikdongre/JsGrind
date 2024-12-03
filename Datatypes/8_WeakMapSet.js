@@ -121,10 +121,77 @@ we have code that keeps a  visist count for users. the inforamtion is stored in 
 
 when a user leaves (its object gets garbage collected ) we dont want to store therei visiut count anytmore 
 
-
-
-
 */
+
+// visitCount.js
+let visitCountMap = new Map(); // map : user => visits count
+
+function UserCount(user){
+   let count = visitCountMap.get(user) || 0;
+   visitCountMap.set(user,count+1);
+}
+
+// main.js
+
+ john = {name : "john"};
+
+UserCount(john);
+
+john = null;
+
+// now john object should be garbage collected but remains in memory as ites key in Map (VisitCountMap)
+
+// but we need to clean visitCountMap when we remove users , otherwise it will grow in memory indefinetly 
+// such cleaning can become a tedious tasks in complex architectures 
+
+// we can avoid it using WeakMap
+
+visitCountMap = new WeakMap();
+
+function countVisitor(vistor){
+   let counter = visitCountMap.get(vistor) || 0;
+   visitCountMap.set(vistor,counter +1);
+}
+john = {name : "pratik"};
+
+countVisitor(john);
+
+
+john = null;
+
+// now we dont have to clean visitcountmap 
+// after join becomes unreachable by all means execpet as a key of WEakMap, ite gets removed from memory
+// along with the information by that key from WEakMap
+
+// use case  Caching :
+
+/*
+another example is Caching. we can store "cache" results in a function ,so that future calls oon the same object can reuse it 
+*/
+// to acheive that we can use Map(not optimall tho)
+
+let cache = new Map();
+
+function process(obj){
+   if(!cache.has(obj)){
+      let result = obj;
+      cache.set(obj,result);
+   }
+
+   return cache.get(obj);
+}
+
+ obj = {name : "pr"};
+
+let result1 = process(obj);
+
+let result2 = process(obj);
+
+obj = null;
+
+console.log(cache.size); // see we still have 1 the object is still in cache
+
+// for multiple calls 
 
 
 
