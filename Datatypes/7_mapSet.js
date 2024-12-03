@@ -237,3 +237,198 @@ arr = Object.fromEntries(map);
 
 // for example we have vistors coming,and we like to remeber everyone 
 // but repeated visist should not lead to duplicates 
+
+// a vistor mult be counted only once 
+
+
+let set = new Set();
+ john = {name  : "John"};
+let pete = {name : "Pete"};
+let mary = {name : "Mary"};
+
+set.add(john);
+set.add(pete);
+set.add(mary);
+set.add(pete);
+set.add(mary);
+
+console.log(set.size);
+
+for(let vistor of set){
+console.log(vistor);
+}
+
+
+// the alternative to Set could be an array of users, and the code to check for duplicataes on every inseration using arr.find
+// but the performace would be much worse because this methods walk through the whole array 
+// checking everye elemnt 
+// set is much betweer optmized interanlly for uniqueness checks 
+
+
+
+// iteration over set 
+// we can loop over set wiether with for ..of r using forEach 
+
+set = new Set(["oranges","apples","bananas"]);
+
+for(let fruit of set){
+    console.log(fruit);
+}
+
+set.forEach((value,valueAgain,set) => {
+    console.log(`value is ${value} at index ${valueAgain}`);
+});
+
+
+// so value and valueAgain are same 
+//  so the same value appears in the argument twice 
+
+// thats for compatiblity with amp wehre the callback passed forEach has three arguments 
+// but this may help to replace Map with Set in ceratain case with ease and vice versa
+
+
+// the same methods map has for iterators are also supported 
+
+// set.keys() - return an iterable object for values,
+// set.value() - same as set.keys() for compatitliby with map  
+
+// set.entries() returns an iterable object for entreies [ value,value] 
+
+
+// map is a collection of keyed values 
+// method and and properties 
+// new Map([iterable]) creates the map,with optional iterable (eg array) of [key,value] pairs for intialization
+
+// map.set(key,value) - stores the value by the key , return the map itself
+// map.get(key) -return the value by the key , undefiend if key does not exists in map 
+/*
+map.has(key) return true if the key exists ,false otherwise 
+
+map.delete(key) removes the elemtn by the key reutnre true if key existsed at the moment of call, otherwise false
+
+map.clear() removes eveyrthing from the map 
+map.size return the current elements count
+
+the diffeerence from regular object 
+map can store any type of keys even object can be keys 
+additional method the size property
+
+*/
+
+
+// set is a colletion of unique values 
+/*
+method and proerties 
+new Set([iterables]) - create the set, with optioanl iterable (eg. array) of values for intialization
+set.add(value) add a values (does nothing if value exists already) return the set iteself 
+set.delete(value) - removes the value return true if value existed at the moment of the call , otherwise false
+
+set.has(value) -returns true if the value exists in the set, toehrwsie false 
+set.clear() removes everywthing from the set 
+set.size is the elemnt count
+
+iteration over map and set is always in the inseration order 
+// so we cant say that these collection are unordered 
+but we cant reordered element or direcly get an element by its number 
+
+
+*/
+
+// tasks 
+// filter unique array emember 
+
+let values = ["Hare", "Krishna", "Hare", "Krishna",
+    "Krishna", "Krishna", "Hare", "Hare", ":-O"
+  ];
+
+
+function unique(arr){
+
+    let answer = new Set();
+
+    for(let item of arr){
+        answer.add(item);
+
+    }
+
+    return answer;
+
+       
+}  
+
+
+function uniqe(arr){
+    return Array.from(new Set(arr));
+}
+
+console.log(uniqe(values));
+
+
+// tasks 
+// filter anagrams
+
+// anaagrams are words that have the same number of same letter , but in different order.
+
+arr = ["nap", "teachers", "cheaters", "PAN", "ear", "era", "hectares"];
+
+function aclean(arr)
+{
+
+    let map = new Map();
+    for(let word of arr){
+
+        let sorted = word // PAN
+                        .toLowerCase() // pan 
+                        .split('') // ['p','a','n']
+                        .sort() // ['a','n','p']
+                        .join('');  
+        map.set(sorted,word);
+        console.log(map);
+    }
+
+    return Array.from(map.values());
+
+}
+
+console.log(aclean(arr));
+
+// here we can also use plain object instead of the Map, because keys are strings
+function acleanUsingString(arr)
+{
+    let obj = {};
+
+    for(let i = 0;i<arr.length;i++)
+    {
+        let sorted = arr[i].toLowerCase().split('').sort().join();
+        obj[sorted] = arr[i];
+    }
+
+    return Object.values(obj);
+}
+
+
+// tasks 
+// iterable keys 
+
+// We’d like to get an array of map.keys() in a variable and then apply array-specific methods to it, e.g. .push.
+
+
+
+ map = new Map();
+map.set("name","john");
+// let keys = map.keys();
+
+// keys.push("more");
+// we can just do that because keys or values or entries are iteration 
+
+console.log(map.keys()); //[Map Iterator] { 'name' }
+// we ened to conver tit to array 
+
+let keys = Array.from(map.keys());
+
+keys.push("more");
+
+// so we got keys from map 
+// and then add another one into it 
+
+console.log(keys);
