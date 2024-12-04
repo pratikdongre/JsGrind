@@ -381,6 +381,169 @@ note that there are no varaibles for size and items as we take theri conntent in
 */
 
 // smart function parameters 
+// there are times when function has many parameters 
+// most of which are optional 
+// thats specially true for uI
+// imageine a function that creates a menu.
+// it may have width , a height , a title and item list and so on.
+
+/*
+bad way to write it 
+
+function showMenu(title = "untitled", width = 200, height = 100,itesm = []){}
+
+in real life the problem is how to remeber the order of arguments 
+ides usually helps but still 
+another problem is how to call a function when most params are ok by default
+
+showMenu("My menu", undefined,undefined, ["item1", item2])
+// undefined wehre defaults are fine 
+
+does not looks good and becomes unreachable when we deal with more params 
+
+Destrucuting comes to rescue 
+we can pass param an on object and function immediately destructurize them into variabless
+*/
+{
+    let options = {
+        title : "My menu",
+        items : ["items1", "items2"],
+    };
+
+    function showMenu({title = "Untitled", height = 100, width = 200, items = []}){
+        console.log(width,height,title);
+        console.log(items);
+    }
+    
+    showMenu(options);
+
+}
+
+
+{
+    // we can also use more compelx destrucuting with nested objects and colon mappings 
+    let options = {
+        title : "menu",
+        items : [
+            "items1",
+            "item2",
+        ]
+    };
+
+    function showMenu({
+
+        title = "Untitled",
+        widht : w = 100,
+        height : h = 200,
+        items = [item1,item2]
+    }){
+        console.log(title , w,h);
+        console.log(items);
+    }
+
+    showMenu(options);
+
+   
+}
+
+{
+     /*
+    the full syntax is same as for destructuing assignment
+    function({
+        incomingProperty : varName = defaultValue
+    })
+
+    for an object of params there will variable for the incoming property with defualtvalue 
+    to note that 
+    destructuring assumes that showMenu() does have an argument 
+    if we want all values by default , then we should speicfy empty object 
+
+    showMenu({}) // ok all values are default 
+    showMenu() // error 
+    */
+
+    // we can fixthis by making {} the defualt lvaue for the whole object of param
+
+    function showMenu({title = "menu", widht = 100, height = 200} = {}){
+        console.log(title,height,widht);
+    }
+
+    showMenu();
+    //In the code above, the whole arguments object is {} by default, so there’s always something to destructurize.
+
+
+    
+}
+
+
+/*
+summary 
+destrucuting assignemtn allow for instantly mapping an object or arrya into variables 
+
+object syntax
+let {prop : varName = defaultvalue, ...rest} = object
+
+this means that properyt prop should go into variable varName and if not such property exists 
+in object then the default value shoudl use 
+and object propertie that have no mapping shall go rest object
+
+array sytnax
+let {item1 = defaulValue, item2 , ...rest} = array
+the first item goes to item1 
+the second goes to item2 
+and rest items goes to rest array
+
+
+It’s possible to extract data from nested arrays/objects,
+ for that the left side must have the same structure as the right one.
+
+*/
+
+
+{
+    // tasks1 Destrucuting assignment
+    let user = {
+        name : "john",
+        years : 30,
+    };
+
+    let {name ,years,isAdmin = false} = user;
+
+    console.log(name);
+    console.log(years);
+    console.log(isAdmin);
+
+}
+
+
+{
+    // tasks 2  the maximal salary
+
+    let salaries = {
+        "john" : 200,
+        "pete" : 100,
+        "mery" : 150,
+    };
+
+
+    function topSalary(salaries){
+
+        let answer = null;
+        let MaxSalary= 0;
+
+        for(let [key,value] of Object.entries(salaries)){
+            if(value >= MaxSalary){
+                answer = key;
+                MaxSalary = value;
+            }
+        }
+        return answer
+    }
+
+    console.log(topSalary(salaries));
+}
+
+
 
 
 
