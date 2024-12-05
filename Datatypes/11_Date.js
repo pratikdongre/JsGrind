@@ -135,7 +135,7 @@ console.log("today is ", today);
 }
 
 {
-    // let say bwe need to increase the daate "20 feb 2016" by 2 days 
+    // let say bwe need to increase the daate "28 feb 2016" by 2 days 
     // now it mya be 2 march or 1 march depeing on leap year
     let date = new Date(2016,1,28);
     date.setDate(date.getDate() +2);
@@ -521,4 +521,237 @@ nodejs has microtime module
 
 {
     // tasks // which day of month was many days ago 
+    let date = new Date(2015,0,2);
+    // console.log(date);
+    
+    let isodate = date.toISOString();
+    // console.log(isodate);
+    
+
+    date = new Date(isodate);
+    // console.log(date);
+    
+    
+
+    function getDateAge(date,days){
+        let tempDate = date;
+        tempDate.setDate(tempDate.getDate()-days);
+         let day = tempDate.getDate();
+         
+        return tempDate;
+    }
+
+    // console.log(getDateAge(date,1));
+    // console.log(getDateAge(date,2));
+    // console.log(getDateAge(date,2));
+
+
+    
+}
+
+
+{
+    // tasks 
+    let date = new Date(2015,0,2);
+
+    // console.log(date); // 2015-01-01T18:30:00.000Z
+
+    date = new Date(Date.UTC(2015,0,2));
+    // console.log(date); //2015-01-02T00:00:00.000Z
+    
+    
+
+    function getDateAge(date,days){
+        let Ldate = new Date(date);
+        Ldate.setDate(Ldate.getDate()-days);
+        return Ldate.getDate();
+    }
+    
+    console.log(getDateAge(date,1));
+    console.log(getDateAge(date,2));
+
+    console.log(getDateAge(date,365));
+
+
+}
+
+{
+    // tasks  last day of month 
+
+    function getLastDayOfMonth(year,month){
+        let date = new Date(year,month+1,0);
+        console.log(date.getDate());
+        // dates start with 1 but we have given zero and it will readjust 
+        
+    }
+
+    getLastDayOfMonth(2012,0);
+    getLastDayOfMonth(2012,1);
+    getLastDayOfMonth(2013,1);
+
+}
+
+
+{
+    // tasks 
+    // how many seconds have passed today
+    function getSecondsToday(){
+        let date = new Date();
+        console.log(date);
+        
+        // console.log(date.getHours()); 
+        
+        console.log(date.getHours() * 3600 +date.getSeconds() + date.getMinutes()*60);
+
+        
+        
+        
+
+
+        
+    }
+    getSecondsToday();
+
+    function getSecondsToday1(){
+        let now = new Date(); // this is exact time 
+
+        // we will get to the starting 
+        let today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+        let diff = now - today; // ms difference 
+        console.log(Math.round(diff/1000));
+        
+    }   
+
+    getSecondsToday1();
+}
+
+
+{
+    // tasks How many seconds till tomorrow
+
+    function getSecondsToTomorrow(){
+        let date = new Date();
+
+        let nextDay = new Date(date.getFullYear(), date.getMonth(), date.getDate()+1,);
+        console.log(date.toLocaleString());
+        console.log(nextDay.toLocaleString());
+
+        let diff = nextDay - date;
+
+        console.log(Math.round(diff/(1000*60*60)));
+        
+
+        
+    }
+
+    getSecondsToTomorrow();
+
+    function getSecondsToTomorrow1(){
+        let now = new Date();
+        let hour = now.getHours();
+        let minute = now.getMinutes();
+        let seconds = now.getSeconds();
+
+        let totalSecondsHappened = (hour * 60 + minute) * 60 + seconds;
+        // console.log(totalSecondsHappened / (60*60));
+        
+        let totalSecondInDay =  24*  60 * 60 ;
+        console.log(Math.round((totalSecondInDay- totalSecondsHappened)/(3600)));
+    }
+    getSecondsToTomorrow1();
+}
+
+
+{
+
+    // tasks formate the relative date 
+
+    
+    function formatDate(date){
+        
+    let diff = new Date() - date;
+    // console.log(diff);
+
+    if(diff < 1000){
+        return "rigth now";
+    }
+
+    let sec = Math.round(diff / 1000) ; 
+
+    if(sec < 60){
+        return `${sec} sec ago`;
+    }
+
+    let min = Math.floor(diff / (1000*60));
+    if(min < 60){
+        return `${min} min ago`;
+
+    }
+
+
+    
+
+    let d = date;
+    d= [
+        '0' + d.getDate(),
+      
+        '0' + (d.getMonth()+1),
+        '' + d.getFullYear(),
+        '0' + d.getHours(),
+        '0' + d.getMinutes()
+    ].map(comp => comp.slice(-2));
+
+    return d.slice(0,3).join('.') + ' ' + d.slice(3).join(':');
+
+    }
+    console.log(formatDate(new Date(new Date - 1 )));
+    console.log(    formatDate(new Date(new Date - 30*1000 )));
+    console.log(formatDate(new Date(new Date -  5*60*1000 )));
+    console.log(    formatDate(new Date(new Date - 86400 * 1000)));
+    
+
+}
+
+
+{
+    function formatDate(date){
+
+        let day = date.getDate();
+        let month = date.getMonth();
+        let year = date.getFullYear();
+        let hour = date.getHours();
+        let minute = date.getMinutes();
+        let seconds = date.getSeconds();
+
+        let diffMs = new Date() - date;
+        let diffSec = Math.floor(diffMs / 1000);
+        let diffMin = Math.floor(diffSec / 60);
+        let diffHour = Math.floor(diffMin / 60 );
+
+        year = year.toString().slice(-2);
+        month = month < 10 ? "0" + month : month;
+        day = day < 10 ? "0" + day : day;
+        hour = hour < 10 ? "0" + hour : hour ;
+        minute = minute < 10 ? "0" + minute : minute;
+
+        if(diffSec < 1){
+            return "right now";
+        }
+        else if (diffMin < 1)
+        {
+            return `${diffSec} sec ago`;
+        }
+        else if (diffHour < 1 )
+        {
+            return `${diffMin} min ago`;
+        }
+        else {
+            return `${day}.${month}.${year} ${hour}:${minute}`;
+        }
+    }
+
+    console.log(formatDate(new Date(new Date - 1 )));
+    console.log(    formatDate(new Date(new Date - 30*1000 )));
+    console.log(formatDate(new Date(new Date -  5*60*1000 )));
+    console.log(    formatDate(new Date(new Date - 86400 * 1000))); 
 }
