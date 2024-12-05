@@ -234,15 +234,291 @@ console.log("today is ", today);
 
 
 
- {
-    // benchmarking 
 
-    /*
-    if we wnat a reliable benchmakr of cpu hungry function 
-    let mesure two function that calculate the difference between two dates 
-    which one is fater 
-    such performace mesurements are often called benchmarks 
-    
-    */
+
+
+ {  
+    function print(name){
+        let dear = name;
+        return dear;
+
+    }
+
+
+
+    function GuestName(name){
+        let dear = print(name);
+        console.log(`hello ${dear}`);
+        
+    }
+
+    GuestName("Alice");
  }
 
+
+ {  
+    function functionTwo(){
+        console.log("hey ya");
+    }
+
+    function functionOne(fn){
+     fn();   
+    }
+
+
+    functionOne(functionTwo);
+ }
+
+
+
+ {
+    {
+        // benchmarking 
+    
+        /*
+        if we wnat a reliable benchmakr of cpu hungry function 
+        let mesure two function that calculate the difference between two dates 
+        which one is fater 
+        such performace mesurements are often called benchmarks 
+
+        // we have date1 and date2, which function faster returns their difference in ms?
+        function diffSubtract(date1, date2) {
+        return date2 - date1;
+            }
+
+            // or
+            function diffGetTime(date1, date2) {
+            return date2.getTime() - date1.getTime();
+            }
+        
+        */
+
+        
+
+        
+     }
+
+     function diffSubtract(date1,date2) {
+        return date2 - date1;
+     }
+
+     function diffGetTime(date1,date2){
+        return date2.getTime() - date1.getTime();
+     }
+
+
+
+     function bench(f){
+        let date1 = new Date(0);
+        let date2 = new Date();
+
+        let start = Date.now();
+
+        for(let i =0;i<=100000;i++) {
+            f(date1,date2);
+        }
+        let end =  Date.now();
+        return end - start;
+     }
+
+     console.log(`the time taken by diffSbutract is ${bench(diffSubtract)} ms `);
+     console.log(`the time taken by diffGetTime is ${bench(diffGetTime)} ms`);
+
+  /*
+     getTime is so much faster because there no type converstion its much easier for engines to optimize 
+     we got diffGetime is 3ms and diffS
+     this is still not accurate benchmarks
+     
+     because it could be like imagine 
+     if at the time of running first ie bench(diffSubtract) the cpu was doing something in parallel
+     and it was taking resources 
+     and by the time running secon ie bench(diffGettime) thre cpu got free 
+
+     so in result we can say at first we had less resources thant the second 
+     which can lead to wrong results 
+
+     so for more reliable benchmark
+     the whole pack of benchmarks should be rerun mutliple times 
+
+     
+  */
+
+ }
+
+
+ {
+    // more reliable benchmark
+
+    function diffSubtract(date1,date2){
+        return date2 - date1;
+    }
+
+    function diffGetTime(date1,date2){
+        return date2 - date1;
+    }
+
+    function bench(f){
+        let date1 = new Date(0);
+        let date2 = new Date();
+
+        let start = Date.now();
+        for(let i =0 ;i <= 100000;i++)
+        {
+            f(date1,date2);
+        }
+        return Date.now() - start;
+
+    }
+
+    let time1 = 0;
+    let time2 = 0;
+
+    // after heating up // added for "heating up" prior to the main loop
+    bench(diffSubtract); 
+    bench(diffGetTime);
+    // heated 
+
+    for(let i =0 ;i<=10 ; i++){
+        time1 +=bench(diffSubtract);
+        time2 +=bench(diffGetTime);
+
+    }
+
+    console.log(`the time taken by diffSubtract is ${time1} ms `);
+    console.log(`the time taken by diffGettime is ${time2} ms `);
+
+    // before heating up 111ms and 108ms 
+
+
+ }
+
+ 
+
+
+ {
+    // Date.parse from a string 
+    // the method Date.parse(str) can read a date from a string 
+    // the string methods should be YYYY-MM-DDTHH:mm:ss.sssZ
+    /*
+    where YYYY-MM-DD is date : year-monht-day
+    the char T is used as delimter 
+    HH:mm:ss.sss is hour-minute-seconds-milliseconds
+    Z denotes timezone in the fromat +-hh:mm 
+    a single letter z means UTC+0
+    */
+
+    /*
+    shorter variants are also possible 
+    like YYYY-MM-DD or YYYY-MM or YYYY
+    
+    the call to Date.parse(str) parse the string in the given format and returns the timestamp 
+    if the format is invalid return NaN
+    */
+    let ms = Date.parse("2024-12-05T15:25:20.417+05:30");
+    console.log(ms);
+    
+    // we can create a new Date object from timestamp
+    let date = new Date(Date.parse("2024-12-26T00:00:00.0+05:30"));
+     let date1 = new Date("2024-12-26T00:00:00.0+05:30");
+
+    console.log(date);
+    console.log(date1);
+
+    
+  }
+
+
+
+  /*
+    Date and Time in js are represented with Date object 
+     we can't create only date or only time 
+     date object always carry both 
+
+     month arre coutned from zero jan is zeroth month and dec is 11th 
+     daysof week in getDay() are also counted from zero zero is sunday
+
+     Date autocorrect itself when out of range componnetes are set 
+     good for adding/subtracting  days/monht/hours 
+
+     dates can be subtracted , giving their differnce in milliseconds 
+     that becuas a date becomes timstamp when converted to number 
+
+     use Date.now() to get the current timestamp 
+
+     js timestamps are in milliseconds 
+
+     what if need more precision there are more environments 
+     for instance browser has performance.now()
+     that gives a number of milliseconds from the start of page loading with micrsosecond precision (3 digits after the point)
+
+        alert(`Loading started ${performance.now()}ms ago`);
+// Something like: "Loading started 34731.26000000001ms ago"
+// .26 is microseconds (260 microseconds)
+// more than 3 digits after the decimal point are precision errors, only the first 3 
+
+
+apart from this 
+nodejs has microtime module 
+  */
+
+
+{
+    // tasks 1 
+    let date = new Date(2012,1,20,3,12);
+    let date1 = new Date("2012-02-20T03:12");
+    console.log(date.toLocaleString());
+    console.log(date1); // got utc 
+    console.log(date1.toString()); // got utc 
+
+    
+}
+
+{
+    // tasks 2 
+    let date = new Date(2012,0,1);
+    function getWeekDay(date){
+        let short = 0;
+        
+                switch (date.getDay())
+                {
+                    case 0 : short = "SU";
+                    break;
+                    case 1 : short = "MO";
+                    break;
+                    case 2 : short = "Tu";
+
+                }
+            
+        
+            return short;
+    }
+
+    
+    function getWeekDay1(date){
+        let arrofDays = ["SU", "Mo", "TU", "WE", "Th" , "Fr" ,"Sa"];
+        return arrofDays[date.getDay()];
+    }
+     let europeanDate = new Date(2024, 11, 3); // December 3, 2024 (Tuesday)
+
+
+    function getLocalDate(europeanDate){
+        let objofDate = {
+            1 : "Mo",
+            2 : "Tu",
+            3 : "Wd",
+            4 : "Th",
+            5 : "fr",
+            6 : "sa",
+            7 : "su",
+        }
+        return objofDate[europeanDate.getDay()];
+    }
+    console.log(getLocalDate(europeanDate));
+    
+}
+
+
+
+{
+    // tasks // which day of month was many days ago 
+}
