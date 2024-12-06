@@ -310,14 +310,173 @@ it has a chance to analyze and replace/skip even the whole object if necessary.
     // automcaticall called 
     
     
+    
 }
 
 {
     // JSON.parse
-    // to decode 
+    // to decode a json string we need another method names JSON.parse.
+    // let value = JSON.parse(str[,reviver])
+
+    // str json string to parse 
+    // reviver optional functin(key,value) that will be called for each(key,value) pair anc can transform the value
+
+    let number = "[0,1,2,3,4]";
+    number = JSON.parse(number);
+    console.log( number);
+    
+
+    // for nested object 
+
+    let userDate = '{"name" : "John", "age" : 35, "isAdmin" : "false", "friends" : [0,1,2,3]}';
+    let user = JSON.parse(userDate);
+
+    console.log(user.friends[1]);
+
+    // the json may be as complex as necesasayr objecct and arrys can include other ojbect and array 
+    // but they must obey the same json format
+
+    /*
+    let json = '{
+        name : "John",                 // mistake property name without double quotes
+        "surname" : 'Smith',           // single quote in value must be double quote
+        'isAdmin' : false,              // single quotes in key 
+        "birthday" : new Date(2000,2,3), //  no "new" is allowed only bare values 
+        "friends" : [0,1,2,3]            // here all fine 
+        
+    }';
+
+    besided json does not support comments 
+    there another format json5 that supports unqoted keyn comments but this is standalone lib not in the speicifaction of the lang 
+    
+    the regular json is that strict not because dev were lazy but to allow easy,reliable and ery fast implementation 
+    of parsing algo 
+
+
+    */
+    
+
 }
 
 
+{
+    // using reviver
 
+    // we got stringified meetup object from the server 
+    let str = '{"title" : "Conference", "date" : "2018-11-30T12:00:00.000Z"}';
+    // and now we need to deserilized it to turn back into js object
+
+    let meetup  = JSON.parse(str);
+
+    // console.log(meetup.date.getDate()); error 
+        // the vlaue meetup.date is string and not an object 
+        // how could json.parse know that it should trnaform that string into date 
+
+        // llet use reviving function as the second argument that returns all values as it is 
+        // but date will become a date 
+
+        meetup = JSON.parse(str, function(key,value){
+            if(key =='date') return new Date(value);
+            return value;
+        });
+
+        // either we can exlucde it while stringify or 
+        // use reviveer whie parsing to not get an error
+        console.log(meetup.date.getDate()); // now we got it 
+        
+       
+    
+
+
+}   
+
+
+{
+    // let schedule = '{}'; this works 
+    // but for multiple line of string use backticks
+    let schedule = `{
+    "meetups" : [
+                {"title" : "Conference", "date" : "2017-11-30T12:00:00.000Z"},
+                {"title" : "Birthday" , "date" : "2017-04-18T12:00:00.000Z"}
+        ]
+    }`;
+
+    schedule = JSON.parse(schedule, function (key,value){
+        if (key == 'date' ) return new Date(value);
+        return value;
+    });
+
+    console.log(schedule.meetups[0].date.getDate());
+    
+}
+
+
+{
+    /*
+    json is data format that has it own dependent standar and libr for most prog langa
+    json support plain object array string number boolean and null
+    js provied methods such as JSON.stringify to serlized (json-encoded object) 
+    and JSON.parse() to read from JSON
+    both methods support transformer function for smart reading/writing
+    if n object has toJSOn then it is called by JSON.stringify
+    */
+
+
+}
+
+// tasks
+
+
+{
+    // turn the object into json and back
+
+    let user = {
+      name : "John smith",
+      age : 35,  
+    };
+
+    let json = JSON.stringify(user);
+    console.log(json);
+
+    let backToString = JSON.parse(json);
+
+    console.log(backToString);
+    
+    
+}
+
+
+{
+    // exclude backreference 
+
+    let room = {
+        number : 23,
+    };
+
+    let meetup = {
+        title :"Conferece",
+        occupiedBy : [{name : "john"}, {name : "alice"}],
+        place : room,
+
+    };
+
+    // circulare reference 
+    room.occupiedBy = meetup;
+    meetup.place = room;
+
+    console.log(JSON.stringify(meetup, function replacer(key,value){
+       return (key != '' && value == meetup) ? undefined : value; 
+       // we use key!='' because the root key "" is empty string for root object meetup
+       // so exclude reference and by key!=="" we ensure that root is not excluded 
+       // as the root is key "" and value is meetup so 
+    }));
+
+
+    console.log(JSON.stringify(meetup,["title","occupiedBy","name"]));
+    
+    
+
+
+}
 
 
