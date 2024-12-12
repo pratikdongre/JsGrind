@@ -255,6 +255,10 @@ alert( pow(2, 3) );
     */
 
     let company = {
+        // company object contains collection collection of departments key/value pairs 
+        // where key is departments and there value is sales memeber 
+
+        // sales key stores value array ie array that contains list of people
         sales : [
             {
                 name : "john",
@@ -263,20 +267,20 @@ alert( pow(2, 3) );
             {
                 name : "smith",
                 salary : 34000,
-            }],
-
-         development :{
-                sites :
-                
-                {
-                    siteA : [
+            }
+        ],
+        //company contains development
+        development :{
+                whatsapp :  {
+                    frontend : [
 
                     {
                         name : "rock",
                         salary : 22000,
                     }
                     ],
-                    siteB : 
+
+                    backend : 
                     [
                         {
                             name : "rayn",
@@ -288,7 +292,7 @@ alert( pow(2, 3) );
     
                 },
     
-                UiUx : [
+                sms : [
                     {
                         name : "mahi",
                         salary : 19000,
@@ -299,6 +303,7 @@ alert( pow(2, 3) );
             
 
         };
+        
 
 }
 
@@ -318,7 +323,7 @@ now let say we want a function to get sum of all salaries
 
 an iterative approach is not easy 
 because the struc is not simple 
-ther firs may be to make a for loop 
+the firs may be to make a for loop 
 over company 
 with nested subloop over 1st level departments 
 but then we need more nested subloops to iterave over the staff in 2nd level dep like sites 
@@ -334,3 +339,513 @@ as we can see when out function gets department to sum
 
 */
 
+{
+    let development = {
+        frontend : [
+            { 
+                name : "pratik",
+                salary : 20000
+            },
+            {
+                name : "navin",
+                salary : 15000
+            }
+        ]
+    };
+
+
+    // console.log(development.frontend[0]);
+    
+    function salaries(development){
+        let sum = 0;
+     for(let value of Object.values(development))
+        {
+            for(let key of value)
+            {
+                sum +=key.salary;
+                console.log( key.salary);
+                
+            }
+            
+        }   
+        console.log(sum);
+        
+    }
+
+    salaries(development);
+
+
+}
+
+
+{
+    let company = {
+        sales : [{name : 'John', salary : 2000}, {name : "alice", salary : 3000 }],
+        development : {
+            sites : [{name : 'pratik', salary : 1500}, {name : 'Alex' , salary : 800}],
+            internals : [{name : 'Jack', salary : 1300}]
+        }
+    };
+
+    function sumOfSal(department){
+        //case 1 
+        if(Array.isArray(department)){  
+            return department.reduce((prev,current) => {
+                return prev+ current.salary;
+            },0);
+        }
+        else {
+            let sum = 0;
+            for(let subdep of Object.values(department))
+            {
+                sum += sumOfSal(subdep);
+            }
+            return sum;
+        }
+        
+    }
+
+    console.log(sumOfSal(company));
+
+
+}
+
+// Recursive structures 
+
+/*
+
+a recursive ds is a structure that replicates itself in parts 
+
+// as seen before
+// company dept is 
+// either an array of people 
+// or an object with dept.
+
+// in web dev eg like html and xml dcoument 
+// in html doc an html tag may contain of list of 
+text pieces
+html comments 
+other html tags that in turn may contains ttext peices / html comments 
+that is once again a recursive definition
+
+// one-linerR :- recursive think about base condition put that in if and in else part make the function more simpler 
+
+*/
+
+
+/*
+
+linked list 
+we want to store an ordered list of objects 
+ordered list ? array of objects ?
+
+let arr = [ obj1 , obj2, obj3, obj4];
+
+but aint the deletion and insert elemnt operation are expensive 
+for instance arr.unshift(obj) operation has to renumber all element to make a room for a new ojb 
+if the array is big it takes time, same with arr.shift()
+
+the only structural modification that do not requires mass -renumbering are those that operation with end of 
+array
+arr.push/pop
+
+so an array can be quite slow for big queue when we have to work iwht the begiing 
+
+
+
+
+*/
+
+{
+    // alternatively if we reall need fast interstion/deletion we can choose another ds called linked list
+
+// the linked list element is recusrively defines as object with 
+// value 
+// next property referenicng the next linked list element or null if that end 
+
+    let list = {
+        value : 1 ,
+        next : {
+            value : 2,
+            next : {
+                value : 3,
+                next : {
+                    value : 4,
+                    next : {
+                        value : 5,
+                        next : null,
+                    }
+                }
+            }
+        }
+    };
+
+
+    // alternative code ofr creation 
+    list = {value : 1};
+    list.next = {value : 2};
+    list.next.next = {value : 3};
+    list.next.next.next = {value : 4};
+    list.next.next.next.next = null;
+    
+    /*
+    we can see more cleary see that there are multiple object each one has the value and next pointint to the neightbout 
+    the list vairalbe is first object in the chain , so the follwing next pointer from it we can reach nay element
+
+    the list can be easily split into multiple parts and alter joined back;
+
+    */
+
+    let secondList = list.next.next; // 3 and 4 
+    // console.log(secondList);
+
+    list.next.next = null;
+
+    // console.log(list);  1 2 as we deleted list.next.next made it null
+
+    // to join
+    list.next.next = secondList;
+
+    // console.log(list); 
+    
+
+    // surely we can insert or remove items in any place 
+    // for instance to prepend a new value , we need to update the head of the list 
+
+    list = {value : "next item" , next : list};
+
+    console.log(list);
+    
+    // to remove the value from the middle group, change the next of previosou one 
+
+    list.next = list.next.next; // the next with value 1 we assigned with next furhter one
+
+    console.log(list);
+    
+
+    // we made list.next jump over 1 to value 2 
+    // the value 1 is now exluced from the chain if its not stored anywhere else 
+    // it will be autmocally removed from the memory 
+
+    // unlike array there no mass renumbering we can easily rearrange elements 
+
+    // naturallly list are not always better than array otherwise everyonw would use only list
+
+    // the main drawback is the we cant easily aceees an element by its number 
+    // in an array arr[n] is an direct referencec 
+    // but in the list we need to start from the first item and go next N times to get the Nth element
+
+    // but we dont always need such operations 
+    // when we need a quee or even a deqeue the ordered structure that must allow very fast adding/removing
+    // elements from both ends but access to its middle is not eeded
+
+    /*
+    list can be enhanced 
+    we can add property prev in addiont to next to reference the previ element to move back easily
+    we can also add a vraible name tail reference the last elemetn of the list and update it when adding/rmeoving elements from the end
+    the ds may vary according to our needs
+    */
+
+
+     
+
+
+}
+
+
+/*
+summaary
+recursion is a programming terms that means calling a function from iteself 
+recursive function can be used to solve tasks 
+
+when a function call itself that called a recursion step the basis of recursion is function arugments taht 
+make a the tasks sosimple that the function does make further calls 
+
+//Recursion involves a function calling itself repeatedly to solve smaller instances of the same problem.
+To prevent infinite recursion, every recursive function needs a base case—a condition where the function stops calling itself.
+
+a recursively defined ds is a ds that can be defined using itself
+
+// for instance the linked list can be defined as a ds consition of an object reference a list or null;
+list = { value, next -> list}
+
+tree lieks html elemnet tree or dept tree liek we seen above are naturally recursive they have branches
+and every branch can havae other branches 
+
+recursive function can be used to walk them 
+
+any reucsive function can be rewritten to an iterative one 
+and ths sometimes reuriest to optimizes stuff 
+but for many tasks a recusive solution is fast enought and easier to write and support
+
+
+*/
+
+// task 1 
+// sum all number till the given one 
+
+{
+    // variant 1 using for loop
+    function sumTo(n){
+        let sum = 0;
+
+        for(let i=1; i<=n; i++){
+            sum += i;
+        }
+
+        return sum;
+    }
+    console.log(sumTo(100));
+    
+}
+
+{
+    // variant 2 using recursion 
+    function sumTo(n){
+        if(n == 1)
+            return 1;
+        else {
+            
+            return n + sumTo(n-1);
+        }
+
+    }
+    console.log(sumTo(100));
+    
+}
+
+{
+    // variant three using recursion 
+
+    function sumTo(n){
+        if(n > 1){
+            return n + sumTo(n-1);
+        }
+        if(n==1)
+        {
+            return 1 ;
+        }
+            
+    }
+
+    console.log(sumTo(100));
+    
+
+}
+
+
+{
+    // variant 3 using arithmetica formuale
+    function sumTo(n){
+        return n * ((n+1)/2);
+    }
+
+    console.log(sumTo(100));
+    
+}
+
+
+// the arthimetic forumal is fastest
+// the loop variant is the second in term of speed
+// in both loop and recusrive we sum the same number;
+// but in recurive invloded nested calls and execution stack managemnet 
+// that also takes resources so its slower
+
+
+
+
+// tasks 2 factorial
+{
+    function factorial(n){
+        if(n > 1)
+        {
+            return n * factorial(n-1);
+        }
+        else {
+            return n;
+        }
+    }
+
+    console.log(factorial(5));
+    
+}
+
+// tasks 3 fibonnaci 
+{
+
+    function fib(n){
+        if (n <= 1) {
+            return n;
+        }    
+        else {
+            return fib(n-1) + fib(n-2);
+        }
+    }
+    console.log(fib(3));
+
+    // call and evaluation same thing multiples times like fib(3) would be called by b oth sside in fib(5)
+    // same values are reevauled again and again
+
+    
+}
+
+{
+    //faster fibonnaic  
+    function fib(n){
+        let a = 1 , b = 1;
+        
+    for(let i = 3 ;i<=n;i++)
+        {
+            let c = a +b;
+            
+            a = b;
+            b = c ;
+            
+            
+        }
+        return b ;
+    
+    }
+    console.log(fib(5));
+// the loop start with i = 3 because the first and second sequence values are hard coded into var a = 1 b = 1
+// the approeach is called dynamic programming bott up     
+}
+
+// tasks 4 output a single linked list 
+{
+    let list = {
+        value : 1,
+        next : {
+            value : 2,
+            next : {
+                value : 3,
+                next : {
+                    value : null,
+                }
+            }
+        }
+    };
+
+    function printList(list)
+    {
+        let temp = list;
+        while(temp)
+        {
+            console.log(temp.value);
+            temp = temp.next;
+            
+        }
+    }
+    // we could use the list instead of temp 
+    // but then that not adivisble to ched chad with og like if we change list the og list would be 
+    // affected which we might be useing somerwhere else too
+
+printList(list);
+    
+}
+
+
+{
+    //revusrive list 
+    let list = {
+        value : 1,
+        next : {
+            value : 2,
+            next : {
+                value : 3 ,
+                next : {
+                    value : null,
+                }
+            }
+        }
+    };
+
+    function printList(list)
+    {
+        console.log(list.value);
+       if(list.next){
+        printList(list.next)
+       } 
+        
+    }
+    printList(list);
+
+    // so to remember is when does list.next becomes undefined 
+}
+
+// tasks 5 output a single linked list in the reverse order 
+{
+
+    // recurstion variant 
+    let list = {
+        value : 1 ,
+        next : {
+            value : 2,
+            next : {
+                value : 3,
+                next : {
+                    value : null,
+                }
+            }
+        }
+    };
+
+    function printReverseList(list)
+    {
+       if(list.next)
+       {
+        printReverseList(list.next);
+       }
+       
+       console.log(list.value);
+       
+    }
+    printReverseList(list);
+}
+
+
+{
+    // loop vairant 
+    let list = {
+        value : 1,
+        next : {
+            value : 2,
+            next : {
+                value : 3,
+                next : {
+                    value : null,
+                }
+            }
+        }
+    };
+    
+    function printReverseList(list)
+    {
+        let arr = [];
+        let temp = list;
+
+        while(temp)
+        {
+            arr.push(temp.value);
+            temp = temp.next;
+        }
+        
+        // now reverse an array
+
+        for(let i = arr.length-1;i >=0 ; i--)
+        {
+            console.log(arr[i]);
+            
+        }
+
+        
+    }
+
+    printReverseList(list);
+
+}
+
+// please not that recusive solution actually does exactly the same 
+// it follow the list 
+// remeers the items in the chain of nested calls (in execution context stack)
+// and then output them
