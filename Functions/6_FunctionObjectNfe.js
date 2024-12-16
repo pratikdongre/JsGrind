@@ -120,7 +120,8 @@ what the fuck is this ? i dont get it at all
 {
     function ask(question,...handlers)
     {
-        let isYes = confirm(question);
+        // let isYes = confirm(question);
+        let isYes = true;
 
         for(let handler of handlers)
         {
@@ -134,7 +135,7 @@ what the fuck is this ? i dont get it at all
         }
     }
 
-    ask("Question?",() => alert("You said yes"), result => alert(result));
+    // ask("Question?",() => alert("You said yes"), result => alert(result));
 
 
     /*
@@ -164,7 +165,7 @@ what the fuck is this ? i dont get it at all
 
 {
     function sayHi(){
-        alert("hi");
+        // alert("hi");
 
         sayHi.counter++;
         // lets run how many times we run
@@ -174,20 +175,280 @@ what the fuck is this ? i dont get it at all
     sayHi();
     sayHi();
 
-    alert(`Called ${sayHi.counter} times`);
+    // alert(`Called ${sayHi.counter} times`);
 }
 
 /*
-a proerty is not a variable 
+a property is not a variable 
 a proeprty assigned to function like sayHi.counter = 0 
 does not define a local varible counter inside it 
 
 a property counter an a variable let counter are two unrelated things 
 
-we can treat a function as an object strore proeprties in it 
-but has not effection on its execution
+we can treat a function as an object and store proeprties in it 
+which dont not have any effection on its execution
 
 variables are not function properties and vice verasa
 therese are just parallel world 
 */
 
+
+{
+    function makeCounter(){
+
+        function counter(){
+            return counter.count++;
+        }
+        counter.count = 0 ;
+        return counter;
+    }
+
+    let counter = makeCounter();
+
+    console.log(counter());
+    console.log(counter());
+
+    // count is stored in the function direclyt not in its outer lex env 
+    
+}
+
+/*
+is it btter or worse than using a closure 
+the main diffrecne is that ifthe value of count lives in an outer varialbe 
+then external code is unable toa cess it 
+only nested function may modify it 
+and if its bound to a function then such a thing is possible 
+
+*/
+
+{
+    function makeCounter(){
+        function counter(){
+            return counter.count++;
+        };
+        counter.count =0;
+        return counter;
+    }
+    let counter = makeCounter();
+    counter.count = 10;
+    console.log(counter());
+    
+}
+
+/*
+when you make it property of a function 
+then there is a opne door 
+for external acess to counter.count which introduces a risk of unintended modification 
+no encapulsation count is public 
+
+when you use closure 
+then it makes count as encapuslated 
+reducing the risk of unintended changes
+count is private
+
+*/
+
+
+// Named FUnction expression is a term for Function expression that have a name 
+
+{
+    let sayHi = function(who){
+        console.log("hello" + who);
+        
+    }
+}
+
+{
+    let sayHi = function func(who){
+        console.log("hello " + who);
+        
+    }
+
+    sayHi("hoh");
+    
+}
+
+// what did we achieved from adding additional name to the function 
+// we sitll have a function expression 
+// adding the name did not make it function declaration 
+// why because it is still creatred as a part of an assignemt expression 
+// it did not break anything we can stil acessed it as we could wihtout adding addtional name 
+
+// there are two specail things about the name func
+// it allows function to reference itself internally 
+// it is not visible outside of the function 
+
+{
+    // let say a functio sayHi call itself again with "Guest" if no who is provided 
+
+    let sayHi = function func(who){
+        if(who){
+            console.log("hello " + who);
+        }
+        else {
+            func("Guest");        }
+
+    }
+    sayHi();
+
+    // func(); wont work 
+}
+
+
+// can we use sayHi instead of func 
+{
+    let sayHi = function func(who = "Default"){
+        if(who){
+            console.log("hey " + who);
+        }
+        else {
+            sayHi("Guest");
+        }
+
+}
+sayHi();
+    
+    
+}
+// yes but then what if the outer var that is sayHi gets changed 
+// the code with start to give errors
+
+{
+    let sayHi = function(who){
+        if(who){
+            console.log("helo" + who);
+        } else {
+            sayHi("Guest");
+        }
+    };
+    let welcome = sayHi;
+    sayHi = null;
+    // welcome(); // errro sayHi in th nested call does not wrk any more 
+}
+
+// sayHi is taken from its outer lex env as there is not local sayHi 
+// in in outer lex env sayHi is null
+
+// the optional name which we can put into the function expression is meant to solve eaclty these kinds of problems 
+
+{
+    let sayHI = function func(who){
+        if(who){
+            console.log("hello" + who);
+        }
+        else {
+            func("Guest");
+        }
+
+    };
+    let welcome = sayHI;
+    sayHI = null;
+    welcome();
+    // now it works because func is function local 
+    // it is not taken from outside and not visible ther e
+    // the specification guraentees that it will always reference the current function 
+    // the outer code still has welcome or sayHi
+    // and func is internal function name this way the function can itself reliably
+}
+
+
+/*
+the internal name featuer is only function expression and not for function declaration 
+function declaration there is no sytans for adding interanl name 
+
+sometimes when we need a reliabl internal name its there reason to rewrite a functiona delaration to 
+named function expression 
+
+
+Summary 
+
+FUnction are object 
+properties of function
+name the function name usually taken from the function definition 
+but there if thers non js tries to guess it from the context ie an assignment 
+
+lenght the number of arguemnts in the function defieicnot 
+rest paramters are not counted 
+
+if the function is declared as a function expression 
+and it carreies the name then it is called named function expression 
+the name can be used to refrerence iteself for recursie calls 
+
+function may carry addtional properties 
+
+
+they create a main function and attach many other helper function to it 
+for instance jQUery lib creates a function named $ 
+lodash lib creates a function _ and then adds _.clone or _.KeyBy
+
+actually they do it to lesses theri polltuion of the global space 
+so that a single libary gives only one global variables 
+that reduces the possibligyt of naming conflict 
+
+
+so a function can do a useful job by itself and also carry a bunch of other functionality in properties 
+
+*/
+
+
+// tasks 
+{
+    function makeCounter(){
+
+        function counter(){
+            return counter.count++;
+        }
+        
+        counter.count = 0;
+        counter.set = value => counter.count = value;
+        counter.decrease = () => counter.count--;
+
+        return counter;
+    }
+    let counter = makeCounter();
+        counter.set(4);
+        counter.decrease();
+        console.log(counter());
+        
+}
+
+//tasks 2 
+{   
+    function sum(a){
+        return function sum(b)
+        {
+            return a + b ;
+        }
+    }
+
+    let ans =sum(1)(2);
+    console.log(ans == 3);
+    
+}
+
+
+
+{
+    function sum(a){
+        let currentSum = a;
+        
+        function f(b)
+        {
+            currentSum += b;
+            return f ;
+        }
+        f.toString = function(){
+            return currentSum;
+        }
+        return f ;
+    }
+
+
+sum(1)(2) == 3; // 1 + 2
+sum(1)(2)(3) == 6; // 1 + 2 + 3
+sum(5)(-1)(2) == 6
+sum(6)(-1)(-2)(-3) == 0
+console.log(sum(0)(1)(2)(3)(4)(5) == 15);
+
+
+}
