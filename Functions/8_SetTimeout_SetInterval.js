@@ -66,6 +66,68 @@ console.log("dil");
 
 let timerId = setTimeout(()=> console.log("Never happens"),1000);
 console.log(timerId);
+// alert(timerId); // 4 
 
 clearTimeout(timerId);
 console.log(timerId);
+// alert(timerId); // 4
+
+// in a browser it gives 4 because before we had three setTimeout 
+
+// so in a browser timer identifier is a number 
+// in a node js it returns a timer object with addtional methods 
+
+
+// setInterval 
+// the setInterval method has the same syntax 
+// let timerId = setInterval(func|code , [delay],[arg1],[arg2])
+
+// but unlike setTimeout it keeps running the function after the given interval of time 
+// clearInterval to stop the timer 
+
+// timerId = setInterval(()=> console.log("tick tick "),1000);
+
+// setTimeout(()=> {
+//     clearInterval(timerId); 
+//     console.log("stop");
+// },5000);
+
+// time goes on while alert is shown 
+// even if you dont do aything at alert the time is still ticking 
+// and the next inerval would take less time that it has to take 
+
+
+// Nested TImeout
+
+// there are two ways of running something regualarly
+
+// setInterval or 
+// Nested Timeout
+
+// timerId = setTimeout(()=> {console.log("shhh")},1000);
+
+// timerId = setTimeout(function tick(){
+//     console.log("Shhh");
+//     timerId = setTimeout(tick,1000);
+// },1000);
+
+// the nested setTimeout is more flexible method than setInterval 
+// this way the next call may be scheduled differently , depending on the result of the current one 
+
+
+// for instance we need to write a service that sends a request to the server every 5 seconds asking for data 
+// but in case the server is overloaded it should increase the intervale to 10 20 30 
+
+{
+    let delay = 1000;
+    
+    let timerId = setTimeout(function request(){
+        // .. send request
+        // if(sending request failed )
+    {
+        delay *=2;
+    }
+    timerId = setTimeout(request,delay);
+    },delay);
+
+}

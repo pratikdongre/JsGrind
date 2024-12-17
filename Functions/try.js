@@ -1,16 +1,16 @@
-"use strict";
+// 
 
-let phrase = "hello";
 
-if(true)
 {
-    let user = "john";
-
-    function sayHI()
+    let delay = 1000;
+    
+    let timerId = setTimeout(function request(){
+        // .. send request
+        // if(sending request failed )
     {
-        console.log(phrase + " " + user);
-        
+        delay *=2;
     }
-    sayHI();
-}
+    timerId = setTimeout(request,delay);
+    },delay);
 
+}
