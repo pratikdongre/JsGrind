@@ -35,8 +35,10 @@
 //     },delay);
 // }
 
+/*
 
-function printNumber(from,to)
+{
+    function printNumber(from,to)
     {
         let timerId = setInterval(() =>{
             if(from <= to )
@@ -51,3 +53,44 @@ function printNumber(from,to)
     }
 
     printNumber(1,10);
+}
+
+*/
+
+
+
+{
+    // we can use call in the wrapper to pass the context to the original function 
+    let worker = {
+        someMethod(){
+            return 1 ;
+        },
+
+        slow(x){
+            console.log("Called with ", x);
+            return x * this.someMethod();
+        }
+    }
+
+    function cachingDecorator(func){
+        let cache = new Map();
+
+        return function(x){
+            if(cache.has(x)){
+                return cache.get(x);
+            }
+
+            let result = func.call(worker,x);
+            cache.set(x,result);
+            return result;
+
+        };
+
+    }
+
+    worker.slow = cachingDecorator(worker.slow);
+
+    console.log(worker.slow(1));
+    console.log(worker.slow(2));
+
+}

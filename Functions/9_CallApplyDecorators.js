@@ -90,6 +90,7 @@ we can combine multiple decorators if needed
         },
 
         slow(x){
+            // scary cpu heavy task here 
             console.log("Called with " , x );
             return x * this.someMethod();
         }
@@ -176,4 +177,49 @@ we can combine multiple decorators if needed
     let user = {name : "pratik"};
 
     say.call(user, "Hello");
+}
+
+{
+    // we can use call in the wrapper to pass the context to the original function 
+    let worker = {
+        someMethod(){
+            return 1 ;
+        },
+
+        slow(x){
+            console.log("Called with ", x);
+            return x * this.someMethod();
+        }
+    }
+
+    function cachingDecorator(func){
+        let cache = new Map();
+
+        return function(x){
+            if(cache.has(x)){
+                return cache.get(x);
+            }
+
+            let result = func.call(worker,x);
+            cache.set(x,result);
+            return result;
+
+        };
+
+    }
+
+    worker.slow = cachingDecorator(worker.slow);
+
+    console.log(worker.slow(1));
+    console.log(worker.slow(2));
+
+    // now everything is fine 
+    // to make it clear let see how this is passed along 
+    // 1. after the decoration worker.slow is now the wrapper function(x) ....
+    // 2. so when worker.slow(2) is executed the wrapper gets 2 as an argument and this = worker 
+    // 3. inside the wrapper assuming the result is not yet cached 
+    // func.call(this,x) passes the current this (= worker) and the current assignment =2  to the og method 
+
+    
+
 }
