@@ -115,6 +115,65 @@ we can combine multiple decorators if needed
     console.log(worker.slow(1));
 
     worker.slow = cachingDecorator(worker.slow);
-    // console.log(worker.slow(1));
+    // console.log(worker.slow(1)); // error cannot read property someMethod of undefined 
 
+
+    /*
+    let func = worker.slow
+    func(1);
+    so the wrapper passes the call to the original method , but without the context this. 
+    hence the error
+
+    the fix is 
+    special builtin function method func.call(context,...args) 
+    that allow to call a function explicitly setting this.
+
+    */
+    
+    
+
+
+}
+
+
+{
+    /*
+        func.call(context, arg1, arg2, ...)
+        it runs func providing the first argumnet as this and the next as the arguments 
+
+        to put it simply 
+        func(1,2,3);
+        func.call(obj,1,2,3);
+
+        they both call func with arguments 1 2 and 3 
+        the only difference is that func.call also set this to obj 
+
+    */
+
+        function sayHi(){
+            console.log(this.name);
+        }
+
+        let user = {name : "john"};
+        let admin = {name : "Admin"};
+
+        sayHi.call(user);
+        sayHi.call(admin);
+
+        
+
+}
+
+
+{
+    // use call to call say with the given context and phrase 
+
+    function say(phrase)
+    {
+        console.log(this.name + ": " + phrase);
+    }
+
+    let user = {name : "pratik"};
+
+    say.call(user, "Hello");
 }
