@@ -223,3 +223,177 @@ we can combine multiple decorators if needed
     
 
 }
+
+
+// Going multi argument 
+
+// lets make cachingDecorator even more universal 
+// till now it was only working only with single argument function 
+
+// now how to cache multi argument
+
+{
+    let worker = {
+        slow(min,max){
+            return min + max ;
+            // scary cpu hogger is assumed
+        }
+    };
+
+    worker.slow = cachingDecorator(worker.slow);
+    // should remever same-argument calls 
+
+}
+
+/*
+previously a single argument x we could jsut cache.set(x,result) to save the result and 
+cache.get(x) to retrieve it 
+but now we need to remeber the result of comvination of arguments (min,max) 
+the native map takes single value as the key 
+
+there are many solution possible 
+1 implemeent a new map like ds that is more veersaitle and allow multi keys 
+2.use nested maps cachce.set(min) will be a map that stores the pair (max,result)
+so we can results as cache.get(min).get(max)
+3. join two values into one 
+in our particular case we can just use a string "min,max" as the Map key.
+for flexiblity we can allow to provide a hashing function for the decorator 
+that know how to make one value from many
+
+
+also we need to pass not just x but all argument in func.call 
+function() can get a psuedo array of its arguemnts as arguments ,
+so func.call(this,x) shoudl be replace with func.call(this,...arguments)
+*/
+
+{
+    let worker = {
+        slow(min,max){
+            console.log("Called with ", min, max);
+            return min + max;
+        }
+    };
+
+    function cachingDecorator(func,hash){
+
+        let cache = new Map();
+
+        return function(){
+            let key = hash(arguments); // * 
+            if(cache.has(key)){
+                return cache.get(key);
+            }
+
+            let result = func.call(this,...arguments); // **
+
+            cache.set(key,result);
+            return result;
+        };
+
+
+    }
+
+    function hash(args){
+        return args[0] + ',' + args[1];
+    }
+
+    worker.slow = cachingDecorator(worker.slow, hash);
+
+    console.log(worker.slow(3,5));
+    console.log("Again " + worker.slow(3,5));
+
+
+}
+
+
+/*
+now it works with any number of arugment 
+though the hash function would also need to be adjust to allow any number of arguemtns 
+
+in the line * we call hash to create a single key from arguments 
+here we juse simple joining function that turn arguemnt (3 , 5 )
+more complex cases may require other hashing functions 
+
+then ** use func.call(this,...arguments) to pass both the context and all arguments 
+the wrapper got to the original function 
+*/
+
+
+// func.apply
+
+// instead of func.call(this,...arguments) we could use func.apply(this, arguments)
+
+// syntax func.apply(context.args)
+// it runs the func setting this=context and ausing an array lik object args as the list of arguments 
+
+// the only syntax difference call and apply is that call expect a list of argumentds 
+// while apply takes an array-like object with them 
+
+// so these two calls are almost equivalent 
+// func.call(context,...args)
+// func.apply(context,args)
+
+// they perform the same call of func with given context and arguments 
+
+// the spread syntax allows to pass iterable args as the list to call
+// the apply accept only array-like args 
+
+/*
+and for objet that are both iterable and arraylike such as real array 
+we can use any of them 
+but apply will probably be fast 
+beause most js engines internally optimze it better 
+
+passing all arguments along with context to another function is called call forwarding 
+
+let wrapper = function(){
+return func.apply(this,arguments);
+}
+
+when an external code calls such wrapper it is indistinguishalbe from the call of the og func
+*/
+
+
+// borrowing method 
+
+{
+    function hash(args){
+        return args[0] + "" + args[1];
+    }
+}
+
+{
+    // as of now it only works on two arguments 
+    // iw would be better if it could glue any number of args 
+
+    function hash(args){
+        return args.join(); // args.join is not a function
+    }
+    // hash(1,2); 
+    // we are calling hash(arguments) and arguments are object iterable and array like but not real array
+
+}
+
+{
+    function hash(){
+        return (arguments);
+        // return (typeof arguments); // object 
+        // return (Array.isArray(arguments)); / /false 
+        // console.log(arguments instanceof Array); // false (arguments is not an instance of Array)
+
+      
+    }
+    console.log(hash(1,2));
+}
+
+// still there is way to use array join 
+{
+    function hash(){
+        return [].join.call(arguments);
+        // [].join gets the join from empty array and apply it to further argument
+        // .call to run in for the context of arguments object 
+    }
+    console.log(hash(1,2));
+
+    // the trick is called method borrowing 
+}
