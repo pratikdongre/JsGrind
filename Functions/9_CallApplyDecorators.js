@@ -397,3 +397,300 @@ when an external code calls such wrapper it is indistinguishalbe from the call o
 
     // the trick is called method borrowing 
 }
+
+/*
+
+we borrow a join method from a regular array [].join and use [].join.call to run it in the context of arguments .
+why does it work 
+because the internal algorithm of the native method arr.join(glue) is very simple 
+
+let glue be the first argument or if no arugments then a comma 
+let result be an empty string 
+append this[0] to result
+Let result be an empty string.
+Append this[0] to result.
+Append glue and this[1].
+Append glue and this[2].
+…Do so until this.length items are glued.
+Return result.
+
+so techincally it takes this and joins this[0], this[1] etc together 
+its intentionally written in a way that allows any array-like this 
+that why its works with this = arguments 
+
+*/
+
+// decorators and function properties 
+/*
+it is generally safe to replace a function with a decorated one except for one little thing 
+if the og function had properties on it like func.calledCount or whatever 
+then the decorated one will not provide them 
+because that is a wrapper 
+so one needs to be careful if one uses them 
+
+if the example above slow funciton had any properties on it 
+then cachingDecorator(slow) is a wrapper without them 
+
+some deorators may provide their own properties 
+eg decorator may count how many times a function was invoked and how much time it took
+expose this information via wrapper properites 
+
+there exists a way to create a decorators that keeps access to function properties 
+but this requires a speical provxy object to wrap a function
+
+
+*/
+
+
+/*
+
+summary 
+decorator is a wrapper around a function that alter its behavior 
+the main job is still carried out by a function
+
+decorators can be seen as features or aspectrs that can be added to a function
+we can add one or many
+and all this wihtout changing its code 
+
+to implement a cachingDecorator 
+func.call(context,arg1,arg2) - call  func with context and arguments
+func.apply(context,args) - calls func passing context as this and array - like args into list of arguments
+
+the generic call fowarding is usually done with apply
+let wrapper = {
+return original.apply(this,arguments)
+};
+
+we saw example of method borrowing when we take a method from an object and call it in the context of another object 
+it is common to take array methods and apply them to arguments 
+
+the alternative is to use rest parameters  object that gives real array
+
+*/
+
+// tasks 1
+// spy decorator 
+// Create a decorator spy(func) that should return a wrapper that saves all calls to function in its calls property.
+
+// Every call is saved as an array of arguments.
+{
+    function work(a,b){
+        console.log(a + b);
+    }
+
+    function spy(func){
+
+        function wrapper(...args){
+            wrapper.calls.push(args);
+            return func.apply(this,args);
+        }
+
+        wrapper.calls = [];
+        return wrapper; 
+    }
+
+    work = spy(work);
+    
+    work(1,2);
+    work(4,5);
+
+    for(let args of work.calls){
+        console.log("calls " + args.join());
+    }
+}
+
+
+// tasks 2 
+// delaying Decorator 
+// create a decorator delay(f,ms) that delays each call of f by ms 
+
+{
+    function f(x){
+        console.log(x);
+    }
+
+    function delay(f,ms){
+
+        // let value =  setTimeout(f,ms);
+        // return f ;
+
+        return function(){
+            setTimeout(()=> f.apply(this,arguments),ms);
+        }
+    }
+
+
+    let f1000 = delay(f,1000);
+    let f1500 = delay(f,1500);
+
+    // f1000("test");
+    // f1500("test");
+}
+
+// task 3 
+// debounce decorator 
+/*
+the result of debounce(f,ms) decorator is a wrapper that suspends calls to f until theres ms seconds 
+of inactivity(no calls, cooldown period) then invokes f once with the latest arguments
+
+in other words debounce is like a secretary  that accepts phone calls and wait until theres ms seconds of quiet 
+and only then it transfers the latest call infomration to the boss (call the actual f)
+
+for instance we had a function f and replaced it with f = debounce(f,1000);
+
+then if the wrapped function is called at 0 ms, 200ms , 500ms, and then there are no calls 
+then the actual f is called once at 1500ms 
+that is after the cooldown period of 1000ms from the last call
+which wil lget the arguemtn of the last call other calls are ignored
+
+
+
+*/
+{
+    // let f = _.debounce(alert,1000);
+
+    // f("a");
+    // setTimeout(()=> f("b"),200);
+    // setTimeout(()=> f("c"),500);
+    // debounc function waits 1000ms afther last call and then run f("c")
+}
+
+/*
+Now a practical example. Let’s say, the user types something,
+ and we’d like to send a request to the server when the input is finished.
+
+There’s no point in sending the request for every character typed. 
+Instead we’d like to wait, and then process the whole result.
+
+In a web-browser, we can setup an event handler – 
+a function that’s called on every change of an input field.
+ Normally, an event handler is called very often, for every typed key. 
+ But if we debounce it by 1000ms, 
+then it will be only called once, after 1000ms after the last input.
+
+So, debounce is a great way to process a sequence of events: 
+be it a sequence of key presses, mouse movements or something else.
+
+It waits the given time after the last call, and then runs its function,
+ that can process the result.
+
+
+*/
+
+{
+    function f(val){
+        console.log(val);
+    }
+   
+    function debounce(f,ms){
+        let timeout; 
+        return function (){
+            clearTimeout(timeout);
+            timeout = setTimeout(()=> f.call(this,arguments),ms);
+
+        }
+    }
+
+
+    f = debounce(f,1000);
+
+    
+      f("a");
+    setTimeout(()=> f("b"),200);
+    setTimeout(()=> f("c"),500);
+
+    // a call to debounce returns a wrapper 
+    // when called it schedules the og function call after given ms 
+    // cancels the previous such timeout
+}
+
+// task 4 
+// throttle decorator 
+
+/*
+Create a “throttling” decorator throttle(f, ms) – that returns a wrapper.
+
+When it’s called multiple times, it passes the call to f at maximum once per ms milliseconds.
+
+Compared to the debounce decorator, the behavior is completely different:
+
+debounce runs the function once after the “cooldown” period.
+ Good for processing the final result.
+throttle runs it not more often than given ms time.
+ Good for regular updates that shouldn’t be very often.
+
+In other words, throttle is like a secretary that accepts phone calls, 
+but bothers the boss (calls the actual f) not more often than once per ms milliseconds.
+
+Let’s check the real-life application to better understand that requirement and to see where it comes from.
+
+For instance, we want to track mouse movements.
+
+In a browser we can setup a function to run at every mouse movement 
+and get the pointer location as it moves.
+ During an active mouse usage, this function usually runs very frequently,
+  can be something like 100 times per second (every 10 ms).
+  We’d like to update some information on the web-page when the pointer moves.
+
+…But updating function update() is too heavy to do it on every micro-movement. 
+There is also no sense in updating more often than once per 100ms.
+
+So we’ll wrap it into the decorator: use throttle(update, 100) 
+as the function to run on each mouse move instead of the original update().
+The decorator will be called often, but forward the call to update() at maximum once per 100ms.
+
+Visually, it will look like this:
+
+For the first mouse movement the decorated variant immediately passes the call to update.
+That’s important, the user sees our reaction to their move immediately.
+Then as the mouse moves on, until 100ms nothing happens. The decorated variant ignores calls.
+At the end of 100ms – one more update happens with the last coordinates.
+Then, finally, the mouse stops somewhere.
+The decorated variant waits until 100ms expire and then runs update with last coordinates. 
+So, quite important, the final mouse coordinates are processed.
+*/
+
+{
+    function f(a){
+        console.log(a);
+    }
+
+    function throttle(f,ms){
+       let isThrottled = false,
+       savedArgs,
+       savedThis;
+
+       function wrapper(){
+        if(isThrottled){
+            savedArgs = arguments;
+            savedThis = this;
+            return ;
+        }
+        isThrottled = true;
+        f.apply(this,arguments);
+
+        setTimeout(function(){
+            isThrottled = false;
+            if(savedArgs){
+                wrapper.apply(savedThis,savedArgs);
+                savedArgs = savedThis = null;
+            }
+
+        },ms);
+       }
+
+       return wrapper;
+
+    }
+
+    // f1000 passes calls to f at maximum once per 1000 ms 
+    let f1000 = throttle(f,1000);
+
+    f1000(1); // shows 1 
+    f1000(2); // thorttling 1000ms not out yet 
+    f1000(3); // throttling 1000ms not out yet 
+
+    // when 1000ms time out 
+    // output 3 , intermediate value 2 was ignored  
+
+}
