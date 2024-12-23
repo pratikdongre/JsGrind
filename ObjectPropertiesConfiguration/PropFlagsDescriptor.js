@@ -215,11 +215,13 @@ if that not what we want then we better set them to true in descriptor
     });
 
     user.name = "Pete";
-    console.log(user.name);
+    // console.log(user.name);
+    // delete user.name;  not working 
 
     let descriptor = Object.getOwnPropertyDescriptor(user,"name");
 
-    console.log(descriptor);
+    // console.log(descriptor);
 }
+
 
 
