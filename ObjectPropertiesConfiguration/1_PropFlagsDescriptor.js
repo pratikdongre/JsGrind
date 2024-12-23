@@ -223,5 +223,123 @@ if that not what we want then we better set them to true in descriptor
     // console.log(descriptor);
 }
 
+// here we can make user.name a forever sealed constant just like builtin Math.PI
+{
+    let user = {
+        name : "john"
+    };
+
+    Object.defineProperty(user,"name",{
+        writable : false,
+        configurable : false
+    });
+
+    // wont be able to change user.name or its flags 
+    // all this wont work 
+    user.name = "Pete";
+    delete user.name;
+    // Object.defineProperty(user,"name", {value : "Pete"});
+
+    console.log(user.name); // still got john
+
+}
+
+// if while configurable is false // and writable is true 
+// we can still change the flag writable to false to add another layer of security 
+// but not the other way around though
 
 
+// Object.defineProperties
+// Object.defineProperties(obj,descriptors) that allows to define many properties at once 
+
+/*
+Object.defineProperties(obj,{
+    prop1 : descriptor1,
+    prop2 : descriptor2
+});
+
+*/
+
+{
+    let user = {Married : false};
+    Object.defineProperties(user,{
+        name : {value : "Pratik", writable : false},
+        surname : {value : "dong", writable : false}
+    });
+
+    console.log(user);
+
+    let descriptor = Object.getOwnPropertyDescriptor(user,"name");
+    console.log(JSON.stringify(descriptor,null,2));
+    // as the Pratik ie name is not enumerable so you dont get it while log user 
+    // so we cant set many properties at once .
+
+
+}
+
+
+// Object.getOwnPropertyDescriptors
+// to get all property descriptors at once 
+// we can use Object.getOwnPropertyDescriptor(obj)
+
+// together with Objct.defineProperties it can be used as flags-aware way of cloning an object
+
+{
+    // let clone = Object.defineProperties({},Object.getOwnPropertyDescriptor(obj));
+
+    // normally when we clone an object we use an assigned to copy properties like 
+
+    /*
+    for(let key in user){
+    clone[key] = user[key]
+    }
+
+    but that does not copy flags 
+    // so if we want a better lcoen then Object.defineProperties is preffered 
+
+    one more differencei s that 
+    for..in ignored symbolic and non enumerable properties but 
+    Object.getOwnPropertyDescriptors returns all property descritpors including 
+    symbolic and non enumerable ones 
+
+    */
+
+}
+
+/*
+Sealing an Object Globally 
+
+property descriptor work at the level of individual properties 
+there are also methods that limit access to the whole object 
+
+Object.preventExtensions(obj)
+forbids the addtion of new properties to the object 
+
+Object.seal(obj)
+Fobids adding/removing of properties.
+Sets configurable : false for all existing Properties
+
+Object.freeze(obj)
+Forbids adding/removing/changing of properties 
+sets configurable : false,writable : false 
+for all existing properties 
+
+and also there are tests for them 
+
+Object.isExtensible(obj)
+Returns false if adding properties is forbidden , otherwise true
+
+Object.isSealed(obj)
+Returns true if adding/removing properties is forbidden
+and all existing proeprties have configurable : false
+
+Object.isFrozen(obj)
+Returns true if adding/removing/changing properties is forbidden 
+and all current properties are 
+configurable false 
+writable false
+
+these methods are rarely used in practice 
+
+
+*/
