@@ -193,3 +193,77 @@ msot object-releated methods are Object.something(...) like Object.keys(obj)
 
     console.log(Object.keys(chineseDictionary));
 }
+
+// Summary 
+/*
+To create an object with the given prototype 
+literal syntax {__proto__ : ...} allows to speicify multiple properties 
+or Object.create(proto[,descriptors]) , allows to specify property descriptors
+
+the Object.create provide an easy way to shallow copy an object with all descriptor 
+*/
+{
+    let obj = {};
+    let clone = Object.create(Object.getPrototypeOf(obj),Object.getOwnPropertyDescriptor(obj));
+
+}
+
+// methods to set/get the prototype are 
+// Object.getProtoypeOf(obj) returns the [[prototype]] of obj (same as __proto__ getter )
+// Object.setPrototypeOf(obj,proto) sets the [[prototype]] of obj to (proto) (same as __proto__)
+
+// getting /setting the protoype using __proto__   is not recommeneded
+
+// can create prototype less objects 
+// Object.create(null) or {__proto__ : null}
+// these objects are used as dictonaries to store any (possible user-generated) key even proto
+// normally object inherit builtin method and __proto__ getter/setter from Object.prototype
+// making corresponding keys occupied and potentially causing side effects 
+// with null prototype objets are truly  empty
+
+
+
+// tasks 1 
+// Add toString to the dictionary
+
+{
+    let dictionary = Object.create(null,{
+        toString : {
+            value() {
+                return Object.keys(this).join();
+            }
+        }
+    });
+
+    dictionary.apple = "Apple";
+    dictionary.__proto__ = "Test";
+    // __proto__ is a regular property key her e
+
+    for(let key in dictionary){
+        console.log(key);
+    }
+    // only apple and __proto__ is what we got 
+
+    console.log(dictionary.toString());
+
+    // when we create a property using a descriptor its flags are false so 
+    // toString is non enumerable 
+
+}
+
+// task 2 
+{
+    function Rabbit(name){
+        this.name = name;
+    }
+    Rabbit.prototype.SayHi = function (){
+        console.log(this.name);
+    }
+
+    let rabbit = new Rabbit("rabbit");
+
+    rabbit.SayHi(); // rabbit
+    Rabbit.prototype.SayHi(); // for Rabbit.prototype this is undefined
+    rabbit.__proto__.SayHi();
+    Object.getPrototypeOf(rabbit).SayHi();
+}

@@ -128,16 +128,21 @@ we may then implement it manually and populate the builtin prototype with it
 
 {
     if(!String.prototype.repeat){
-        String.prototype.repeaet = function(n){
+        String.prototype.repeat = function(n){
             //repeates the string n times 
 
             // atcually the code sould lit more compelnxt 
             // but even an imperfect pollyfills is often considered good negouth 
             return new Array(n+1).join(this);
+            // creates an array of size n+1 ie 4 
+            // where each element of an array is emtpy 
+            // and we join them using this ie in this case la
+
         };
     }
 
     console.log("la".repeat(3));
+
 }
 
 // Borrowing  from prototypes 
