@@ -345,7 +345,7 @@ for the rabbit cosntructor to work it neeed to call super() before using this
 /*
 class Rabbit extends and overrides the name field with its own value 
 
-there no own constructor in rabbit so animal constructor is called 
+there no own constructor in rabbit, so animal constructor is called 
 
 in both cases 
 new Animal() and new Rabbit() the console.log() show animal
@@ -377,4 +377,21 @@ the parent constructor always uses its onw field value not the overriden one
     new Animal();
     new Rabbit();
 }
+
+
+/*
+when the parent constructor is called in the derived class it used the overridden method 
+
+but for class fields its not so 
+as parent constructor always uses the parent field 
+
+field initialization order 
+the class field is initialized 
+Before constructor for the base class (that does not extend anything)
+Immediately after super() for the derived class 
+
+
+
+*/
+
 
