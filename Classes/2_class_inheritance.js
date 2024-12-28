@@ -390,8 +390,366 @@ the class field is initialized
 Before constructor for the base class (that does not extend anything)
 Immediately after super() for the derived class 
 
+in our case rabbit is derived class 
+theres no constructor() in it 
+the same as if there was an empty cosntructo with only super(...args)
 
+and only after that its class fields are intilizaed a
+
+at the time of parent constructor execution 
+there are no Rabbit class fields yet that why Animal fields are used 
+
+
+the subtl difference between fields and method is speicifc to js 
+
+this behavior only reveals itself if an overriddern field is used in the parent constructor 
+
+if a becomes a problem once can fixi it by using method or getter/setter instead of field 
 
 */
 
 
+// Super : Internal [[HomeObject]]
+
+/*
+when an object method runs it gets the current object as this 
+if we call super.method() then the engine need to get the method from the prototype of the current object 
+
+the engine know the curreent object this 
+so it could get the parent method as this.__proto__.method 
+but taht does not work 
+
+
+*/
+
+{
+    let animal = {
+        name : "Animal",
+        eat() {
+            console.log(`${this.name} eats`);
+        }
+    };
+
+    let rabbit = {
+        __proto__ : animal,
+        name : "Rabbit",
+        eat(){
+            this.__proto__.eat.call(this);
+            // thats how super.eat() could presumably work 
+        }
+    };
+
+    rabbit.eat();
+}
+
+// with more object to the chain 
+{
+    let animal ={
+        name : "Animal",
+        eat(){
+            console.log(`${this.name} eats`);
+        }
+    };
+
+    let rabbit = {
+        __proto__ : animal,
+        eat(){
+            // ...bounce around rabbit-style and call parent(animal) method
+            this.__proto__.eat.call(this); // *
+        }
+    };
+
+    let longEar = {
+        __proto__ : rabbit,
+        eat(){
+            // do something wtih long ears and call parent(rabbit) method
+            this.__proto__.eat.call(this); // **
+        }
+    };
+
+    // longEar.eat(); // error max call stack exceeeded
+    // all object gets the current object as this, not a prototpye or somethign 
+
+    // the value of this.__proto__ is ecatly the same rabbit 
+    // the both call rabbit.eat without going up in the chain in the endless loop
+
+
+    /*
+
+    inside longEar.eat() 
+    the line call ** rabbit.eat  with this = longEar
+
+    // inside longEar.eat() we have this = longEar
+    // this.__proto__.eat.call(this);
+    becomes 
+    longEar.__proto__.eat.call(this);
+    // that is 
+    rabbit.eat.call(this);
+
+    then in the line * 
+            this.__proto__.eat.call(this); // *
+    becomes 
+    longEar.__proto__.eat.call(this)
+    or 
+    rabbit.eat.call(this);
+
+    so rabbit.eat call itself in the endless loop 
+
+    so cant be soeved by using this alone
+
+    */
+
+
+
+
+
+}
+
+//[[HomeObject]]
+
+// to provide the solution js add one more speical internal property for function [[homeobject]]
+/*
+when a function is specified as a class or object method 
+its [[homeobject]] property becomes that object 
+
+then super uses it to resolve the parent prototype and its methods 
+
+*/
+
+{
+    let animal = {
+        name : "Animal",
+        eat(){
+            console.log(`${this.name} eats`);
+        }
+    };
+
+    let rabbit = {
+        __proto__ : animal,
+        name : "rabbit",
+        eat(){  // rabbit.eat.[[homeobject]] ==rabbit
+            super.eat();
+        }
+    };
+
+    let longEar = {
+        __proto__ : rabbit,
+        name : "longEar",
+        eat(){ // longEat.eat.[[homeOjbect]] == longEar;
+            super.eat();
+        }
+    };
+
+    longEar.eat();
+}
+
+// methods are not free 
+//generally function are free not bound to object in js 
+// so they can be copeid between object and called with another this 
+
+/*
+the veroy existance of [[homeojbect]] violates that principle 
+because methods remeber their object 
+[[homeobject]] cant be change 
+so the bond is forever 
+
+the only place in the lnag where [[homeobject]] is used is super
+so if a method does not use super 
+then we call it free and copy between object 
+but with super things may go  wrong 
+
+*/
+
+{
+    let animal = {
+        sayHi () {
+           console.log("Im an animal");
+        }
+    };
+ 
+    // rabbit inherti animal
+    let rabbit = {
+        __proto__ : animal,
+        sayHi (){
+            super.sayHi();
+        }
+    };
+
+    let plant = {
+        sayHi(){
+            console.log("i am  plant ");
+        }
+    };
+
+    let tree = {
+        __proto__ : plant,
+        sayHi : rabbit.sayHi, // * 
+    }
+
+    tree.sayHi();
+
+}
+
+/*
+a call to tree.sayHi() shows "im an animal"
+the reason is simpel 
+tree.sayHi was copied from rabbit 
+
+its [[homeboject]] is rabbit as it was created in rabbit 
+// no way to change [[homeobject]]
+
+the code of tree.sayHi() has super.sayHi() inside 
+it goes up from rabbit and takes the method from animal
+
+
+tree has sayHi whihc points to plant sayHi
+and points to rabbti sayHI as [[homeobject]]
+ from rabbit sayHi to animal sayhi
+*/
+
+/*
+method not function properties 
+[[homeobject]] is defined for method both in class and in plain object 
+but for objects methods must be specificed as exactly as method() not as method : function()
+
+with object you cant either use method() a shorthand syntax 
+or method : function()
+so [[homeobject]] is can work out with method() not method : function ()
+
+
+
+*/
+{
+    let animal = {
+        eat: function () {
+            // intentaionlly wrote like this isntead of eat() {}
+        }
+    };
+
+    let rabbit = {
+        __proto__ : animal,
+        eat : function (){
+            // super.eat();
+        }
+    };
+
+    // rabbit.eat(); // erroe calling super cause there no [[homeobject]]
+}
+
+
+// summary 
+/*
+1. extend a class 
+class child extend parent : 
+that means child.prototype.__proto__ will be parent.prototype so method are inherited
+
+2. when overriding a constructor 
+we must call parent constructor as super() in child constructor before using this 
+
+3. when overriding another method 
+we can use super.method() in child method to call parent method 
+
+4. internal 
+method remebers theri class/object in the internal [[homeojbect]] property 
+super resolved parent methods 
+so its not safe to copy a method with super form one object to another 
+
+also 
+arrow function dont have theri own this or super 
+so they transparently fit into the surrounding context 
+
+*/
+
+// task 1 
+// error creating a instance 
+
+{
+
+    class Animal {
+        constructor(name) {
+            this.name = name;
+        }
+    }
+
+    class Rabbit extends Animal {
+        constructor(name){
+            // this.name = name; 
+            super(name);
+            this.create = Date.now();
+        }
+    };
+
+    let rabbit = new Rabbit("white rab");
+    console.log(rabbit.name);
+
+}
+
+
+//task 2
+{
+// type type type 
+// what the he8uf
+
+class Clock {
+    constructor({template}){
+        this.template = template;
+    }
+
+    render() {
+        let date = new Date();
+        let hours = date.getHours();
+        if(hours < 10) hours = '0' + hours;
+
+        let mins = date.getMinutes();
+        if(mins < 10) mins = "0"+mins;
+
+        let secs = date.getSeconds();
+        if(secs<10) secs = 0+ secs;
+
+        let output = this.template
+                    .replace('h',hours)
+                    .replace('m',mins)
+                    .replace('s',secs);
+
+        console.log(output);
+    }
+
+    stop(){
+        clearInterval(this.timer);
+    }
+
+    start(){
+        this.render();
+        this.timer = setInterval(()=> this.render(),1000);
+    }
+
+}
+
+class ExtendedClock extends Clock {
+    constructor(options){
+        super(options);
+        let {precision = 1000} = options;
+        this.precision = precision;
+    }
+
+    start(){
+        this.render();
+        this.timer = setInterval(()=> this.render(),this.precision);
+    }
+};
+
+let instanceOFExtendedCLock = new ExtendedClock ({template : 'h:m:s', precision : 2000});
+let clock = new Clock({template : "h:m:s"});
+
+instanceOFExtendedCLock.start();
+clock.start();
+
+
+setTimeout (() =>{
+    instanceOFExtendedCLock.stop();
+    clock.stop();
+    console.log("clock stopped");
+},5000);
+
+
+}
