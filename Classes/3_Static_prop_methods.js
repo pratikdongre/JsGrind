@@ -102,3 +102,238 @@ User.staticMethod();
 // static methods arent availabe for individual objects 
 //static method are callable on classes not on indiivual objects 
 // eg article.createTodays() // error article.createTodays is not a function 
+
+// static properties 
+// static properties are also possible they look like regular class proeprties 
+// but preprended by static : 
+
+{
+    class Article {
+        static publisher = "Ilaya Kantor";
+    }
+    console.log(Article.publisher);
+}
+
+// that is same as a direct assignemt to Article 
+// Article.publishser = "ILya kantor"
+// if we did not use static then its the property of instance of Article 
+
+// Inheritance of static properties and method 
+// static propertie and methods are inherited 
+
+// Animal.compare and Animla.planet are inherited and accesisble as Rabbit.compare and Rabbit.planet
+
+{
+    class Animal {
+        static planet = "Earth";
+
+        constructor (name,speed){
+            this.speed = speed;
+            this.name = name;
+        }
+
+        run(speed = 0){
+            this.speed += speed;
+            console.log(`${this.name} runs with speed ${this.speed}`);
+        }
+
+        static compare (animalA,animalB){
+            return animalA.speed - animalB.speed;
+        }
+
+    }
+
+    class Rabbit extends Animal{
+        hide(){
+            console.log(`${this.name} hides!`);
+        }
+    }
+    let rabbits = [
+        new Rabbit("White Rab",100),
+        new Rabbit("Black Rab",15),
+        new Rabbit("Pink Rab",19),
+    ];
+
+    rabbits.sort(Rabbit.compare);
+
+    rabbits[0].run();
+
+    console.log(Rabbit.planet); 
+
+}
+
+// now when we call Rabbit.compare the inheretied Animal.commpare will be called 
+// how does it work Again using prototypes 
+// extend gives rabbit the [[prototype]] reference to the animal
+
+
+/*
+Animal has compare and planet 
+Animal.protoype  has cosntructor : Animal and run : function 
+
+as extend 
+Rabbit has [[prototype]] to animal 
+Rabbit.prototype has constructor : Rabbit and hide : function 
+
+Rabbit.prototype has [[prototype]] to Animal.prototype
+
+rabbit which has name : WHite rabbit" has [[prototype]] to Rabbit.prototype
+
+so raabit extend animal create two [[prototype]] reference 
+1. Rabbit function prototypally inherit from animal function 
+2. Rabbit.prototype prototypally inhertis from Animal.prototype
+
+
+*/
+
+{
+    class Animal{}
+    class Rabbit extends Animal {}
+
+    console.log(Rabbit.__proto__ === Animal);
+    // for statics 
+
+    console.log(Rabbit.prototype.__proto__ === Animal.prototype);
+}
+
+
+
+/*
+Summary 
+static methods are used for the functinality that belongs to the class as a whole 
+it does relate to a concret class instance 
+
+for example a method for comparision Article.compare(article1, article2) 
+or a factory method 
+Article.createTodays()
+
+they are labeled by the word static in class declaration 
+
+static properties are used when we like to store class level data also not bound to an isntance 
+
+{
+class Myclass {
+static property = ...
+static method (){
+....
+}
+}
+}
+
+techincally static delcaration is the same as assigneing to the class itelsef 
+
+Myclass.propety = ...
+Myclass.method = ...
+
+static properties and methods are inherited 
+
+for class B extend A the protoype of class B iteself point ot A :
+ B.[[prototype]] = A so if a field is not found in B the search continues at A 
+
+*/
+
+// task 
+// class extends Object 
+
+// as we know all objects normally inherit from Object.prototype and get access to generic object methods 
+// like  hasOwnProperty etc 
+
+{
+    class Rabbit {
+        constructor (name){
+            this.name = name;
+        }
+        
+    }
+    let rabbit = new Rabbit("Rab");
+
+    console.log(rabbit.hasOwnProperty('name'));
+
+    // hasOwnProperty is a method of Object.prototype
+}
+
+
+// but if we speel it out explicitly like 
+// class Rabbit extend OBject 
+// then the resutl would be differen from simple class rabbit 
+
+{
+  
+    class Rabbit extends Object {
+        constructor(name){
+            super(); // intialize the parent class 
+            //Without super(), the this keyword cannot be used, because JavaScript needs to first set up the parent class 
+            // before initializing the properties of the subclass.
+            this.name = name;
+        }
+    }
+    let rabbit = new Rabbit("Rab");
+
+    console.log(rabbit.hasOwnProperty('name'));
+}
+
+
+// there still differenct between class Rabbit extends Object 
+// and class Rabbit
+
+// the extends sets two proptotypes 
+/*
+between prototype of the constructor function (for methods )
+between the constructor function themselves (for static methods )
+*/
+
+{
+    class Rabbit extends Object {}
+
+    console.log(Rabbit.prototype.__proto__=== Object.prototype);
+    console.log(Rabbit.__proto__ === Object);
+
+
+}
+
+{
+    // so rabbit now provides access to the static mehtods of OBject via Rabbit like this 
+    class Rabbit extends Object {}
+    // normally we call Object.getOwnPropertyNames
+    console.log(Rabbit.getOwnPropertyNames({a:1,b:2}));
+}
+
+// but if we dont have extends Object then Raabit.__proto+ is not set to Object 
+
+{
+    class Rabbit{}
+    console.log(Rabbit.prototype.__proto__ === Object.prototype);
+    console.log(Rabbit.__proto__ === Object);
+
+    console.log(Rabbit.__proto__ ===Function.prototype );
+
+    console.log(Rabbit.prototype.__proto__.getOwnPropertyNames({a:1,b:2})); // error 
+
+}
+
+// so Rabbit doesnot provide access to static methods of Object in that case 
+/*
+Function.prototype also has generic function methods like call,bind etc 
+they are available in both case 
+becasue OBject consturctor Object.__proto == Function.prototype
+
+
+so class Rabbit 
+Rabbit.__proto__ === Function.prototype
+
+class Rabbit extends Object
+needs to call super() in constructor 
+Rabbit.__proto__ === Object
+
+class Rabbit 
+
+Rabbit has constructor
+Rabbit [[prototype]] or __proto__ has Function.prototype
+
+class Rabbit extends Object 
+
+Rabbit constructor 
+Rabbit [[prototype]] has Object : constructor 
+
+Object has [[prototype]] has Function.prototype
+*/
