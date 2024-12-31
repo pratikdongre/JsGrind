@@ -217,6 +217,9 @@ let menu = new Menu();
 
 menu.on("select",value => console.log(`value selected ${value}`));
 
+// menu.off("select",value => console.log(`value is ${value}`)); // we dont get this because we used anonymous function and this handler is removed 
+// so we shall use handler which is tored in variable if we paln to remove it later 
+
 menu.choose("123");
 // triggers the event => handler above runs and show 
 // value selecated 123 
