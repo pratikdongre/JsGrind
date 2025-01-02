@@ -6,7 +6,6 @@
 // loading script and modules 
 
 // loadScript(src) that loads a script with the given src 
-
 {
     function loadScript(src){
         // creates a script tag and append it to stage 
@@ -61,7 +60,6 @@ function loadscript(src,callback){
     document.head.append(script);
 }
 
-
 /*
 the onload event basically executes a function after the function is loaded and executed 
 now if we want to call new function from the script we should write in the callback 
@@ -78,20 +76,23 @@ now if we want to call new function from the script we should write in the callb
 // the second arugment is a function usually anonymous that runs when the action is completed 
 
 {
-    function loadScript(src,callback){
-        let script = document.createElement('script');
-        script.src= src;
-
-        script.onload = ()=> callback(script);
-        document.head.append(script);
+    {
+        function loadScript(src,callback){
+            let script = document.createElement('script');
+            script.src= src;
+    
+            script.onload = ()=> callback(script);
+            document.head.append(script);
+        }
     }
+    
+    loadScript('https://cdnjs.cloudflare.com/ajax/libs/lodash.js/3.2.0/lodash.js',script => {
+        alert(`cool the script  ${script.src} is loaded`);
+        console.log("is this owkring");
+    
+    });
 }
 
-loadScript('https://cdnjs.cloudflare.com/ajax/libs/lodash.js/3.2.0/lodash.js',script => {
-    alert(`cool the script  ${script.src} is loaded`);
-    console.log("is this owkring");
-
-});
 
 /*
 callback based style of asynchronous programming 
@@ -102,6 +103,7 @@ to run after complete
 //callback in callback 
 // how can wee load scripts sequentially the first one and then second one after it 
 // the natural soln would be to put the second loadScript call inside the callback like this 
+
 
 {
     function loadScript(src,callback){
@@ -176,7 +178,6 @@ improvisd version of loadScript that tracks the loading errros
     })
 }
 
-
 /*
 once again the recipe we used for js is actually quite common 
 its called error first callback style 
@@ -197,4 +198,33 @@ so the single callback function is used both for reporting errros and passing ba
 
 // but for multiple asynchronous action that follow one after another 
 
+loadScript('1.js', function(error, script) {
 
+  if (error) {
+    handleError(error);
+  } else {
+    // ...
+    loadScript('2.js', function(error, script) {
+      if (error) {
+        handleError(error);
+      } else {
+        // ...
+        loadScript('3.js', function(error, script) {
+          if (error) {
+            handleError(error);
+          } else {
+            // ...continue after all scripts are loaded (*)
+          }
+        });
+
+      }
+    });
+  }
+});
+
+// in the code below 
+/*
+1. we load 1.js then if there no errro 
+2. we load 2.js then if theres no erro
+3. we load 3.js then if theres no errro do something else 
+*/
