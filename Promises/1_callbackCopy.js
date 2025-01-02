@@ -198,6 +198,7 @@ so the single callback function is used both for reporting errros and passing ba
 
 // but for multiple asynchronous action that follow one after another 
 
+/*
 loadScript('1.js', function(error, script) {
 
   if (error) {
@@ -221,10 +222,58 @@ loadScript('1.js', function(error, script) {
     });
   }
 });
+*/
 
 // in the code below 
 /*
 1. we load 1.js then if there no errro 
 2. we load 2.js then if theres no erro
 3. we load 3.js then if theres no errro do something else 
+
+as calls become more nested the code becomes deeper and increasingly more difficult ot manage 
+especaillay if we hae real code instead of ...
+that may include loops ,conditional and so on 
+that sometimes called callback hell or pyramid of doom
+
+The pyramid of nested calls grows to the right with every asyncrhonous actions 
+soon it spirals out of control 
+
+we can try to alleviate the problem by making every action a standaloen function 
+*/
+
+{
+    loadScript('1.js',step1)
+    function step1 (error,script){
+        if(error){
+                console.log("handleError(error)");
+        } else {
+            loadScript('2.js',step2);
+        }
+    }
+
+    function step2(error,script){
+        if(error){
+            console.log("handleError");
+           } else {
+            loadScript('3.js',step3);
+        }
+    }
+
+    function step3 (error,script){
+        if(error){
+            console.log("handleError");
+            
+        } else {
+            // do something after all scripts are loaded 
+        }
+    }
+}
+
+/*
+it does the same thing and theres no deep nesting now because we made every action a separate top level function 
+it works but the code looks like a torn apart spreadsheet 
+also function name step* are are all of single use they are created only to avoid the pyramid of doom
+no is going ot reuse them outside of the action chain 
+so to avoid pyramids 
+we have promises which is a best way to do this 
 */
