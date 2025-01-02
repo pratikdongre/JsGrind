@@ -36,3 +36,159 @@
 // let say we need to use script as soon as it loads 
 // it declares new function and we want to return them 
 // but if we do that immediatley aftehr loadSript call that would not work
+
+// loadscript('/my/script.js'); // the script has function newFunction() {...}
+//newFunction(); // no such function 'yet'
+
+/*
+naturally the browser probably did not have time to load the script 
+as of now the loadscript function doesnot provide a way to track the load completion 
+the script loads and eventually runs thats all 
+the script loads and eventually runs thats all 
+but we like to know when it happens to use new functions and variables from that script 
+
+callback function as a second argument to loadscript that should execute when the script loads 
+*/
+
+function loadscript(src,callback){
+    let script = document.createElement('script');
+    script.src= src;
+
+    script.onload =()=> {
+        callback(script);
+    };
+
+    document.head.append(script);
+}
+
+
+/*
+the onload event basically executes a function after the function is loaded and executed 
+now if we want to call new function from the script we should write in the callback 
+*/
+
+// {
+//     loadScript('/my/script.js',function(){
+//         newFunction(); // now it works 
+//         // the callback runs after the scsript is loaded 
+//     })
+// }
+
+// the idea
+// the second arugment is a function usually anonymous that runs when the action is completed 
+
+{
+    function loadScript(src,callback){
+        let script = document.createElement('script');
+        script.src= src;
+
+        script.onload = ()=> callback(script);
+        document.head.append(script);
+    }
+}
+
+loadScript('https://cdnjs.cloudflare.com/ajax/libs/lodash.js/3.2.0/lodash.js',script => {
+    alert(`cool the script  ${script.src} is loaded`);
+    console.log("is this owkring");
+
+});
+
+/*
+callback based style of asynchronous programming 
+a function that does something asyncrhonously should provide a callback arguument where we put the function
+to run after complete 
+*/
+
+//callback in callback 
+// how can wee load scripts sequentially the first one and then second one after it 
+// the natural soln would be to put the second loadScript call inside the callback like this 
+
+{
+    function loadScript(src,callback){
+        let script = document.createElement('script');
+        script.src = src;
+
+        script.onload = () => callback(script);
+        document.head.append(script);
+    }
+
+    loadScript('scripts/script1.js',function (script){
+        console.log(`cool the script is loaded ${script.src} let loead one more `);
+
+        loadScript('scripts/script2.js', function(script){
+            console.log(`coll the script is loaded ${script.src}`);
+        });
+    });
+}
+
+// afther the outer loadScript is complete the callback initiates the inner one 
+// what if we want to one more script 
+
+{
+    // loadScript('script/script1.js',function (script){
+    //     console.log(`the ${script.src} is loaded`);
+
+    //     loadScript('script/script2.js',function(script){
+    //         console.log(`the ${script.src} is loaded`);
+
+    //         loadScript('script/script3.js',function(script){
+    //             console.log(`the ${script.src} is loaded`);
+    //         });
+            
+    //     });
+    // });
+}
+
+// so every new action is inside a callback thats fine for few actions 
+// but not good for mnay 
+
+// handling errors 
+// we did not conside above 
+/*
+what if the script loading fails 
+our callback should be able to react on that 
+
+improvisd version of loadScript that tracks the loading errros 
+
+*/
+
+{
+    function loadScript(src,callback){
+        let script = document.createElement('script');
+        script.src =script;
+
+        script.onload = ()=> callback(script);
+        script.onerror = () => callback(new Error(`Script load error for ${src}`));
+
+        document.head.append(script);
+    }
+}
+
+// it calls callback (null,script) for successful load and callback(error) otherwise 
+
+{
+    loadScript('scripts/script1.js',function(error,script){
+        if(error){
+            // handl error 
+        } else {
+            //script laod successfuly 
+        }
+    })
+}
+
+
+/*
+once again the recipe we used for js is actually quite common 
+its called error first callback style 
+
+the convention is 
+1. the first arugment of the callback is reserved for an error 
+then callback(err) is called 
+
+2. the second argument (and the next ones if needed) are for the successfsul result 
+then callback(null,result1,result1) is called 
+
+so the single callback function is used both for reporting errros and passing back result ;
+*/
+
+// Pyramid of Doom
