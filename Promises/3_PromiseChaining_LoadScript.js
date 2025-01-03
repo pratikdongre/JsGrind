@@ -153,5 +153,191 @@ it has a lot of optional parameters
     /*
     this makes a network request to the url and returns a promise 
     the promise resolves with a response object when the remote server responsds with headers but before 
+    full response is donwloaded 
+
+    to read the full response we should call the method response.text() 
+    it returns a promise that resolves when a full text is downloaded from the remote user with that text as a result 
+
+
     */
+   fetch('scripts/1.js')
+   // .then runs when the remote server responds
+   .then(function(response){
+    // response.text() returns a new promise that resolves with full response text 
+    // when it loads 
+    return response.text();
+   })
+   .then(function(text){
+    // ... and heres the content of the remote file 
+    console.log("where",text);
+    // {"name":'pratik', 'isAdmin' : true}
+    
+   })
 }
+
+
+/*
+the response object returned from fetch also includes the method response.json() that reads 
+the remote data and parses it to JSON
+
+we will use arrow functions for breivty 
+*/
+
+{
+    // same as above but the response.json() parses the remote content as JSON
+    fetch('scripts/user.json')
+    .then(response => response.json())
+    .then(user => console.log(user.name));
+}
+
+// lets do somehting with the loaded user
+// make one more requrst to github load the user profile and show the avatar 
+{
+    // make a request for user.json
+    fetch('scripts/user.json')
+    // load it as json
+    .then(response=> response.json())
+    // make a request to github 
+    .then(user => fetch(`https://api.github.com/users/${user.name}`))
+    // load the response as json 
+    .then(response => response.json())
+    // show the avatar image 
+    // (github.avatar_url) for 3 sec 
+    .then(githubUser => {
+        let img = document.createElement("img");
+        img.src = githubUser.avatar_url;
+        img.className = 'promise-avatar-example';
+        document.body.append(img);
+
+        setTimeout(()=> img.remove(),3000); // *
+    });
+}
+
+/*
+the code works 
+however the potential problem in it 
+a typical errro 
+at * line 
+how can we do something after the avatar has finishe showing and gets removed 
+for instnace we like to show a form for editing that user or something else 
+as of now theres no way 
+
+to make the chain extendable we need to return a promise that resolves when avatar finsihes showing 
+*/
+{
+    fetch('scripts/user.json')
+    .then(response => response.json())
+    .then(user => fetch(`https://api.github.com/users/${user.name}`))
+    .then(response => response.json())
+    .then(githubUser => new Promise(function (resolve,reject){ // *
+        let img = document.createElement('img');
+        img.src = githubUser.avatar_url;
+        img.className = 'promise-av-ex';
+        document.body.append(img);
+
+        setTimeout(()=> {
+            img.remove();
+            resolve(githubUser); // **
+        },3000);
+    }))
+
+    // trigger after 3 sec 
+    .then(githubUser => console.log(`Finished showing ${githubUser.name}`));
+
+}
+
+
+/*
+.then handler in line * now returns new Promise 
+that becomes setteld only after the call of resolve(githubUser) in setTimeout ** 
+the next .then in the chain will wait for that 
+
+as a good practice asynchronous actiosn shouw always return a proimse 
+that make it possibel to plan actions after it 
+even if we dont plan to extend the chain nwo we may need it later 
+*/
+
+// finally we can spit the code into resuable functions 
+
+{
+    function loadJson(url){
+        return fetch(url)
+        .then(response => response.json());
+    }
+
+    function loadGithubUser(name){
+        return loadJson(`https://api.github.com/users/${name}`);
+    }
+
+    function showAvatar(githubUser){
+        return new Promise(function(resolve,reject){
+            let img =document.createElement('img');
+            img.src= githubUser.avatar_url;
+            img.className = 'promi-av-ex';
+            document.body.append(img);
+
+            setTimeout(()=>{
+                img.remove();
+                resolve(githubUser);
+            },3000);
+        });
+    }
+
+    // use them 
+    loadJson('scripts/user.json')
+    .then(user => loadGithubUser(user.name))
+    .then(showAvatar)
+    .then(githubUser => alert(`finished showing ${githubUser.name}`));
+}
+
+// summary 
+/*
+
+if a .then or catch/finally does not matter handlers returns a proimse 
+the rest of the chain waits until it settles 
+when it does its result (or errro) is passed further 
+
+the call of .then(handler) always return a promise 
+state : "pending"
+result : undefined
+
+if handler ends with 
+
+return value 
+state : 'fulfilled'
+result : value 
+
+or throw error 
+that promsie settes with 
+state : 'rejected'
+result : error 
+
+return promise 
+with the result of new Promise 
+*/
+
+// tasks  1
+//promise then versus catch 
+
+{
+    // promise.then(f1).catch(f2);
+}
+
+{
+    // promise.then(f1,f2);
+}
+
+// not equal 
+/*
+if an error happens in f1 
+then it is handled by .catch 
+
+but not in promise.then(f1,f2);
+that because an error is passed donw the chain and in the second code thers no chain below f1 
+
+in other words .then passes results/error to the next .then/catch
+so in the first example we have catch 
+but in the second ex there is not 
+so error is not handled
+*/
+
