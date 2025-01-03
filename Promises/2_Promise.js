@@ -308,3 +308,213 @@ do a cleanup after it
       );
     
 }
+
+/*
+finally(f) is not exactly an alias of .then(f,f) though 
+
+important difference 
+1. a finally handler has no arguments 
+in finally we dont know wehter the promise is succesful or not 
+in this our task is to perform general finalizing procedures 
+as we see above 
+the finally handler has not argumetns 
+and the promise outcome is handled by next handler 
+
+2. a finally handler passes through the result or errror to the sutiable handler 
+for instnace  the result is passes through finally to then 
+*/
+{
+    new Promise((resolve,object)=>{
+        setTimeout(()=> resolve("value"),1000);
+    }) 
+        .finally(()=> console.log("promise ready"))
+        .then((result)=> console.log(result));
+}
+
+
+/*
+the value returned by the first promise is passed through finally to the next then 
+
+as finally is not meant to process a promise result 
+as said its a place to do generic cleanup no matter what the outcome was 
+
+
+*/
+
+// example of an error and how its passed through finally to catch 
+
+{
+    new Promise((resolve,reject)=>{
+        throw new Error("ohoh");
+    })
+    .finally(()=> console.log("promise ready"))
+    .catch((err)=> console.log(err.name));
+}
+
+/*
+3. a finally hnadler also should retunr anything if it does the returned value is silently ignored 
+the only exeception to this rule is when a finally handler throws an error then this error goes to next handler 
+instead of any previous outcome 
+
+to summarize 
+a finally handler does not get the outcome of previous handler (it has no arguments )
+the outcome is passed through instead to the next suitalbe handler 
+
+if a finally handler returns something its ignored 
+
+wehn a finally throws an error then the executtion goes to the nearrest error handler 
+
+these feature are helpful and make things work just the right way 
+if we use finally how its supposed to be used 
+for generic cleanup procedures 
+
+
+*/
+
+/*
+we can attach handler to settled promises 
+if a promise is pending .then/catch/promises  handler waits for its outcome 
+sometimes it might be that a promise is already settled when we add handler to it 
+in that case these handler run immediately 
+
+*/
+
+{
+    let promise = new Promise(resolve =>  resolve("done"));
+    // the promise becomes resolved immediately upon creation
+
+    promise.then(console.log);
+}
+
+/*
+note that this makes proimse more powerful thant real life subscription list 
+if the singer has already releaed theri song and then a person signs up  on the subscription list 
+tehey probably wont recived that song 
+subscription must be done prior to the event 
+
+Promises are more flexible we can add handlers any time 
+if the result is already there they just executed 
+*/
+
+// example Loadscript
+/*
+how promiess van help us write asyncrhonous code 
+we got LoadScript function for loading a script from the previosu chapter 
+
+
+*/
+
+// callback based variant just to remind 
+{
+    function loadScript(src,callback){
+        let  script = document.createElement("script");
+        script.src = src;
+
+        script.onload = () => callback(null,script);
+        script.onerror = ()=> callback(new Error (`Script load errro for ${src}`));
+
+        document.head.append(script);
+    }
+}
+
+// rewrite in Promises 
+/*
+the new function loadScript will not require callback instead it will create and return a promise object 
+that resolves when loading is complete 
+the outercode can add handlers (subscription handler) to using using .then
+*/
+
+{
+    function loadScript(src){
+        return new Promise(function(resolve,reject){
+            let script = document.createElement('script');
+            script.src = src; 
+            script.onload = () => resolve(script);
+            script.onerror = ()=> reject(new Error(`Script load error for ${src}`));
+
+            document.head.append(script);
+        });
+    }
+
+    
+        let promise  = loadScript("https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.11/lodash.js");
+        promise.then(
+            script => console.log(`${script.src} is loaded`),
+            error => console.log(`Error : -${error.message}`)      
+        );
+    
+        promise.then(script => console.log("another handler"));
+    
+}
+
+/*
+we can immedeitaly see few benefits over tha callback based pattern 
+
+promises allows us to do things in the natural order 
+first we run loadScript(script) and .then we write what to do with the result 
+
+we can call .then on a promise as many times as we want 
+each time we are adding a new fan a new subscribing function to the sbuscription list 
+
+
+callbacks 
+we must have a callback function at our disposal when calling loadscript(script,callback)
+in other words we must know what to do with the result before loadScript is called
+
+there can be only one callback
+
+so promises give us better code and flexibility 
+
+
+*/
+
+
+// tasks 
+// re resovle a problem 
+{
+    let promise = new Promise(function (resolve,reject){
+        resolve(1);
+
+        setTimeout(()=> resolve(2),1000);
+    });
+
+    promise.then(console.log);
+}
+
+// teh second call to resolve is ignored because only the first call of reject/resovle is taken into account 
+// further call is ignored 
+
+
+
+// task 2 
+// Delya with proimse 
+// the built in function setTimeout uses callback 
+// create a proimse based alternative 
+
+// the function delay(ms) should return a promise 
+// that proimse should resolve after ms so that we can add .then to it 
+
+{
+    function delay(ms){
+        return new Promise((resolve) => {
+            setTimeout(resolve,ms);
+        });
+    }
+
+     delay(3000).then(()=> console.log(`runs after 3 seconds `));
+}
+
+// reslve is called without arguments 
+// we done return any value from delays, jsut ensure the delay 
+
+// task 3 
+// Animated circle with promise
+// Rewrite the showCircle function in the solution of the task Animated circle with callback 
+// so that it returns a promise instead of accepting a callback.
+
+{
+    // showCircle(150,150,100).then(div => {
+    //     div.classList.add('message-ball');
+    //     div.append("hello world");
+    // });
+}
