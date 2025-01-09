@@ -232,3 +232,116 @@ let promise = Promise.race(iterable)
 
 // the first promise here was fasted so it became the result 
 // afther the first setlled promise "win the race " all further results/errors are ignored
+
+// promise.any 
+/*
+similar to promise.race
+but waits only for the first fulfilled promise and get it result 
+if all of the given promise are rejected then the returned promise is rejected with 
+AggregateError - a special error object that stores all promise errors in its errors property
+
+let promise = Promise.any(iterable)
+
+for instnace the result will be 1 
+*/
+{
+    Promise.any([
+        new Promise((resolve,reject) => setTimeout(() => reject (new Error ("whoops")),1000)),
+        new Promise((resolve,reject) => setTimeout(() => resolve(1),2000)),
+        new Promise((resolve,reject) => setTimeout(() => resolve(3),2000))
+    ]).then(alert); // 1
+}
+
+/*
+the first promise was fastest but it was rejected so the second promise becamse the result 
+after the first fullfilled wins race all further are ignored 
+*/
+{
+    // an example when all promises fails 
+    Promise.any([
+        new Promise((resolve,reject) => setTimeout(() => reject(new Error ("OUch")),1000)),
+        new Promise((resolve,reject) => setTimeout(() => reject(new Error("Error")),2000))
+    ]).catch(error => {
+        console.log(error.constructor.name); // AggregateError
+        console.log(error.errors[0]);
+        console.log(error.errors[1]);
+        
+    });
+
+    // error objects for failed promises are available in the error property of the 
+    // aggregateError Object
+
+
+}
+
+
+// Promise.resolve/reject
+/*
+Methods Promise.resolve and Promise.reject are rarely needed in modern mode 
+because async/await syntax makes them somewhat obsolete
+
+so its an alternative for async/await
+*/
+
+// Promise.resolve
+// Promise.resolve(value) creates a resolved promise with the result value
+// same as 
+// let promise = new Promise(resolve => resolve(value))
+
+/*
+for ex loadCached function below fetches a Url and remeberes(catches) its content 
+for future calls with the same Url it immedieately gets the preivosu contennt from cache 
+but uses Promise.resolve to make a promise of it so the return value is always a promise
+*/
+
+{
+    let cache = new Map();
+
+    function loadCached(url){
+        if(cache.has(url)){
+            return Promise.resolve(cache.get(url));
+        }
+        return fetch(url)
+        .then(response => response.text())
+        .then(text => {
+            cache.set(url,text);
+            return text
+        });
+    }
+
+    // we can write loadCached(url).then(...)
+    // because the function is guaranteeed to return a promise 
+    // we can always use .then after loadCached 
+    // thats the purpose of Promise.resolve 
+}
+
+// Promise.resovle(error) creates a rejected promises with error 
+// same as 
+// let promise = new Promise((resolve,reject) => reject(error))
+
+// in practise the method is never really used 
+
+/*
+Summary 
+there are 6 static methods of Promise class 
+1.  Promise.all(promises) - waits for all promises to resolve and returns an arary of theri result 
+if any of the given promises rejects 
+it becomes the error of Promise.all  and all other results  are ignored 
+
+2. Promise.allSettled(promises) (recently added method)
+- waits for all promises to settle and returns theires resutls as an array of objects with 
+status : "fulfilled" or "rejected"
+value : (if fulfilled) or reason (if rejected)
+
+3. Promise.race(promises) -waits for the first promise to settle and its result/error beomes the outcome 
+
+4. Promise.any(promises) - (recently add method) waits for the first promise to fulfill
+and its reuslt becomes the outcome 
+if all of the given promises are rejected . 
+thne aggregateError become the eerror of Promise.any 
+
+5. Promise.resolve(value) - makes a resolved promise with the given value 
+6. Promise.reject(error) - mkaes a rejected promise with the given error 
+
+of all these promise.all is probably most common in practice 
+*/
