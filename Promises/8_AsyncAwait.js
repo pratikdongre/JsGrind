@@ -414,4 +414,111 @@ there because we are not in an async function
             this.response= response;
         }
     }
+
+    function loadJson(url) {
+        return fetch(url)
+        .then(response =>{
+            if(response.status == 200){
+                return response.json();
+            } else {
+                throw new HTTPError(response);
+            }
+        });
+    }
+
+    // ask for use name until github return a valid user 
+
+    function demoGithubUSer(){
+        let name = prompt("Enter a name ?","pratikdongre");
+
+        return loadJson(`https://api.github.com/users/${name}`)
+        .then(user => {
+            console.log(`Full name ${user.name}`);
+            return user ;
+        })
+        .catch(err => {
+            if (err instanceof HTTPError && err.response.status == 404)
+            {
+                alert("no such user,please reneter");
+                return demoGithubUSer();
+            } else {
+                throw err;
+            }
+        });
+    }
+
+    demoGithubUSer();
+}
+
+// in async/await 
+
+{
+    class HTTPError extends Error {
+        constructor(response){
+            super(`${response.status} for ${response.url}`);
+            this.name = "HTTPError";
+            this.response = response;
+        }
+    }
+
+    async function loadJSon(url){
+        let response = await fetch(url);
+        if(response.statu == 200)
+        {
+            return response.json();
+        } else {
+            throw new HTTPError(response);
+        }
+    }
+
+
+    // ask for a user name until github returns a valid user 
+    async function demoGithubUSer (){
+        let user ;
+        while(true) {
+            let name = prompt("enter a name ?","pratikdongre");
+
+            try {
+                user = await loadJSon(`https://api.github.com/users/${name}`);
+                break; // no error ,exit loop
+            } catch (err) {
+                if(err instanceof HTTPError && err.response.status == 400)
+                {
+                    // loop continues after the alert 
+                    alert("no such user,please reneter");
+                } else {
+                    throw err;
+                    // unkown error , rethrow 
+                }
+            }
+        }
+
+        alert(`Full name : ${user.name}`);
+        return user;
+    }
+
+    demoGithubUSer();
+}
+
+
+// call async from non-async
+
+// we have regular function called f 
+// how cann you call the async function wait() and use its result inside of f ? 
+
+{
+    async function wait(){
+        await new Promise(resoleve => setTimeout(resolve,1000));
+        return 10 ;
+    }
+
+    function f(){
+        // what should we write her 
+        // we need to call async wait() and to get 10 
+        // remever , we cant use await outside the async 
+
+        wait().then(result => alert(result));
+    }
+
+    f();
 }
