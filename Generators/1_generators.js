@@ -339,7 +339,7 @@ with an argu that arug becomes the result of yield
 {
     function* gen(){
         // pass a question to the outer code and wait for an answer 
-        let result = yield "2 + 2 = ?";
+        let result = yield "2 + 2 = ?"; // *
         console.log(result);
         
     }
@@ -348,4 +348,235 @@ with an argu that arug becomes the result of yield
     let question = generator.next().value; // yield retursn the value 
 
     generator.next(4); // pass the resutl into the genrator 
+}
+
+
+/*
+1. the first call generator.next() should e always made without an argument 
+(the argument is ignored if passed)
+it starts the execution and returns the result of the first yield = "2 + 2 ? "
+at this point the generator pauses the exeuction while staying on the line *
+
+
+2. then the result of yeild gets into quesiotn variable in calling code 
+3. on Generator.next(4) the generator resumes and 4 gets in as result 
+let result = 4
+
+the outer code does not have to immediately call next(4) 
+it may take time that not a prolbem the generator will wait 
+
+
+*/
+
+{
+    // resume the generator after 1 s 
+    // setTimeout(() => generator.next(4));
+}
+
+
+//unlike regular function a generator and teh calling code can exchnage the rresult by passing values in next/yield
+
+{
+    function* gen(){
+        let ask1 =yield "2 + 2 = ?";
+
+        console.log(ask1);
+
+        let ask2 = yield "3 * 3 = ?";
+        console.log(ask2);
+        
+    }
+
+    let generator = gen();
+
+    console.log(generator.next().value);
+
+    console.log(generator.next(4).value);
+
+    console.log(generator.next(9).done);
+    
+}
+
+/*
+1. the first .next() starts the exeuction it reaches the first yield 
+2. the result is returned to the outer code 
+3. the second .next(4) passes 4 back to the generator as the result of the first yield and resumes the exeuction 
+4. .. it reaches the second yeild that becomes the result of the generator call 
+5. the third next(9) passes 9 into the genrator as the same result of the second yield and resumes  the exeuction 
+that reaches the end of teh function true 
+
+*/
+
+// generator.throw
+/*
+the outer code may pass a value into the genrator as the result of yield 
+but it can also intitate throw an error there 
+that natural as an error is a kind of result 
+
+to pass an error into a yield we shoulc call generator.throw(err) 
+inthat case the err is thrown in the line with that yield 
+
+for instance here the yield of 2 + 2 = ? leads an error 
+
+*/
+
+{
+    function* gen(){
+        try {
+            let result = yield "2 + 2 = ? "; // 1 
+            console.log("the execution does not ereach here because the exception is throw above ");
+            
+        } catch(e) {
+            console.log(e); // shows the error 
+            
+        }
+    }
+    let generator = gen();
+    let question =generator.next().value;
+
+    generator.throw(new Error("the answer is not found in my database ")); // 2 
+}
+
+/*
+the error thrown into the generator at line 2 lead an execpeiton in line 1 with yield 
+in above try...catch catches it and show it 
+
+if we dont catch it then just like exception it falls out the genrator into teh calling code 
+
+the current line of the callind code is the lien with generator.throw 
+so we can catnch it like this 
+*/
+
+{
+    function* generate(){
+        let result = yield "2 + 2 = ?" ; // error in this lien 
+    }
+
+    let generator = generate();
+    let question = generator.next().value;
+
+    try {
+        generator.throw(new Error ("the answer is not found in my database"));
+    } catch (e) {
+        console.log(e); // shows the error 
+        
+    }
+
+    // if we dont catch the error here as usual it falls through to the outer callind code 
+    // and if uncaught kills the script 
+}
+
+// generator.return 
+/*
+
+generator.return(value) finsihes the generator execution and retrune the given value 
+*/
+
+{
+    function* gen(){
+        yield 1;
+        yield 2;
+        yield 3;
+    }
+    const g = gen();
+
+    g.next(); // {value : 1, done : false}
+   g.return("foo"); // {value : foo , done : true}
+    g.next(); // {value : undefined,done : true}
+}
+
+/*
+
+if we again use generator.retunr() in a completed generator it will return that value again 
+often we dont use it as most of time we want to get all returning values 
+but it can be usueful when we want to stop generator in specific condition 
+*/
+
+/*
+summary 
+generator are created by generator function function* f() {}
+inside generator only there exist yield  operator 
+the outer code and the generator may exchange results via next/yields calls 
+
+in modern js generator are rarely used 
+but sometimes comes in handy 
+because the ability for function to exchange the data with the calling code during the exeuction is quite unique 
+and also great for making iterable objects 
+
+also async generator which are used to read streams of asynchrnously generated data 
+eg paginated feteches over a netowrk in for await .. of loops 
+
+in web programming we often work with streamed data 
+
+*/
+
+
+// tasks // pseudo random generator 
+/*
+there are many areas where we need random data 
+one of them is testing we may need random data : text,numbers,etc to test things out well 
+
+in js we could use Math.random()
+but if someting goes wrong we'd liek to be able to repeat the test 
+using the same exact data 
+
+for that so called seeded pseudo randome generator are used 
+they take a seed first value and then generate the next ones based on a formuale so that same seed 
+yields the same sequence and hence the whole flow is easily reproducible 
+we only need to remember the seed to repeat it 
+
+an exof such formuale that generates somwhat uniformly distributed values 
+
+next = previous * 16807 % 214783467
+
+if we use 1 as the seed the values will be 
+16807
+67691782
+
+the task is to create a generator function PsuedoRandomeSeed that takes seed adn creates the generator with formula 
+
+*/
+
+{
+
+    function* psuedoRandom(seed)
+    {
+        let value = seed;
+        while(true){
+            value = value * 16807 % 214783467;
+            yield value;
+        }
+    }
+
+
+    let generator = psuedoRandom(1);
+    console.log(generator.next().value);
+    console.log(generator.next().value);
+    console.log(generator.next().value);
+
+
+    
+}
+
+// we can do the same in regular fucntion 
+// but then lose abilty to iterate with for ..of and to use generaator compostion
+
+{
+    function psuedoRandom(seed){
+        let value = seed;
+
+        return function(){
+            value  =value * 16807 % 214783467;
+            return value;
+        }
+    }
+
+    let generator = psuedoRandom(1);
+
+    console.log(generator());
+    console.log(generator());
+    console.log(generator());
+
+
+    
 }
