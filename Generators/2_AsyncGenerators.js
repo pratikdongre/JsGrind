@@ -341,7 +341,26 @@ fot us it will be simple async iteration for await of
         let url =  `https://api.github.com/repos/${repo}/commits`;
 
         while(url){
-            
+            const response = await fetch(url, { // 1    
+                headers : {'User-Agent' : 'Our Script'},
+                // github need any useragent headr
+
+            });
+            const body = await response.json(); 
+            // 2 response is json array of commits;
+
+            // 3 url of the next page is in the headers extract it 
+            let nextPage = respone.headers.get('Link').match(/<(.*?)>; rel = "next"/);
+            nextPage = nextPage?.[1];
+
+            url = nextPage;
+
+            for(let commit of body){
+                // 4 yeild commits one by one until the page end 
+                yield commit;
+            }
         }
     }
 }
+
+// more explaination 
