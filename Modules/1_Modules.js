@@ -287,11 +287,35 @@ for non module scripts the async attribute onlys works on external scripts
 async scirpts run immediately when ready independly of othe scripts or thml docment 
 for module scirpts it works on inline scripts as well 
 
-for exg the inline scirpt bwlo has async so it  dosnot wait for anyting 
+for exg the inline scirpt below has async so it  dosnot wait for anyting 
+
+it performs the import fetches ./analytics.js and runs when ready even if the html document is not finished yet or if other 
+scripts are still pending 
+
+that good for functinality that does not depend on anything like 
+counter,ads,documentelevel event listensert 
 
 */
 
 
+// all dependcines are fetched (analytics.js) and the script runs 
+// doesnt wait for the document or other script tags 
+
+/*
+<script async type ="module">
+import {counter} from './analytics.js';
+counter.count();
+</script>
+
+
+*/
+
+
+// external scripts 
+// external script that have type="module" are different in two aspects 
+/*
+
+*/
 
 
 
