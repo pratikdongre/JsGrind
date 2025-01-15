@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<script type= "module">
+    import {sayHi} from './sayHi.js';
+
+    document.body.innerHTML = sayHi('John');
+
+
+</script>
+
+<!-- 
+the browser automatically fetches and evaluates the imported module and 
+its imports if needed and then runs the scripts 
+
+
+Module work only via HTTps not locally 
+if you try to open a web page locally 
+via file:// protocol 
+import/export directive dont wrok 
+use a local web server such as static server or live server 
+and it works 
+-->
+
+
+<!-- module level scope  -->
+
+<script type = "module" src="user.js"> </script>
+<script type = "module" src="sayHi.js"> </script>
