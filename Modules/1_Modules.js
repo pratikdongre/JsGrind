@@ -314,9 +314,119 @@ counter.count();
 // external scripts 
 // external script that have type="module" are different in two aspects 
 /*
+1. external scripts with the same src run only once
+<the script my.js is fetched and executed only one >
+
+<script type = "module" src= "my.js"> <script>
+<script type = "module" src ="my.js"> <script>
+
+2. external scripts that are fetched from another origin eg another site require 
+cors headers 
+in other words if a module script is fetched from another origin the remote server must supply a header 
+access-control-allow-origin allowing the fetch 
+
+another-site.com must supply acess control allow-origin 
+toherwise the scirpt wont execute 
+<script type ="module" src ="https://another-site.com">
+that ensure btter security by default 
+*/
+
+
+// no bare moudles allowed 
+/*
+in the browser import must get eirther relative or absoulte url 
+moduels wihtout any path are called bare modules 
+such moudles are not allowed to import 
+
+for instance 
+the import is invalid 
+
+import{sayHi} from 'sayHi'; // error bare module 
+// the module must have path './sayHi.js'; or wherever the js is 
+
+
+certian env like node js or bundle tools allow bare modules without any path 
+as they have their own ways to finding moduels and hooks to fine tune them 
+but browser do not support bare moduel yet 
 
 */
 
+
+// compatiblity nomodule
+/*
+old broswers do not understand type='module' scripts of an unknow type are just ignored 
+for them it is possible proive a fallback using nomodule 
+attribute 
+
+<script type ="module">
+alert("runs in modern browsers ");
+</script>
+
+<script nomodule>
+alert("modern browser both know type = module and nomodule");
+alert("old broswer ignore script with unknow type ="module" but exeucte this );
+</script>
+*/
+
+// build tools 
+/*
+
+in real life broser moudles are rarely in their raw form 
+usually we bundle them togehter with a special tool as webpack
+and deploy to the production server 
+
+one of the benefits of using bundlers 
+they give more control over how moduels are resolved  allowing bare modules and much like css/html modules 
+
+build tools do the follwing 
+1. take a main module the one intended to be put in <script type ="module" > in html
+2. analyze its dependies import and then import of imports etc 
+3. build a single file with all moduels replacing native import calls with bundler function so that it works 
+special module types like html/cass moduels are also supproted 
+4. in the process other transformation and optimzaitaion may be applied 
+unreachel code removed 
+unsuded export removed ("tree shaking")
+dev specifc statemtn like consolde and debugger remved 
+modern bleeding edgs js syntax mya be transformed to olde on with similar funtionality using Babel
+the resulting file is minified (spaces removed ,variables replaced with shorter names etc )
+
+if we use bundle tools then as scripts are bundled together into a single file 
+import/export statement inside those scripts are replaced by spcial bundler funtion
+it does required type ="module" and we can put it inot a regular scripts 
+
+// asuming we got bundle.js from tool like webpack 
+<script src= "bundle.js"></script>
+
+that said native moduels are also usuable so we wont be using webpack here 
+
+*/
+
+/*
+summary 
+1. a module is a file 
+to make import/export work 
+browser need <script type="module">
+modules have several differences 
+deferred by default
+async works on inline scripts 
+to load external scripts from another origin (domain/protocol/port) cors headers are needed 
+duplicate external scripts are ignored 
+
+2. moudles have their own local top level scope and itnerchange functionality via import/export
+
+3. modules always use strict
+
+4. moduels code is exeucted only once 
+exports are created once and shared between importers 
+
+when we use moduels each modules implement the functionality and export it 
+then we use import to directly import it where its needed 
+the browser loads and evaulates the scirpt automatically
+
+in the production people often use bundlers such as webpack to bundle modules togeher for perfromance 
+
+
+*/
 
 
 
