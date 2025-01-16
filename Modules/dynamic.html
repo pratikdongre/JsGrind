@@ -1,0 +1,23 @@
+<!Doctype html>
+<script>
+async function load(){
+    let say = await import('./sayHi.js')
+    say.hi();
+    say.bye();
+    say.default(); // module loaded (export default)
+}
+</script>
+<button onclick="load()"> click me </button>
+
+<!-- 
+dyamic import work in reugalr script 
+they dont require script type = "module"
+
+alhrough import() looks like a function  call 
+its speciall syntax that just happend to use parentehses 
+simlar to super()
+
+so we cant copy import to bariable or use call / apply with it 
+it not a function
+
+-->
