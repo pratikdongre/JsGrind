@@ -137,4 +137,6 @@ various browser function
 setTImeout , alert, location and so on 
 it takes the dom specifcation and extends it with many additional prop and methods 
 
+
+
 */
