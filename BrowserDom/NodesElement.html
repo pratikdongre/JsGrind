@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html >
+<head>
+   
+</head>
+<body>
+   <div id ="child">
+    Hello,world
+   </div>
+
+   <script>
+    let elem = document.getElementById("child");
+
+    // traversing upto the html using parentNode
+    while(elem && elem!== document){
+        alert(elem.nodeName);
+        elem = elem.parentNode;
+    }
+
+    elem = document.getElementById("child");
+
+    while(elem){
+        alert(elem.tagName || elem.nodeName);
+        elem = elem.parentElement;
+    }
+    // or 
+    while(elem = elem.parentElement){
+        alert(elem);
+    }
+    
+
+   </script>
+</body>
+</html>

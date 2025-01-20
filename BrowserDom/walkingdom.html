@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script>
+        alert("FRom head :- " + document.body);
+    </script>
+
+
+</head>
+
+<body>
+    
+    <script>
+        alert("FRom body :- " + document.body);
+    </script>
+
+    <div> Show </div>
+    
+    <ul>
+        <li>
+            <b>
+            Running Campaigns
+            </b>
+        </li>
+    </ul>
+
+    <div>
+        End
+    </div>
+
+    <script>
+        for(let i =0;i<document.body.childNodes.length;i++){
+            alert("where is this coming from " + document.body.childNodes[i]);
+        }
+    </script>
+
+    <script>
+        for(let prop in document.body.childNodes){
+            console.log("this are recived thr for ..in loop which will include all enumerables " + prop);
+            
+        }
+    </script>
+
+    <script>
+        for(let elem of document.body.children){
+            console.log("childrens only and not childreNodes" + elem);
+            
+        }
+        </script>
+
+
+  
+
+
+</body>
+</html>
+

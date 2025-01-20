@@ -1,0 +1,30 @@
+<html>
+    <head>
+        <title>DOM children</title>
+
+    </head>
+    <body>
+        <div>Users :</div>
+        <ul>
+            <li>DOgs</li>
+            <li>Cats</li>
+        </ul>
+<!-- give at least one way to access div node ul node li with cats -->
+        <script>
+            let divNode =document.body.firstElementChild 
+                 // document.body.children[0]
+                // document.body.childNodes[1] //as first node may be space_text  
+                alert(divNode.tagName);
+            let ulNOde = divNode.nextElementSibling;   
+                // document.body.lastELementCHild;
+                // document.body.children[1];
+                alert(ulNOde.nodeName);
+            let liNode = ulNOde.lastElementChild;
+                // document.body.lastElementCHild.lastELementchild  
+                alert(liNode.nodeName);
+                
+               
+        </script>
+    </body>
+
+</html>
