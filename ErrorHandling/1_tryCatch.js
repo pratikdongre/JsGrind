@@ -1,3 +1,7 @@
+// try ..catch works for run time errro and not the parse time when the js reads 
+// try..catch works synchrnously 
+// so to catch a error inside a scheudled function try..catch should be inisde that function
+
 // error handling try catch 
 // no matter how good we are at programming sometimes our scripts have errors 
 // they may occuer becuase of our mistake or un expected user input 
