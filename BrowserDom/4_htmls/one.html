@@ -1,0 +1,31 @@
+<html>
+    <head>
+
+    </head>
+    <body>
+        <div id ="elem">
+            <div id="elem-content">Element</div>
+
+        </div>
+        <script>
+            let elems = document.getElementById('elem');
+             elems.style.backgroundColor = "red";
+        
+
+
+        
+            let elem = document.getElementById('elem');
+            
+            // elem is a reference to DOM-element with id = "elem"
+            setTimeout(() => elem.style.background = 'yellow',3000);
+
+            // id = "elem-content" has hypen inside so it cant be a variable name 
+            // ..but we can access it using brackets : window['elem-content']
+
+            elems = 5;
+            alert(elems);
+        </script>
+
+      
+    </body>
+</html>
