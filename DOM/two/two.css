@@ -1,0 +1,76 @@
+
+
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family:  'Montserrat';
+}
+
+html,body{
+    height: 100%;
+    width: 100%;
+}
+
+body{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    background-color: rgb(27, 134, 228);
+}
+
+
+#card{
+    width: 300px;
+    border-radius: 10px;
+    height: 400px;
+    background-color: white;
+    padding: 30px;
+}
+
+#card img{
+    height: 50%;
+    width: 100%;
+    
+    object-fit: cover;
+    object-position: center;
+    border-radius: 20px;
+    
+
+}
+
+
+#card h1{
+    font-size: 20px;
+    font-family: 'Montserrat';
+    font-style: italic;
+
+}
+
+#card button{
+    padding: 10px 15px;
+    margin-top: 10px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.remove{
+    background-color: rgb(185, 185, 185);
+}
+
+#request{
+    background-color: rgb(255, 0, 98);
+    color: white;
+}
+
+#card h5{
+    color: pink;
+    font-weight: 900;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
