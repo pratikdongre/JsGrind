@@ -29,6 +29,7 @@ body{
     height: 400px;
     background-color: white;
     padding: 30px;
+    margin: 20px;
 }
 
 #card img{
@@ -74,3 +75,4 @@ body{
     margin-top: 20px;
     margin-bottom: 20px;
 }
+
