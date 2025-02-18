@@ -1,0 +1,64 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: Montserrat;    
+}
+
+body,html{
+    height: 100%;
+    width: 100%;
+}
+
+body{
+    background-color: rgb(92, 0, 15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#container{
+
+    border-radius: 10px;
+    overflow: hidden;
+    height: 400px;
+    width: 300px;
+    background-color: white;
+    border-radius: 12px;
+    position: relative;
+    /* display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center; */
+    cursor: pointer;
+
+    
+
+
+}
+
+#container img{
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    object-position: middle;
+
+}
+
+#container i {
+    color: white;
+    font-size: 75px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%) scale(0);
+    opacity: 0;
+    transition: all ease 0.15s  ;
+
+
+}
+
+
