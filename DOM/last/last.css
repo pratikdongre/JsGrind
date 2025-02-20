@@ -1,0 +1,84 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+
+* {
+    box-sizing: border-box;
+    margin:0 ;
+    padding: 0;
+}
+
+html,body{
+    height: 100%;
+    width: 100%;
+}
+
+
+body{
+    background-color: rgb(0, 136, 255);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+
+#card{
+    height: 480px;
+    width: 350px;
+    background-color: white;
+    border-radius: 10px;
+    border: 3px solid black;
+    overflow: hidden;
+    
+}
+
+
+#storiyan{
+    height: 130px;
+    width: 100%;
+    border-bottom: 1px solid gray;
+    padding: 15px;
+
+
+    white-space: nowrap;
+    overflow-x: auto;
+    overflow-y: hidden;
+
+
+    position: relative;
+}
+
+#storiyan::-webkit-scrollbar{
+    display: none;
+}
+
+
+.story{
+    height: 90px;
+    width: 90px;
+    border-radius: 50%;
+    border: 3px solid red;
+    overflow: hidden;
+    display: inline-block;
+    margin-right: 5px;
+
+}
+
+.story img {
+    height: 90px;
+    width: 90px;
+    /* border-radius: 50%; */
+    object-fit: cover;
+    object-position: center;
+    
+}
+
+#full-screen{
+   height: 100%;
+   width: 100%;
+   background-color: red;
+   
+   display: none; 
+   background-size: cover;
+   background-position: center;
+}
+

@@ -6,10 +6,17 @@
     <title>Document</title>
 </head>
 <body>
-
-<input type="text" id = "waba">
-
-
+    <a href="http://example.com/file.zip">...</a>
+    <a href="http://ya.ru">...</a>
+    
+    <script>
+        // can be any collection instead of document.body.children
+        for(let elem of document.body.children){
+            if(elem.matches('a[href$="zip"]')){
+                alert("the arhiive reference " + elem.href);
+            }
+        }
+    </script>
     
 </body>
 </html>

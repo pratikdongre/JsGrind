@@ -1,12 +1,27 @@
 <html>
     <head>
-
+      
     </head>
     <body>
         <div id ="elem">
             <div id="elem-content">Element</div>
 
         </div>
+
+
+        <ul>
+            <li>The</li>
+            <li>Test</li>
+        </ul>
+        <ul>
+            <li>has</li>
+            <li>Passed</li>
+        </ul>
+
+
+
+
+
         <script>
             let elems = document.getElementById('elem');
              elems.style.backgroundColor = "red";
@@ -14,7 +29,10 @@
 
 
         
-            let elem = document.getElementById('elem');
+            // let elem = document.getElementById('elem');
+
+            // also theres global variable named by id that references the element 
+            // like elem which is id of the div can be accessed globally direcly by elem
             
             // elem is a reference to DOM-element with id = "elem"
             setTimeout(() => elem.style.background = 'yellow',3000);
@@ -24,8 +42,25 @@
 
             elems = 5;
             alert(elems);
+
+
         </script>
 
+
+<script>
+    let elemnent = document.querySelectorAll('ul > li:last-child');
+
+    for(elm of elemnent){
+        console.log("li that are last child ", elm);
+        
+    }
+
+</script>
+
+
+
+
+        
       
     </body>
 </html>
