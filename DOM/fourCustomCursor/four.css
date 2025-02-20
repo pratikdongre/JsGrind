@@ -1,0 +1,43 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    color: white;
+}
+
+body,html{
+    height: 100%;
+    width: 100%;
+}
+
+
+
+.container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    background-color: black;
+    height: 100%;
+    width: 100%;
+    cursor: pointer;
+
+}
+
+.container h1{
+   
+    font-size: 72px;
+}
+
+
+.cursor{
+    background-color: red;
+    height: 20px;
+    width: 20px;
+    border-radius: 10px;
+    position: absolute;
+    mix-blend-mode: difference;
+}
