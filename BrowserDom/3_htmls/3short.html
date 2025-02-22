@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+    <head></head>
+    <body>
+        <div>Begin</div>
+        <ul>
+            <li>
+                <b>Information</b>
+            </li>
+        </ul>
+
+        <script>
+            for(let i = 0;i <= document.body.childNodes.length ;i ++){
+                console.log(document.body.childNodes[i]);
+                
+            }
+
+            console.log(document.body.firstChild == document.body.childNodes[0]);
+            console.log(document.body.lastChild == document.body.childNodes[document.body.childNodes.length - 1 ]);
+
+
+            
+        </script>
+        
+    </body>
+</html>
+
+<!-- 
+in dom tree
+on top we have 
+document
+document.documentElement = html
+document.body = body
+document.head = body
+
+
+document.body  can be null if it does not available at the time of running 
+for instance acceessing document.body from head
+in dom null means no such node
+
+-->
+
+<!DOCTYPE html>
+<html>
+    <head></head>
+    <body>
+        <div>Begin</div>
+        <ul>
+            <li>
+                <b>Information</b>
+            </li>
+        </ul>
+
+        <script>
+            for(let i = 0;i <= document.body.childNodes.length ;i ++){
+                console.log(document.body.childNodes[i]);
+                
+            }
+
+            console.log(document.body.firstChild == document.body.childNodes[0]);
+            console.log(document.body.lastChild == document.body.childNodes[document.body.childNodes.length - 1 ]);
+
+
+// <!-- 
+// ChildNodes
+// childNodes,firstChild,lastChild
+// like body,head are children of html
+
+// The childNodes list all the childNodes including textnodes
+
+// if script is inside body then it will also be coutned as childNodes 
+// if there is stuff below but the script did not read it yet 
+
+// properties 
+// firstChild, lastChild
+// document.body.firstChild == document.body.childNodes[0]
+// document.body.lastChild == document.body.childNodes[document.body.childNodes.length - 1 ]
+
+// -->
+
+// dom collection childNodes is collection not array but a special array like iterable object
+// we can use for of shows all nodes from collection
+for(let node of document.body.childNodes){
+    console.log(node);
+}
+
+// array wont work but we can use Array.from(document.body.childNodes)
+// to use it like perfect array
+
+// dom is read only as we cant do childNodes[i] = ...
+// we have another methods for that 
+
+// all collection are live 
+// if we add somethign or remove from doc.childNodes it be reflected
+
+// for ..in will provide more extra unsuable props 
+
+
+// sibling are the children node of same parent 
+// head and body are sibling 
+
+console.log(document.body.parentNode == document.documentElement);
+console.log(document.head.nextSibling);
+console.log(document.body.previousSibling)
+
+// this are for all nodes like element nodes,textnodes and comments
+
+
+
+// element only navigation
+            
+        </script>
+        
+    </body>
+</html>
+
+
+
+
+
+
+
