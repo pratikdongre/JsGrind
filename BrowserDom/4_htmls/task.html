@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <style>
+/*            
+            p{
+                margin: 0;
+            } */
+
+            table{
+                display: table;
+                border-collapse: separate;
+            }
+        </style>
+    </head>
+    <body>
+
+
+  <!-- <div style="display: flex; gap: 8px;">
+    <p>Search for the site:</p>
+    <input type="text">
+    <button>Search!</button>
+
+  </div> -->
+       
+        <form>
+            Search the site:
+            <input type="text">
+            <input type="submit" value="Search!">
+        </form>
+
+        <hr>
+
+        <form>
+            Search the visitors:
+            <table>
+                <tr>
+                    <td>Age:</td> 
+                    <td id="age-list">
+                        <input type="radio" name="age" value="young">less than 18
+                        <input type="radio" name="age" value="mature">18-50
+                        <input type="radio" name="age" value="old">more than 50
+                    </td>
+                </tr>
+                <tr>
+                    <td>Additionally:</td>
+                    <td>
+                        <input type="text">
+                        <input type="text">
+                        <input type="text">
+                    </td>
+                </tr>
+                
+            </table>
+            <input type="submit" value="Search!">
+        </form>
+  
+          
+    
+     
+    </body>
+</html>

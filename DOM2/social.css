@@ -1,0 +1,82 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+
+
+*{
+    /* margin: 0;
+    padding: 0; */
+    /* box-sizing: border-box; */
+    font-family: Montserrat;
+}
+
+
+body,html{
+    /* height: 100%;
+    width: 100%; */
+    margin: 0px 50px;
+}
+
+/* h1{
+    padding-left: 20px;
+}
+
+#container{
+    display: flex;
+    gap: 100px;
+    padding: 20px;
+
+}
+
+.left{
+   
+   display: flex;
+   flex-direction: column;
+   gap: 20px;
+    
+    
+}
+
+.left button{
+    align-self: flex-start;
+    background-color: rgb(230, 0, 199);
+    padding: 6px 8px;
+    border: none;
+    border-radius: 12px;
+    color: white;
+}
+
+#box{
+    height: 200px;
+    width: 200px;
+    border: 1px solid black;
+}
+ */
+
+#container{
+    display: flex;
+    flex-direction: row;
+    gap: 100px;
+}
+
+#delete{
+    color: black;
+}
+
+#posts{
+    width: 400px;
+}
+
+#posts div{
+    display: flex;
+    flex-direction: row;
+    justify-content:space-between;
+    align-items: center;
+}
+
+.options {
+    display: flex;
+    gap: 20px;
+}
+
+i{
+    cursor: pointer;
+}

@@ -1,0 +1,141 @@
+<!-- attribute and properties 
+ when the browser load the page it pareses the html generate the dom object
+ for element nodes most standard html attribute becomes  properties of dom object 
+ if the tag is <body id = "page"> it becomes body.id = "page"  
+    -->
+<!DOCTYPE html>
+<html>
+    <head>
+        <style> 
+            #circle{
+                height: 40px;
+                width: 40px;
+                margin: 8px;
+                border-radius: 20px;
+                border: 1px solid black;
+            }
+
+            #circle[state="on"]{
+                background-color: yellow;
+
+            }
+
+            #circle[state="off"]{
+                background-color: white;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="test" something = "non-standard"></div>
+        <input id="input" type="text">
+
+        <div id="elem" about="Elephant"></div>
+
+        <input id="one">
+
+        <a href="#hello"></a>
+
+        <div id="circle" state="off"></div>
+        <button id="click"></button>
+        
+        <script>
+
+            // Dom properties
+    // dom nodes are regular js objects we can alter them
+
+    // we can create new properties in documnet.body
+            document.body.myData = {
+                name : "pratik",
+                title : "don"
+            }
+
+            console.log(document.body.myData.title); // don
+            // we can add method as well
+            document.body.sayTagName= function(){
+                console.log(this.tagName);
+            }
+
+            document.body.sayTagName(); // body
+            // we can also modify buliint properties like Element.prototype 
+            // and add new methods to all elements 
+
+
+            Element.prototype.sayHi = function(){
+                console.log(`Hi, I'm ${this.tagName}`);
+            }
+
+            document.documentElement.sayHi();
+            document.body.sayHi();
+
+            // so dom prop can have value and are just like reguarl js obj 
+            // the are case sensitive 
+            
+
+            // HTML attributes 
+            // for standar attributes the corresponding dom properites is created 
+            // but not for non standard properties
+            
+            // attributes are specific to the class
+            // like input  has type which is HTMLinputElement
+            // which is not available for body
+            
+
+            // so if an attribute is non standard there wont be dom property 
+
+            let div = document.querySelector('#test');
+
+            console.log(div.hasAttribute('something'));
+            console.log(div.getAttribute('something'));
+            div.setAttribute('something','nonstand');
+            console.log(div.getAttribute('something'));
+            div.removeAttribute('something');
+
+
+            // html attributes name is case sensitive and value are always strings 
+            console.log(elem.getAttribute('About'));
+
+            
+            console.log(elem.outerHTML);
+
+
+            // property attribute synronizaation 
+            let input = document.querySelector('#one');
+
+            input.setAttribute('id','two');
+            input.id = "three";
+
+            // you can go set attribute and then property 
+            // you can set property and then attribute 
+
+            
+            //howevery like input.value 
+            // not possible so there are cases when you can set thrugh attribute 
+            // but not thgouh the proerties 
+            
+            
+            //dom properties are typed 
+            //dom properties are not always string mostly they are 
+            // input.checked has a boolean 
+
+            // the style attrtibute is a string but the style properties is object 
+            let circle = document.querySelector('#circle');
+
+            let click = document.querySelector('#click');
+            click.addEventListener("click",function(){
+                if(circle.getAttribute('state') == "off"){
+                    circle.setAttribute('state','on');
+
+                } else {
+                    circle.setAttribute('state','off');
+
+
+                }
+            });
+
+
+            // for non standar attirbutes there is dataset property 
+            // to avoid conflict you can set tat attribute as data-about
+            // and access is dataset.about
+        </script>
+    </body>
+</html>  

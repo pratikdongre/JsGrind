@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <style>
+            table{
+                border-collapse: collapse;
+                background-color: rgb(137, 137, 240);
+            }
+            tr{
+               
+                border: 1px solid black;
+                margin: 0;
+                padding: 0;
+            }
+
+            td{
+                margin: 0;
+                border: 1px solid black;
+                padding: 0;
+            }
+        </style>
+    </head>
+    <body>
+
+        <div>
+            <table>
+              
+            </table>
+        </div>
+
+        <script>
+            let box = document.querySelector('table');
+          
+            console.log(box.innerHTML);
+
+            for(let i= 1 ; i<=5 ;i++){
+                let rows = "";
+                for(let j = 1 ; j<= 5 ; j++){
+                   rows += `<td>${j}:${i}</td>`;
+                }
+                box.innerHTML += `<tr>${rows}</tr>` ;
+
+
+
+            }
+
+            // let td = document.querySelectorAll("td");
+            // console.log(td);
+            
+
+            for(let i =0;i<=4;i++)
+            {
+                for(let j = 0 ; j<=4;j++){
+                    let td = box.rows[i].cells[j];
+                    if(i == j){
+                        td.style.backgroundColor = "red";
+                    }
+                }
+            }
+
+
+            
+            
+        </script>
+        
+    </body>
+</html>

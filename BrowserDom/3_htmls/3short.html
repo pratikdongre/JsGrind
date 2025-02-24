@@ -66,7 +66,7 @@ in dom null means no such node
 // childNodes,firstChild,lastChild
 // like body,head are children of html
 
-// The childNodes list all the childNodes including textnodes
+// The childNodes list all the childNodes including textnodes and comments 
 
 // if script is inside body then it will also be coutned as childNodes 
 // if there is stuff below but the script did not read it yet 
@@ -107,7 +107,34 @@ console.log(document.body.previousSibling)
 
 
 
+
 // element only navigation
+console.log(document.body.parentElement == document.documentElement);
+console.log(document.body.children); // only elements 
+console.log(document.body.previousElementSibling);
+console.log(document.head.nextElementSibling);
+
+
+// the parent element return a parent element
+// the parentNode return any node that is parent
+
+console.log(document.documentElement.parentElement); // null 
+console.log(document.documentElement.parentNode); // document
+// because document is not element its root node 
+
+// this information can be helpful if we want to traverse up from any aribtrary element to html
+// but not to document
+let elem = document.querySelector('b');
+console.log(elem);
+
+while(elem = elem.parentElement){
+    console.log(elem , " this");
+    
+}
+
+
+
+
             
         </script>
         
