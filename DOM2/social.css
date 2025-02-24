@@ -80,3 +80,8 @@ body,html{
 i{
     cursor: pointer;
 }
+
+#form{
+    display: flex;
+    flex-direction: column;
+}
