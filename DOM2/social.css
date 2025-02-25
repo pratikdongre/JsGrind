@@ -81,7 +81,6 @@ i{
     cursor: pointer;
 }
 
-#form{
-    display: flex;
-    flex-direction: column;
+.failureMsg{
+    color: red;
 }
