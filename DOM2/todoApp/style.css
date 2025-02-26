@@ -4,6 +4,7 @@
     font-family: Montserrat;
     margin: 0;
     padding: 0;
+    /* box-sizing: border-box; */
 }
 
 html,body{
@@ -25,7 +26,8 @@ body{
     width: 300px;
     background-color: rgb(102, 178, 245);
     border-radius: 10px;
-    border: 7px solid rgb(139, 221, 139);
+    border: 7px solid rgb(0, 153, 0);
+    overflow: hidden;
    
 }
 
@@ -53,14 +55,26 @@ h4{
  margin-bottom: 10px;   
 }
 
+#tasks {
+    overflow-y: auto;
+    max-height: 380px;
+}
 
-#task1{
+#tasks::-webkit-scrollbar{
+    display: none;
+}
+
+
+#tasks > div{
     background-color: rgb(113, 255, 113);
     padding: 10px 15px;
     margin-bottom: 20px;
-    display: flex;
+    display: flex; 
     flex-direction: column;
     gap: 10px;
+   
+ 
+    
     
 }
 
@@ -78,4 +92,93 @@ h4{
 
 i{
     cursor: pointer;
+}
+
+
+.date{
+    font-size: 12px;
+    color: gray;
+}
+
+.taskname{
+    font-weight: bold;
+}
+
+
+#taskModal{
+    background-color: rgb(228, 189, 196);
+    border: 4px solid black;
+    border-radius: 4px;
+    height: auto;
+    width: 400px;
+    display: none;
+    flex-direction: column;
+    padding: 20px;
+    gap: 20px;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    
+   
+    
+}
+
+#firstline{
+    display: flex;
+   
+    justify-content: space-between ;
+    align-items: center;
+    
+}
+
+#secondline{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+
+.modalButts{
+    display: flex;
+justify-content: flex-end;
+gap: 10px;    
+}
+
+#secondline input{
+    padding: 10px 15px;
+    border-radius: 2px;
+    border: none;
+    border-bottom: 1px solid rgb(161, 161, 161);
+}
+
+#TextInput{
+    padding: 10px 15px;
+    border-radius: 2px;
+    border: none;
+    border-bottom: 1px solid rgb(161, 161, 161);
+    height: 150px;
+}
+
+.modalButts button{
+    padding: 5px 6px;
+    border: none;
+    border-radius: 2px;
+    color: white;
+    background-color: rgb(0, 204, 255);
+}
+
+#firstline .close{
+
+    font-size: 30px;
+    cursor: pointer;
+}
+
+button{
+cursor: pointer;
+}
+
+
+#msg{
+    color: red;
 }
