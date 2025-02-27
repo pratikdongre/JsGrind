@@ -93,3 +93,22 @@ height: 80px;
   font-size: 0.75rem;
   margin-top: 10px;
 }
+
+
+.hour-section{
+  width: 100%;
+  text-align: center;
+  border-spacing: 0;
+}
+
+.hour-row{
+  background-color: hsl(200,100%,75%);
+}
+
+.hour-row:nth-child(2n){
+  background-color: hsl(200, 100%, 50%);
+}
+
+.hour-row > td{
+  padding: 10px 15px;
+}
