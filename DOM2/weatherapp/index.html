@@ -543,7 +543,48 @@
           </div>
       </div>
     </template>
-    <template id="hour-row-template"></template>
+
+    <template id="hour-row-template">
+      <tr class="hour-row">
+        <td>
+          <div class="info-group">
+            <div class="lable" data-day></div>
+            <div class="lable" data-time></div>
+          </div>
+        </td>
+        <td>
+          <img  class="weather-icon" data-icon>
+        </td>
+        <td>
+          <div class="info-group">
+            <div class="lable">Temp</div>
+           <div><span data-temp></span><span>&deg;</span>
+          </div>
+          </div>
+        </td>
+        <td>
+          <div class="info-group">
+            <div class="lable">FL Temp</div>
+          </div>
+          <div><span data-fl-temp></span><span>&deg;</span>
+          </div>
+        </td>
+        <td>
+          <div class="info-group">
+            <div class="lable">Wind</div>
+            <div class="lable"><span data-wind></span>
+            <span class="sub-info-group">mph</span>  
+            </div>
+          </div>
+        </td>
+        <td>
+          <div class="info-group">
+            <div class="lable"><span data-precip></span></div>
+            <div class="lable">0<span class="sub-info-group">in</span></div>
+          </div>
+        </td>
+      </tr>
+    </template>
     <script type="module" src="/src/main.js"></script>
   </body>
 </html>
