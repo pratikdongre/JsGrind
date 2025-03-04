@@ -60,3 +60,131 @@ function second(){
 
 
 // promises 
+
+// promiseLearn();
+function promiseLearn(){
+
+    let ans = new Promise((res,rej)=>{
+        if(true) return res();
+        else return rej();
+    });
+    
+    ans
+    .then(function(){
+        console.log("resolved");
+        
+    })
+    .catch(function(){
+        console.log("not resolved");
+        
+    })
+    
+
+}
+
+// PromiseLearn2();
+
+function PromiseLearn2(){
+    let ans = new Promise((res,rej)=>{
+       let n = Math.floor(Math.random()*10);
+
+       if(n<5){
+        return res(n);
+       } else rej(n);
+       
+     })
+
+     ans.then(function(n){
+        console.log("below" + n );
+        
+     })
+     .catch((n)=>{
+        console.log("Above"+ n);
+        
+     })
+}
+
+
+// promiseLearn3();
+
+function promiseLearn3(){
+    var ans = new Promise((res,rej)=>{
+        return res("sabse pehle ghar par aoo");
+    })
+
+    var p2 = ans.then(function(data){
+        console.log(data);
+        return new Promise(function(res,rej){
+            return res("gate kholo,gate lagoa");
+        })
+        
+    })
+
+    p2.then(function(data){
+        console.log(data);
+        
+    })
+}
+
+
+
+// promiseLearn4();
+
+function promiseLearn4(){
+    var ans = new Promise((res,rej)=>{
+        return res("sabse pehle ghar par aoo");
+    })
+
+    ans.then(function(data){
+        console.log(data);
+        return new Promise(function(res,rej){
+            return res("gate kholo,gate lagoa");
+        })
+        
+    })
+
+    .then(function(data){
+        console.log(data);
+        
+    })
+}
+
+
+
+// FetchThen();
+
+function FetchThen(){
+    fetch('https://randomuser.me/api/')
+    .then(function(raw){
+        console.log(raw);
+        
+        return raw.json();
+    })
+    .then ((data)=>{
+        console.log(data);
+        
+    })
+}
+
+
+AsynAwait();
+
+async function AsynAwait(){
+    let raw = await fetch('https://randomuser.me/api/')
+    let data = await raw.json();
+
+    
+    console.log(data);
+    
+}
+
+
+
+// to sum up 
+// callbacks:-  problem:- callback hell/difficult debugging solution:- Promises
+// Promises :- problem:- .then()chaining  can get along  solution :- asyncwait
+// asynawait :- best readability and error handling  
+
+// We started with callbacks, but they led to callback hell.
+// Promises solved this with .then() chaining, but could still get lengthy.
+// AsyncAwait made async code as easy to read as synchronous code!
