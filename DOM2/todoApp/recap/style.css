@@ -32,6 +32,12 @@ body{
     padding: 15px 25px ;
     border-radius: 10px;
     border: 10px solid rgb(226, 36, 67);
+    overflow: hidden;
+    overflow-y: auto;
+}
+
+.app::-webkit-scrollbar{
+    display: none;
 }
 
 #addnewTask{
@@ -48,6 +54,11 @@ h4{
     text-align: center;
 }
 
+#Tasks{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
 
 #Tasks div{
     display: flex;
@@ -68,7 +79,7 @@ h4{
 .createModal{
     border-radius: 20px;
     padding: 30px 25px;
-   display: flex;
+   display: none;
    flex-direction: column;
    gap: 30px;
     height: auto;
