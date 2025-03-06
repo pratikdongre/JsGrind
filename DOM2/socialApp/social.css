@@ -58,7 +58,7 @@ body,html{
 }
 
 #delete{
-    color: black;
+    color: rgb(225, 0, 0);
 }
 
 #posts{
@@ -81,6 +81,7 @@ i{
     cursor: pointer;
 }
 
-.failureMsg{
-    color: red;
+#form{
+    display: flex;
+    flex-direction: column;
 }

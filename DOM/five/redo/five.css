@@ -1,0 +1,45 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    color: white;
+}
+
+html,body{
+    height: 100%;
+    width: 100%;
+}
+
+main{
+    background-color: black;
+    height: 100%;
+    width: 100%;
+}
+
+
+
+.elem{
+    display: flex;
+    border-bottom: 1px solid white;
+    align-items: center;
+    position: relative;
+    height: 110px;
+    
+}
+
+.elem img{
+    height: 100px;
+    width: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+    object-position: center;
+    position: fixed;
+    opacity: 0;
+    pointer-events: none;
+
+    transform: translate(-50%,-50%);
+
+}
