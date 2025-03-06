@@ -1,0 +1,117 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Montserrat;
+    
+}
+div{
+    border-radius: 10px;
+}
+
+body,html{
+    height: 100%;
+    width: 100%;
+}
+body{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-image: linear-gradient(pink,rgb(173, 0, 26));
+}
+
+.app{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    height: 550px;
+    width: 350px;
+    background-image: linear-gradient(rgb(192, 253, 255),rgb(0, 167, 173));
+    padding: 15px 25px ;
+    border-radius: 10px;
+    border: 10px solid rgb(226, 36, 67);
+}
+
+#addnewTask{
+    background-color: rgb(16, 189, 0);
+    padding: 10px 15px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    text-align: center;
+    cursor: pointer;
+}
+
+h4{
+    text-align: center;
+}
+
+
+#Tasks div{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    background-color: rgb(16, 189, 0);
+    padding: 10px 15px;
+}
+
+#Tasks options {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 10px;
+}
+
+
+.createModal{
+    border-radius: 20px;
+    padding: 30px 25px;
+   display: flex;
+   flex-direction: column;
+   gap: 30px;
+    height: auto;
+    width: 450px;
+    background-color: lightcoral;
+    position: fixed;
+    border: 5px solid rgb(0, 153, 0);
+}
+
+#secondline{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+#secondline input{
+    padding: 10px 15px;
+}
+
+.options {
+    
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    gap: 10px;
+}
+.options button {
+    cursor: pointer;
+    padding: 6px 8px;
+    border-radius: 8px;
+    border: none;
+    background-color: rgb(26, 215, 240);
+    
+}
+
+#firstline{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#firstline .close{
+    cursor: pointer;
+    font-size: 30px;
+}
