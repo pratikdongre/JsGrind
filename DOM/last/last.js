@@ -43,7 +43,7 @@ document.querySelector('#storiyan').innerHTML = clutter;
 let storiyan = document.querySelector('#storiyan')
 
 storiyan.addEventListener("click",function(dets){
-    console.log(arr[dets.target.id].story);
+    console.log(arr[dets.target.id]);
    let value =  arr[dets.target.id].story;
    
     document.querySelector("#full-screen").style.display = 'block';
