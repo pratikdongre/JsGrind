@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="style.css">
+        <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"/>
+   
+    </head>
+
+    <body>
+        <div class="app">
+
+            <h1>TODO App </h1>
+
+            <div id="addnewTask">
+                <span>Add new Task</span>
+                <i class="fas fa-plus"></i>
+            </div>
+    
+            <h4>Tasks</h4>
+            <div id="Tasks">
+                <div id="task1">
+                    <p class="TaskName">Pratik</p>
+                    <p class="TaskDate">26-12-2001</p>
+                    <p class="TaskDesc">do it </p>
+                    <options id="butts">
+                        <i class="fas fa-edit"></i>
+                        <i class="fas fa-trash-alt"></i>
+                    </options>
+                </div>
+    
+            </div>
+
+            
+        </div>
+        
+        <form class="createModal">
+            <div id="firstline">
+                <span>Add new Task</span>
+                <span class="close">&times;</span>
+            </div>
+
+            <hr>
+
+            <div id="secondline">
+                <label>Task Title</label>
+                <input type="text" placeholder="TaskName" class="TaskInput">
+                <div id="msg"></div>
+                <label>Due Date</label>
+                <input type="date" class="DateInput" >
+                <label>Description</label>
+                <textarea class="TextInput" rows="8"></textarea>
+                
+                <div class="options">
+                    <button type="button" class="close">Close</button>
+                    <button type="submit">Add</button>
+                </div>
+
+
+            </div>
+    
+        </form>
+
+        <script src="main.js"></script>
+    </body>
+</html>
