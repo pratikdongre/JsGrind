@@ -65,6 +65,7 @@ function learnThis(){
     }
 
     person.walk();
+    person['walk'];
 
     const walk = person['walk'].bind(person);
     walk();
@@ -97,7 +98,7 @@ function arrowfunction(){
 
 // arrowfunction();
 
-function arrowfunction(){
+function arrowfunction2(){
     const jobs = [
         {id : 1, isActive : true},
         {id : 2, isActive : false},

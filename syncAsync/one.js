@@ -6,12 +6,13 @@
 
 
 // setTimeout,
-// setIntervla,
+// setInterval,
 // promises,
 // async,await
 // fetch
 // axios
 // xmlHTTprequest
+
 // first();
 function first(){
     console.log("Hye");
@@ -36,13 +37,13 @@ function first(){
 
 // second();
 function second(){
-    console.log("hy");
+    console.log("pr");
  setTimeout(function(){
-        console.log("rati");
+        console.log("ik");
         
     },0);
 
-    console.log("he");
+    console.log("at");
     
     // se ratik which is async code even with 0 we have set to run the acode after 
     // 
@@ -56,7 +57,7 @@ function second(){
 // then catch,callbacks , async await is what you use to get the answer 
 
 // callbacks are function which are used in async code to run the code inside callback after the completion
-
+// callbacks are the function which are passes as an argument to other function 
 
 
 // promises 
@@ -94,7 +95,8 @@ function PromiseLearn2(){
        
      })
 
-     ans.then(function(n){
+     ans
+     .then(function(n){
         console.log("below" + n );
         
      })
@@ -167,7 +169,7 @@ function FetchThen(){
 }
 
 
-AsynAwait();
+// AsynAwait();
 
 async function AsynAwait(){
     let raw = await fetch('https://randomuser.me/api/')
@@ -182,9 +184,19 @@ async function AsynAwait(){
 
 // to sum up 
 // callbacks:-  problem:- callback hell/difficult debugging solution:- Promises
-// Promises :- problem:- .then()chaining  can get along  solution :- asyncwait
+// Promises :- problem:- .then()chaining  can get long  solution :- asyncwait
 // asynawait :- best readability and error handling  
 
 // We started with callbacks, but they led to callback hell.
 // Promises solved this with .then() chaining, but could still get lengthy.
 // AsyncAwait made async code as easy to read as synchronous code!
+
+// then we wen from using .then and .catch to  try and catch to make asyn await appear synronous 
+
+//Concept	Purpose
+// Callbacks	Old way of handling async tasks (leads to callback hell)
+// Promises	Improves async handling with .then() and .catch()
+// Async/Await	Makes Promises easier to read like synchronous code
+// Fetch	Built-in function for HTTP requests (returns a Promise)
+// Axios	Third-party library like fetch but with extra features
+// Try...Catch	Used with async/await for error handling
