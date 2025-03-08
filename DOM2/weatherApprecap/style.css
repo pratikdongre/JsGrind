@@ -1,0 +1,88 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Montserrat', sans-serif;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.weatherForm{
+    margin: 20px;
+
+}
+
+.cityInput{
+    width: 300px;
+    padding: 10px 20px;
+    font-weight: bold;
+    font-size: 15px;
+    border-radius: 15px;
+    border: none;
+    background-color: rgb(235, 197, 197);
+    
+}
+
+.cityInput::placeholder{
+    color: rgb(0, 0, 0);
+}
+
+button[type='submit']{
+    padding: 10px 20px;
+    border-radius: 15px;
+    border: none;
+    background-color: rgb(34, 207, 8);
+    color: white;
+    font-size: 15px;
+    font-weight: bold;
+    cursor: pointer;
+    
+}
+
+button[type='submit']:hover{
+    background-color: rgb(21, 131, 4);
+
+}
+
+.card{
+    border-radius: 20px;
+    background: linear-gradient(125deg,rgb(111, 216, 214),rgb(196, 76, 1));
+    padding: 50px;
+    box-shadow: 2px 2px 5px black ;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+
+}
+
+h1{
+    font-size: 40px;
+    margin-bottom: 10px;
+    
+}
+
+p{
+    font-size: 18px;
+    font-weight: 500;
+}
+
+.tempDisplay{
+    font-size: 30px;
+}
+.weatherEmoji{
+    font-size: 40px;
+}
+
+.errorMsg{
+    color: red;
+    font-style: italic;
+    display: flex;
+    font-size: 30px;
+}
