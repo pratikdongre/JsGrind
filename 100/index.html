@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+    <head></head>
+    <body>
+        <p id="clock">00:00:00</p>
+        
+        <script>
+            let clock = document.querySelector('#clock');
+            function wakt(){
+                let time = new Date();
+                clock.innerHTML = `${time.toLocaleTimeString()}`;
+            }
+
+            setInterval(wakt,1000);
+            wakt(); // inititalized immedtialey
+        </script>
+    </body>
+</html>
+
+<!-- 
+
+<p id="clock" style="font-size: 2rem; font-family: Arial; transition: 0.3s ease-in-out;"></p>
+
+<script>
+function clock() {
+    let now = new Date();
+    let timeString = now.toLocaleTimeString();
+    
+    let clockElement = document.getElementById("clock");
+    clockElement.innerText = timeString;
+
+    // Small fade effect
+    clockElement.style.opacity = 0.5;
+    setTimeout(() => clockElement.style.opacity = 1, 100);
+}
+
+// Start immediately and update every second
+setInterval(clock, 1000);
+clock();
+</script>
+
+ -->
