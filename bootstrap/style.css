@@ -51,8 +51,4 @@ body {
     }
   }
 
-  input.form-control-plaintext {
-    background-color: transparent !important;
-    border: none !important;
-    box-shadow: none !important; /* Ensures no outline appears */
-}
+ 
