@@ -15,31 +15,34 @@
       crossorigin="anonymous"
     ></script>
 
-    <style></style>
+    <style>
+      input.form-control-plaintext {
+        background-color: transparent !important;
+        border: none !important;
+        box-shadow: none !important; /* Ensures no outline appears */
+      }
+    </style>
   </head>
   <body>
     <div class="container">
-      <button
-        class="btn btn-primary"
-        data-bs-toggle="collapse"
-        data-bs-target=".row"
-        aria-expanded="true"
-        aria-controls="row"
-      >
-        Toggle
-      </button>
+      <form>
+        <label for="text" class="form-label">TExt</label>
 
-      <div class="row collapse" id="row">
-        <div class="col">
-          <div class="box"></div>
+        <div class="input-group input-group-lg">
+          <div class="input-group-text">$</div>
+          <input type="number" id="text" class="form-control" />
+
+          <div class="input-group-text">.00</div>
+          <input type="text" id="text2" class="form-control" />
+          <button class="btn btn-primary">+</button>
         </div>
-      </div>
-      <div class="row collapse" id="row">
-        <div class="col">
-          <div class="box"></div>
-        </div>
-      </div>
+
+        <br /><br />
+
+        <button>Submit</button>
+      </form>
     </div>
+
     <script src="main.js"></script>
   </body>
 </html>
