@@ -1,7 +1,11 @@
-import UpdateArrofObj from "./Lesson14/UpdateArrofObj";
-function App(){
+import ToDoList from "./Lesson15/ToDoList";
 
-  return (<><UpdateArrofObj></UpdateArrofObj></>)
+function App() {
+  return (
+    <>
+      <ToDoList></ToDoList>
+    </>
+  );
 }
 
 export default App;

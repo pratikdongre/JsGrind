@@ -49,21 +49,25 @@
   margin: 0;
 }
 
-
-.btn:hover{
-  background-color: rgb(206, 130, 31) ;
+.btn:hover {
+  background-color: rgb(206, 130, 31);
   opacity: 0.5;
 }
 
-.Color-picker-container{
+.Color-picker-container {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-.color-container{
+.color-container {
   height: 100px;
   width: 100px;
   border-radius: 50px;
- 
+}
+
+.taskNames {
+  font-size: 20px;
+  /* background-color: rgb(5, 197, 255); */
+  /* margin: 10px 15px; */
 }
