@@ -1,9 +1,8 @@
-import ToDoList from "./Lesson15/ToDoList";
-
+import SideCode from "./Lesson16/SideCode";
 function App() {
   return (
     <>
-      <ToDoList></ToDoList>
+      <SideCode></SideCode>
     </>
   );
 }
