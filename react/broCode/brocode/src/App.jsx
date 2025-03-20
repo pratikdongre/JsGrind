@@ -1,8 +1,8 @@
-import SideCode from "./Lesson16/SideCode";
+import ComponentA from "./Lesson18/ComponentA";
 function App() {
   return (
     <>
-      <SideCode></SideCode>
+      <ComponentA></ComponentA>
     </>
   );
 }

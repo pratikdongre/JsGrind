@@ -18,7 +18,7 @@
 
 import react, { useEffect, useState } from "react";
 
-function SideCode() {
+function FirstReturn() {
   const [count, setCount] = useState(0);
   const [color, setColor] = useState("green");
 
@@ -29,7 +29,7 @@ function SideCode() {
 
   // useEffect(() => {
   //   document.title = `My counter Program`;
-  // });
+  // },[]);
   // runs only after mount
 
   // useEffect(() => {
@@ -68,6 +68,41 @@ function SideCode() {
       <button onClick={colorChange}>Color Change</button>
     </>
   );
+}
+
+function SecondReturn() {
+  const [width, setWidth] = useState(window.innerWidth);
+  const [height, setHeight] = useState(window.innerHeight);
+
+  useEffect(() => {
+    window.addEventListener("resize", handleResize);
+    console.log("Event listener added");
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+      console.log("Event listener removed");
+    };
+  }, []);
+
+  useEffect(() => {
+    document.title = `${width} x ${height}`;
+  }, [width, height]);
+
+  function handleResize() {
+    setWidth(window.innerWidth);
+    setHeight(window.innerHeight);
+  }
+
+  return (
+    <>
+      <p>Window Width : {width} </p>
+      <p>Window Height : {height}</p>
+    </>
+  );
+}
+
+function SideCode() {
+  return <SecondReturn />;
 }
 
 export default SideCode;
