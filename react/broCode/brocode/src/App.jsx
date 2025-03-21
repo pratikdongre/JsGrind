@@ -1,8 +1,9 @@
-import ComponentA from "./Lesson18/ComponentA";
+import Stopwatch from "./Lesson20/Stopwatch";
+
 function App() {
   return (
     <>
-      <ComponentA></ComponentA>
+      <Stopwatch />
     </>
   );
 }
