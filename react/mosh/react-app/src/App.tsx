@@ -1,11 +1,11 @@
-// import Message from "./Message";
-import ListGroup from "./components/ListGroup";
-
+import React from "react";
+import ListGroup from "./components/VanilaCSS";
 function App() {
+  const items = ["LA", "NY", "GOA", "NGP"];
   return (
-    <div>
-      <ListGroup></ListGroup>
-    </div>
+    <>
+      <ListGroup items={items} heading={"Cities"}></ListGroup>
+    </>
   );
 }
 

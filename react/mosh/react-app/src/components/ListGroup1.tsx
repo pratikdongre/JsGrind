@@ -1,3 +1,4 @@
+// static
 function ListGroup() {
   return (
     <>
