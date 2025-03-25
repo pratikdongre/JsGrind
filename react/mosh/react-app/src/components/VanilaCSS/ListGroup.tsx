@@ -1,3 +1,5 @@
+import "./ListGroup.css";
+
 interface ListGroupProps {
   items?: string[];
   heading?: string;
