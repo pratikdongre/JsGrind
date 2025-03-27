@@ -1,9 +1,9 @@
-import UpdArrayofObj from "./components/ManageComponent/Immer";
+import Expandable from "./components/ManageComponent/Expandable";
 
 function App() {
   return (
     <>
-      <UpdArrayofObj />
+      <Expandable>Hello World</Expandable>
     </>
   );
 }
