@@ -82,70 +82,66 @@
 // export default App;
 
 import React, { useState, useEffect, ReactNode, Fragment } from "react";
-import apiClient, {
-  CanceledError,
-} from "./components/ConnectingBackend/services/api-client";
+// import apiClient, {
+//   CanceledError,
+// } from "./components/ConnectingBackend/services/api-client";
 
 // import userService, {
 //   User,
 // } from "./components/ConnectingBackend/services/userService";
 
-import userService, {
-  User,
-} from "./components/ConnectingBackend/services/BIfuractionUserService/userService";
-import useUsers from "./components/ConnectingBackend/Hooks/useUsers";
-
+// import userService, { User } from "./services/userServiceNew";
+import userService, { User } from "./services/userService";
+import { CanceledError } from "axios";
 function App() {
-  // const [users, setUsers] = useState<User[]>([]);
-  // const [error, setError] = useState("");
+  const [users, setUsers] = useState<User[]>([]);
+  const [error, setError] = useState("");
 
-  // const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
-  // useEffect(() => {
-  //   setIsLoading(true);
-  //   console.log("fetching data");
+  useEffect(() => {
+    setIsLoading(true);
+    console.log("fetching data");
 
-  //   // new Promise((resolve) => setTimeout(resolve, 0))
-  //   // .then(() => {
-  //   //   return apiClient.get<User[]>("/users", {
-  //   //     signal,
-  //   //   });
-  //   // })
+    // new Promise((resolve) => setTimeout(resolve, 0))
+    // .then(() => {
+    //   return apiClient.get<User[]>("/users", {
+    //     signal,
+    //   });
+    // })
 
-  //   const { request, cancel } = userService.getAll<User>();
+    const { request, cancel } = userService.getAllUsers();
 
-  //   request
-  //     .then((res) => {
-  //       // console.log(res.data[0].name ));
+    request
+      .then((res) => {
+        // console.log(res.data[0].name ));
 
-  //       setUsers(res.data);
-  //       setError("");
-  //     })
-  //     .catch((err) => {
-  //       // if (axios.isCancel(err)) return;
-  //       if (err instanceof CanceledError) return;
-  //       setError(err.message);
-  //       setUsers([]);
-  //     })
-  //     .finally(() => {
-  //       setIsLoading(false);
-  //       console.log("fetchin done");
-  //     });
+        setUsers(res.data);
+        setError("");
+      })
+      .catch((err) => {
+        // if (axios.isCancel(err)) return;
+        if (err instanceof CanceledError) return;
+        setError(err.message);
+        setUsers([]);
+      })
+      .finally(() => {
+        setIsLoading(false);
+        console.log("fetchin done");
+      });
 
-  //   return () => {
-  //     console.log("unmounting ,cancelling the request");
+    return () => {
+      console.log("unmounting ,cancelling the request");
 
-  //     cancel();
-  //   };
-  // }, []);
-
-  const { users, error, isLoading, setUsers, setError } = useUsers();
+      cancel();
+    };
+  }, []);
 
   const deleteUser = (user: User) => {
     const ogState = [...users];
     setUsers(users.filter((u) => u.id !== user.id));
 
-    userService.delete(user.id).catch((err) => {
+    userService.deleteUser(user.id).catch((err) => {
       setError(err.message);
       setUsers(ogState);
     });
@@ -157,7 +153,7 @@ function App() {
     const ogState = [...users];
 
     userService
-      .create(newUser)
+      .createUser(newUser)
       .then(({ data: savedUser }) => setUsers([savedUser, ...users]))
       .catch((err) => {
         setError(err.message);
@@ -170,7 +166,7 @@ function App() {
     setUsers(users.map((u) => (u.id === user.id ? updatedUser : u)));
     const ogstate = [...users];
 
-    userService.Update(updatedUser).catch((err) => {
+    userService.UpdateUser(updatedUser).catch((err) => {
       setError(err.message);
       setUsers(ogstate);
     });

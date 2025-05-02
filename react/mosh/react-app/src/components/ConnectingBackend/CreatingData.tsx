@@ -82,73 +82,65 @@
 // export default App;
 
 import React, { useState, useEffect, ReactNode, Fragment } from "react";
-import apiClient, {
-  CanceledError,
-} from "./components/ConnectingBackend/services/api-client";
+import axios from "axios";
 
-// import userService, {
-//   User,
-// } from "./components/ConnectingBackend/services/userService";
-
-import userService, {
-  User,
-} from "./components/ConnectingBackend/services/BIfuractionUserService/userService";
-import useUsers from "./components/ConnectingBackend/Hooks/useUsers";
+interface User {
+  id: number;
+  name: string;
+}
 
 function App() {
-  // const [users, setUsers] = useState<User[]>([]);
-  // const [error, setError] = useState("");
+  const [users, setUsers] = useState<User[]>([]);
+  const [error, setError] = useState("");
 
-  // const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
-  // useEffect(() => {
-  //   setIsLoading(true);
-  //   console.log("fetching data");
+  useEffect(() => {
+    const controller = new AbortController();
+    const signal = controller.signal;
+    setIsLoading(true);
+    console.log("fetching data");
 
-  //   // new Promise((resolve) => setTimeout(resolve, 0))
-  //   // .then(() => {
-  //   //   return apiClient.get<User[]>("/users", {
-  //   //     signal,
-  //   //   });
-  //   // })
+    new Promise((resolve) => setTimeout(resolve, 0))
+      .then(() => {
+        return axios.get<User[]>("https://jsonplaceholder.typicode.com/users", {
+          signal,
+        });
+      })
 
-  //   const { request, cancel } = userService.getAll<User>();
+      .then((res) => {
+        // console.log(res.data[0].name ));
 
-  //   request
-  //     .then((res) => {
-  //       // console.log(res.data[0].name ));
+        setUsers(res.data);
+        setError("");
+      })
+      .catch((err) => {
+        if (axios.isCancel(err)) return;
+        setError(err.message);
+        setUsers([]);
+      })
+      .finally(() => {
+        setIsLoading(false);
+        console.log("fetchin done");
+      });
 
-  //       setUsers(res.data);
-  //       setError("");
-  //     })
-  //     .catch((err) => {
-  //       // if (axios.isCancel(err)) return;
-  //       if (err instanceof CanceledError) return;
-  //       setError(err.message);
-  //       setUsers([]);
-  //     })
-  //     .finally(() => {
-  //       setIsLoading(false);
-  //       console.log("fetchin done");
-  //     });
+    return () => {
+      console.log("unmounting ,cancelling the request");
 
-  //   return () => {
-  //     console.log("unmounting ,cancelling the request");
-
-  //     cancel();
-  //   };
-  // }, []);
-
-  const { users, error, isLoading, setUsers, setError } = useUsers();
+      controller.abort();
+    };
+  }, []);
 
   const deleteUser = (user: User) => {
     const ogState = [...users];
     setUsers(users.filter((u) => u.id !== user.id));
 
-    userService.delete(user.id).catch((err) => {
-      setError(err.message);
-      setUsers(ogState);
-    });
+    axios
+      .delete("https://jsonplaceholder.typicode.com/users/" + user.id)
+      .catch((err) => {
+        setError(err.message);
+        setUsers(ogState);
+      });
   };
 
   const addUser = () => {
@@ -156,24 +148,13 @@ function App() {
     setUsers([newUser, ...users]);
     const ogState = [...users];
 
-    userService
-      .create(newUser)
+    axios
+      .post("https://jsonplaceholder.typicode.com/users", newUser)
       .then(({ data: savedUser }) => setUsers([savedUser, ...users]))
       .catch((err) => {
         setError(err.message);
         setUsers(ogState);
       });
-  };
-
-  const updateUser = (user: User) => {
-    const updatedUser = { ...user, name: user.name + "!" };
-    setUsers(users.map((u) => (u.id === user.id ? updatedUser : u)));
-    const ogstate = [...users];
-
-    userService.Update(updatedUser).catch((err) => {
-      setError(err.message);
-      setUsers(ogstate);
-    });
   };
 
   // return <div>{users}</div>;
@@ -195,19 +176,11 @@ function App() {
             <li className="list-group-item">{user.name}</li>
           </div>
 
-          <div className="d-flex flex-row gap-2">
-            <button
-              className="btn btn-outline-secondary"
-              onClick={() => updateUser(user)}
-            >
-              Update
-            </button>
-            <button
-              className="btn btn-outline-danger "
-              onClick={() => deleteUser(user)}
-            >
-              Delete
-            </button>
+          <div
+            className="btn btn-outline-danger "
+            onClick={() => deleteUser(user)}
+          >
+            Delete
           </div>
         </ul>
       ))}
